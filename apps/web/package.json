@@ -2,24 +2,19 @@
   "name": "web",
   "type": "module",
   "scripts": {
-    "dev": "vinxi dev",
-    "build": "vinxi build",
-    "start": "vinxi start",
-    "version": "vinxi version"
+    "serve": "vite serve",
+    "build": "vite build"
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
-    "@solidjs/meta": "^0.29.4",
-    "@solidjs/router": "^0.15.0",
-    "@solidjs/start": "^1.1.0",
-    "solid-js": "^1.9.5",
-    "vinxi": "^0.5.3",
-    "tailwindcss": "^4.0.9",
-    "@tailwindcss/vite": "^4.0.9"
-  },
-  "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/tailwind-config": "workspace:*"
+    "@tailwindcss/vite": "^4.1.11",
+    "lucide-solid": "^0.525.0",
+    "pixi.js": "^8.11.0",
+    "solid-js": "^1.9.7",
+    "tailwindcss": "^4.1.11",
+    "vite": "6.3.5",
+    "vite-plugin-singlefile": "^2.3.0",
+    "vite-plugin-solid": "2.11.7"
   },
   "engines": {
     "node": ">=22"

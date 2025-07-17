@@ -1,7 +1,7 @@
-import { cn } from "../../utils/index";
-import { ButtonElement, PrimitveButtonProps } from "@Configs/primitives";
-import { Component, JSX, splitProps } from "solid-js";
-import { Dynamic } from "solid-js/web";
+import { cn } from '../../utils/index';
+import type { ButtonElement, PrimitveButtonProps } from '@Configs/primitives';
+import { type Component, type JSX, splitProps } from 'solid-js';
+import { Dynamic } from 'solid-js/web';
 
 // Button props
 interface ButtonWrapperProps
@@ -17,18 +17,18 @@ interface ButtonWrapperProps
 const Button: Component<ButtonWrapperProps> = (props) => {
   // separate our special props from the rest
   const [local, others] = splitProps(props, [
-    "asChild",
-    "ref",
-    "children",
-    "class",
+    'asChild',
+    'ref',
+    'children',
+    'class',
   ]);
 
   return (
     <Dynamic
-      component={local.asChild || "button"}
+      component={local.asChild || 'button'}
       ref={local.ref}
       class={cn(
-        "flex items-center justify-center gap-3  outline-none cursor-pointer p-4 rounded-sm text-[1rem] w-full mx-auto",
+        'flex items-center justify-center gap-3  outline-none cursor-pointer p-4 rounded-sm text-[1rem] w-full mx-auto',
         local?.class,
       )}
       {...others}

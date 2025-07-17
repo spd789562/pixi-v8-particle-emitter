@@ -1,43 +1,74 @@
-@import 'tailwindcss';
-@import '@repo/tailwind-config/styles.css';
+@import "tailwindcss";
 
 @source '../../../packages/ui';
 
+* {
+	user-select: none;
+}
+
 body {
-  font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	margin: 0;
+	padding: 0;
+	font-family: var(--font-Inter);
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+input[type="file"] {
+	display: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+
+body {
+	font-family:
+		Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+		sans-serif;
 }
 
 a {
-  margin-right: 1rem;
+	margin-right: 1rem;
 }
 
 main {
-  text-align: center;
-  padding: 1em;
-  margin: 0 auto;
+	text-align: center;
+	padding: 1em;
+	margin: 0 auto;
 }
 
 h1 {
-  text-transform: uppercase;
-  font-size: 4rem;
-  font-weight: 100;
-  line-height: 1.1;
-  margin: 4rem auto;
-  max-width: 14rem;
+	text-transform: uppercase;
+	font-size: 4rem;
+	font-weight: 100;
+	line-height: 1.1;
+	margin: 4rem auto;
+	max-width: 14rem;
 }
 
 p {
-  max-width: 14rem;
-  margin: 2rem auto;
-  line-height: 1.35;
+	max-width: 14rem;
+	margin: 2rem auto;
+	line-height: 1.35;
 }
 
 @media (min-width: 480px) {
-  h1 {
-    max-width: none;
-  }
+	h1 {
+		max-width: none;
+	}
 
-  p {
-    max-width: none;
-  }
+	p {
+		max-width: none;
+	}
 }

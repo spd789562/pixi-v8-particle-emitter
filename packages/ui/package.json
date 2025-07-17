@@ -8,26 +8,24 @@
     "**/*.css"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint . --max-warnings 0"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/tailwind-config": "workspace:*",
     "vite": "^6.2.0",
     "vite-plugin-solid": "^2.11.6"
   },
   "dependencies": {
+    "@kobalte/core": "^0.13.10",
     "@tailwindcss/vite": "^4.0.9",
-    "eslint": "^9.21.0",
-    "solid-js": "^1.9.5",
-    "tailwindcss": "^4.0.9",
     "clsx": "^2.1.1",
+    "lucide-solid": "^0.525.0",
     "path": "^0.12.7",
+    "solid-js": "^1.9.5",
     "tailwind-merge": "^3.0.1",
+    "tailwindcss": "^4.0.9",
     "vite-tsconfig-paths": "^5.1.4"
   }
 }

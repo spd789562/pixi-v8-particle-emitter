@@ -1,5 +1,5 @@
 // imports
-import { JSX } from "solid-js";
+import type { JSX } from 'solid-js';
 
 /**
  ========= ELEMENT STARTS ===========
@@ -7,7 +7,7 @@ import { JSX } from "solid-js";
 
 // Button
 type ButtonElement = HTMLButtonElement;
-type PrimitveButtonProps = JSX.IntrinsicElements["button"];
+type PrimitveButtonProps = JSX.IntrinsicElements['button'];
 
 // Div
 type DivElement = HTMLDivElement;
@@ -23,10 +23,10 @@ type PrimitiveSpanProps = JSX.IntrinsicElements['span'];
 
 // exports
 export type {
-    ButtonElement,
-    PrimitveButtonProps,
-    DivElement,
-    PrimitiveDivProps,
-    SpanElement,
-    PrimitiveSpanProps
+  ButtonElement,
+  PrimitveButtonProps,
+  DivElement,
+  PrimitiveDivProps,
+  SpanElement,
+  PrimitiveSpanProps,
 };
