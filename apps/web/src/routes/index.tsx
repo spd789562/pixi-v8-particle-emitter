@@ -1,14 +1,12 @@
-import Counter from '@/components/Counter';
-import { NumberInput } from '@repo/ui';
+import { PixiApp } from '@/pixi/App';
 
 export default function Home() {
   return (
-    <main>
-      <h1 class="text-hue">Hello Web!</h1>
-      <Counter />
-      <div class="w-[300px] flex">
-        <NumberInput label="test" format={false} />
+    <main class="flex h-full w-full">
+      <div class="flex-1 overflow-hidden">
+        <PixiApp />
       </div>
+      <div class="w-[400px] shrink-0 shadow p-4"></div>
     </main>
   );
 }
