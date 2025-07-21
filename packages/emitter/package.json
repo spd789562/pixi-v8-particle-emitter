@@ -1,0 +1,17 @@
+{
+  "name": "@repo/ui",
+  "version": "1.0.0",
+  "description": "This is solidJS UI library package.",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "pixi.js": "^8.11.0"
+  }
+}
