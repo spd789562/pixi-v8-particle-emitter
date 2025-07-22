@@ -20,6 +20,7 @@ export default defineConfig({
       '@': '/src',
       '@components': '/src/components',
       '@hooks': '/src/hooks',
+      '@assets': '/src/assets',
     },
   },
 });
