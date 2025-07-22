@@ -1,8 +1,4 @@
-import {
-  combineRGBComponents,
-  type SimpleEase,
-  type Color,
-} from './ParticleUtils';
+import type { SimpleEase, Color } from './ParticleUtils';
 import type { PropertyNode } from './PropertyNode';
 
 function intValueSimple(this: PropertyList<number>, lerp: number): number {
@@ -12,7 +8,7 @@ function intValueSimple(this: PropertyList<number>, lerp: number): number {
   return (this.first.next.value - this.first.value) * lerp + this.first.value;
 }
 
-function intColorSimple(this: PropertyList<Color>, lerp: number): number {
+function intColorSimple(this: PropertyList<Color>, lerp: number): Color {
   if (this.ease) lerp = this.ease(lerp);
 
   // @ts-expect-error doubled linked list cycle
@@ -23,7 +19,7 @@ function intColorSimple(this: PropertyList<Color>, lerp: number): number {
   const g = (nextVal.g - curVal.g) * lerp + curVal.g;
   const b = (nextVal.b - curVal.b) * lerp + curVal.b;
 
-  return combineRGBComponents(r, g, b);
+  return { r, g, b };
 }
 
 function intValueComplex(this: PropertyList<number>, lerp: number): number {
@@ -43,7 +39,7 @@ function intValueComplex(this: PropertyList<number>, lerp: number): number {
   return (next.value - current.value) * lerp + current.value;
 }
 
-function intColorComplex(this: PropertyList<Color>, lerp: number): number {
+function intColorComplex(this: PropertyList<Color>, lerp: number): Color {
   if (this.ease) lerp = this.ease(lerp);
 
   // make sure we are on the right segment
@@ -62,7 +58,7 @@ function intColorComplex(this: PropertyList<Color>, lerp: number): number {
   const g = (nextVal.g - curVal.g) * lerp + curVal.g;
   const b = (nextVal.b - curVal.b) * lerp + curVal.b;
 
-  return combineRGBComponents(r, g, b);
+  return { r, g, b };
 }
 
 function intValueStepped(this: PropertyList<number>, lerp: number): number {
@@ -78,7 +74,7 @@ function intValueStepped(this: PropertyList<number>, lerp: number): number {
   return current.value;
 }
 
-function intColorStepped(this: PropertyList<Color>, lerp: number): number {
+function intColorStepped(this: PropertyList<Color>, lerp: number): Color {
   if (this.ease) lerp = this.ease(lerp);
 
   // make sure we are on the right segment
@@ -89,14 +85,14 @@ function intColorStepped(this: PropertyList<Color>, lerp: number): number {
   }
   const curVal = current.value;
 
-  return combineRGBComponents(curVal.r, curVal.g, curVal.b);
+  return curVal;
 }
 
 /**
  * Singly linked list container for keeping track of interpolated properties for particles.
  * Each Particle will have one of these for each interpolated property.
  */
-export class PropertyList<V> {
+export class PropertyList<V extends number | Color> {
   /**
    * The first property node in the linked list.
    */
@@ -107,7 +103,7 @@ export class PropertyList<V> {
    * @param lerp The interpolation value from 0-1.
    * @return The interpolated value. Colors are converted to the hex value.
    */
-  public interpolate: ((lerp: number) => number) | undefined;
+  public interpolate: ((lerp: number) => V) | undefined;
   /**
    * A custom easing method for this list.
    * @param lerp The interpolation value from 0-1.
@@ -139,10 +135,13 @@ export class PropertyList<V> {
     const isSimple = first.next && first.next.time >= 1;
 
     if (isSimple) {
+      // @ts-expect-error
       this.interpolate = this.isColor ? intColorSimple : intValueSimple;
     } else if (first.isStepped) {
+      // @ts-expect-error
       this.interpolate = this.isColor ? intColorStepped : intValueStepped;
     } else {
+      // @ts-expect-error
       this.interpolate = this.isColor ? intColorComplex : intValueComplex;
     }
     this.ease = this.first.ease;

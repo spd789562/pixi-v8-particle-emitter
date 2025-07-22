@@ -1,4 +1,9 @@
-import { Texture, type PointData, type BLEND_MODES } from 'pixi.js';
+import {
+  Texture,
+  Color as PixiColor,
+  type PointData,
+  type BLEND_MODES,
+} from 'pixi.js';
 import { PropertyNode, type ValueStep } from './PropertyNode';
 
 /**
@@ -146,29 +151,14 @@ export function scaleBy(point: PointData, value: number): void {
  * @param output An object to put the output in. If omitted, a new object is created.
  * @return The object with r, g, and b properties, possibly with an a property.
  */
-export function hexToRGB(color: string, output?: Color): Color {
-  if (!output) {
-    output = {} as Color;
-  }
-  if (color.charAt(0) === '#') {
-    color = color.substring(1);
-  } else if (color.indexOf('0x') === 0) {
-    color = color.substring(2);
-  }
-  let alpha: string | undefined;
-
-  if (color.length === 8) {
-    alpha = color.substring(0, 2);
-    color = color.substring(2);
-  }
-  output.r = parseInt(color.substring(0, 2), 16); // Red
-  output.g = parseInt(color.substring(2, 2), 16); // Green
-  output.b = parseInt(color.substring(4, 2), 16); // Blue
-  if (alpha) {
-    output.a = parseInt(alpha, 16);
-  }
-
-  return output;
+export function hexToRGB(color: string, _output?: Color): Color {
+  const temp = PixiColor.shared.setValue(color);
+  return {
+    r: temp.red * 255,
+    g: temp.green * 255,
+    b: temp.blue * 255,
+    a: temp.alpha === 1 ? undefined : temp.alpha * 255,
+  };
 }
 
 /**

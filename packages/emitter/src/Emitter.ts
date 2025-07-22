@@ -383,7 +383,7 @@ export class Emitter {
 
             return null;
           }
-
+          console.log(data.config);
           return new behaviorClass(data.config);
         })
         .filter((b) => !!b);
@@ -538,9 +538,9 @@ export class Emitter {
   }
   public set autoUpdate(value: boolean) {
     if (this._autoUpdate && !value) {
-      ticker.remove(this.update, this);
+      ticker.remove(this.updateByTicker, this);
     } else if (!this._autoUpdate && value) {
-      ticker.add(this.update, this);
+      ticker.add(this.updateByTicker, this);
     }
     this._autoUpdate = !!value;
   }
@@ -567,14 +567,17 @@ export class Emitter {
   }
 
   /**
+   * Pixi V8 Ticker.add will passing Ticker as the first argument.
+   */
+  private updateByTicker(delta: Ticker): void {
+    this.update(delta.elapsedMS * 0.001);
+  }
+
+  /**
    * Updates all particles spawned by this emitter and emits new ones.
    * @param delta Time elapsed since the previous frame, in __seconds__.
    */
-  public update(delta: number | Ticker): void {
-    if (typeof delta !== 'number') {
-      delta = delta.elapsedMS * 0.001;
-    }
-
+  public update(delta: number): void {
     // if we don't have a parent to add particles to, then don't do anything.
     // this also works as a isDestroyed check
     if (!this._parent) return;
@@ -721,9 +724,9 @@ export class Emitter {
           p.init(lifetime);
           // add the particle to the display list
           if (this.addAtBack) {
-            this._parent.addParticleAt(p, 0);
+            p.appendAt(this._parent, 0);
           } else {
-            this._parent.addParticle(p);
+            p.appendTo(this._parent);
           }
           // add particles to list of ones in this wave
           if (waveFirst) {
@@ -896,9 +899,9 @@ export class Emitter {
       p.init(lifetime);
       // add the particle to the display list
       if (this.addAtBack) {
-        this._parent.addParticleAt(p, 0);
+        p.appendAt(this._parent, 0);
       } else {
-        this._parent.addParticle(p);
+        p.appendTo(this._parent);
       }
       // add particles to list of ones in this wave
       if (waveFirst) {

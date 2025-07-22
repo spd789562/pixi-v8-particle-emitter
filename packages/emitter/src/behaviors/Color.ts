@@ -1,6 +1,6 @@
 import { Color as PixiColor } from 'pixi.js';
 import type { Particle } from '../Particle';
-import { type Color, combineRGBComponents } from '../ParticleUtils';
+import type { Color } from '../ParticleUtils';
 import { PropertyList } from '../PropertyList';
 import { PropertyNode, type ValueList } from '../PropertyNode';
 import { type IEmitterBehavior, BehaviorOrder } from './Behaviors';
@@ -38,16 +38,16 @@ export class ColorBehavior implements IEmitterBehavior {
   initParticles(first: Particle): undefined {
     let next: Particle | undefined = first;
     const color = this.list.first!.value;
-    const tint = combineRGBComponents(color.r, color.g, color.b);
 
     while (next) {
-      next.tint = tint;
+      next.tint = PixiColor.shared.setValue(color);
       next = next.next;
     }
   }
 
   updateParticle(particle: Particle): undefined {
-    particle.tint = this.list.interpolate!(particle.agePercent);
+    const color = this.list.interpolate!(particle.agePercent);
+    particle.tint = PixiColor.shared.setValue(color);
   }
 }
 

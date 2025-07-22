@@ -93,6 +93,7 @@ export class Particle extends PixiParticle {
   }
 
   public removeFromParent(): void {
+    this.alpha = 0;
     this.parent?.removeParticle(this);
     this.parent = undefined;
   }
