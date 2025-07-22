@@ -1,17 +1,29 @@
 {
-  "name": "@repo/ui",
+  "name": "@repo/emitter",
   "version": "1.0.0",
-  "description": "This is solidJS UI library package.",
+  "description": "A high-performance particle emitter for PixiJS v8 using ParticleContainer",
   "type": "module",
-  "main": "index.ts",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup",
+    "build-fast": "tsup --no-dts",
+    "dev": "pnpm build-fast --watch"
   },
-  "keywords": [],
+  "keywords": [
+    "pixi",
+    "particles",
+    "emitter",
+    "v8",
+    "particle-container"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "gsap": "^3.13.0",
     "pixi.js": "^8.11.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0"
   }
 }
