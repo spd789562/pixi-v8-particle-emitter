@@ -260,7 +260,7 @@ export function createSteppedGradient(
  * @returns The parsed textures.
  */
 export function parseTextures(
-  textures: Texture[] | string[] | string | Texture,
+  textures: Texture[] | string[] | (Texture | string)[] | string | Texture,
 ): Texture[] {
   const images = (Array.isArray(textures) ? textures : [textures]).map((v) => {
     if (typeof v === 'string') {
