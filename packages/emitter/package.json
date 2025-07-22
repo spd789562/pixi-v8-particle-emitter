@@ -20,7 +20,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "gsap": "^3.13.0",
     "pixi.js": "^8.11.0"
   },
   "devDependencies": {
