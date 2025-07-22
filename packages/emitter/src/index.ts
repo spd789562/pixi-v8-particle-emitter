@@ -13,7 +13,7 @@ Emitter.registerBehavior(behaviors.StaticColorBehavior);
 Emitter.registerBehavior(behaviors.OrderedTextureBehavior);
 Emitter.registerBehavior(behaviors.PathBehavior);
 Emitter.registerBehavior(behaviors.PointSpawnBehavior);
-// Emitter.registerBehavior(behaviors.RandomTextureBehavior);
+Emitter.registerBehavior(behaviors.RandomTextureBehavior);
 Emitter.registerBehavior(behaviors.RotationBehavior);
 Emitter.registerBehavior(behaviors.StaticRotationBehavior);
 Emitter.registerBehavior(behaviors.NoRotationBehavior);

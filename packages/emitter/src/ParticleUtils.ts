@@ -3,6 +3,7 @@ import {
   Color as PixiColor,
   type PointData,
   type BLEND_MODES,
+  Assets,
 } from 'pixi.js';
 import { PropertyNode, type ValueStep } from './PropertyNode';
 
@@ -251,4 +252,30 @@ export function createSteppedGradient(
   // we don't need to have a PropertyNode for time of 1, because in a stepped version at that point
   // the particle has died of old age
   return first;
+}
+
+/**
+ * Parse textures from a string or an array of strings.
+ * @param textures - The textures to parse.
+ * @returns The parsed textures.
+ */
+export function parseTextures(
+  textures: Texture[] | string[] | string | Texture,
+): Texture[] {
+  const images = (Array.isArray(textures) ? textures : [textures]).map((v) => {
+    if (typeof v === 'string') {
+      return Assets.get(v) as Texture;
+    }
+    return v;
+  });
+  // check all texture using the same source, which is required by ParticleContainer
+  const isAllFromSameSource = images.every(
+    (image) => image && image.source === images[0].source,
+  );
+
+  if (!isAllFromSameSource) {
+    throw new Error('All particle images must use the same source');
+  }
+
+  return images;
 }

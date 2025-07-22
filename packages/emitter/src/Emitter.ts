@@ -1,11 +1,10 @@
+import { type ParticleContainer, Point, Ticker, type Texture } from 'pixi.js';
 import {
-  type ParticleContainer,
-  Point,
-  Ticker,
-  Assets,
-  type Texture,
-} from 'pixi.js';
-import { generateEase, rotatePoint, type SimpleEase } from './ParticleUtils';
+  generateEase,
+  rotatePoint,
+  parseTextures,
+  type SimpleEase,
+} from './ParticleUtils';
 import { Particle } from './Particle';
 import type { EmitterConfigV3 } from './EmitterConfig';
 import {
@@ -283,22 +282,7 @@ export class Emitter {
     return this._particleImages;
   }
   public set particleImages(value: Texture[] | string[] | string | Texture) {
-    const images = (Array.isArray(value) ? value : [value]).map((v) => {
-      if (typeof v === 'string') {
-        return Assets.get(v) as Texture;
-      }
-      return v;
-    });
-    // check all texture using the same source, which is required by ParticleContainer
-    const isAllFromSameSource = images.every(
-      (image) => image.source === images[0].source,
-    );
-
-    if (!isAllFromSameSource) {
-      throw new Error('All particle images must use the same source');
-    }
-
-    this._particleImages = images;
+    this._particleImages = parseTextures(value);
   }
 
   /**
@@ -567,9 +551,10 @@ export class Emitter {
   }
 
   /**
-   * Pixi V8 Ticker.add will passing Ticker as the first argument.
+   * Pixi V8 Ticker.add will passing Ticker as the first argument. if you want to directly attach the update
+   * to Ticker like `ticker.add(emitter.updateByTicker, emitter)`
    */
-  private updateByTicker(delta: Ticker): void {
+  public updateByTicker(delta: Ticker): void {
     this.update(delta.elapsedMS * 0.001);
   }
 
