@@ -8,15 +8,21 @@ import {
 } from 'pixi.js';
 import { Emitter } from '@repo/emitter';
 
+import { StatusPanel } from './StatusPanel';
+
 import { exampleConfigs } from './exampleConfigs';
 import { assets, spriteSheetAssets, loadSpriteSheet } from './assets';
-import { fps, setFps } from '@/store/fps';
+import { setFps, setParticleCounts } from '@/store/status';
 
 export function PixiApp() {
   let containerRef!: HTMLDivElement;
+  let emitter: Emitter | null = null;
 
-  function refreshFps() {
-    setFps(Math.round(Ticker.shared.FPS));
+  function refreshStatus() {
+    setFps(Ticker.shared.FPS);
+    if (emitter) {
+      setParticleCounts(emitter.particleCount);
+    }
   }
 
   onMount(async () => {
@@ -52,15 +58,17 @@ export function PixiApp() {
       },
     });
 
-    const emitter = new Emitter(container, config.textures, config.config);
+    emitter = new Emitter(container, config.textures, config.config);
     emitter.autoUpdate = true;
 
     app.stage.addChild(container);
     containerRef.appendChild(app.canvas);
 
-    Ticker.shared.add(refreshFps);
+    Ticker.shared.add(refreshStatus);
 
     function clickHandler(e: MouseEvent) {
+      if (!emitter) return;
+
       emitter.emit = true;
       emitter.resetPositionTracking();
       emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
@@ -69,16 +77,16 @@ export function PixiApp() {
 
     onCleanup(() => {
       containerRef.removeChild(app.canvas);
-      emitter.destroy();
+      emitter?.destroy();
       app.destroy();
-      Ticker.shared.remove(refreshFps);
+      Ticker.shared.remove(refreshStatus);
       containerRef.removeEventListener('click', clickHandler);
     });
   });
 
   return (
     <div class="w-full h-full relative" ref={containerRef}>
-      <div class="absolute top-0 left-0">FPS: {fps()}</div>
+      <StatusPanel />
     </div>
   );
 }

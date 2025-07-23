@@ -90,7 +90,6 @@ export async function loadSpriteSheet({
   if (!skipAlias) {
     const prefix = `${alias}_`;
     for (const key in spritesheet.textures) {
-      console.log(`${prefix}${key}`);
       Assets.cache.set(`${prefix}${key}`, spritesheet.textures[key]);
     }
   }
