@@ -9,7 +9,7 @@ import { type IEmitterBehavior, BehaviorOrder } from './Behaviors';
  * A helper point for math things.
  * @hidden
  */
-const helperPoint = new Point();
+const helperPoint = Point.shared;
 
 /**
  * A hand picked list of Math functions (and a couple properties) that are

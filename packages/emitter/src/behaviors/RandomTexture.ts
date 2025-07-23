@@ -38,8 +38,6 @@ export class RandomTextureBehavior implements IEmitterBehavior {
     while (next) {
       const index = Math.floor(Math.random() * this.textures.length);
 
-      console.log(this.textures[index]);
-
       next.texture = this.textures[index];
 
       next = next.next;

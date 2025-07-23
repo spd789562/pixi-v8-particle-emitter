@@ -367,7 +367,6 @@ export class Emitter {
 
             return null;
           }
-          console.log(data.config);
           return new behaviorClass(data.config);
         })
         .filter((b) => !!b);
