@@ -1,7 +1,7 @@
 import type { Texture } from 'pixi.js';
 import type { Particle } from '../Particle';
 import { type IEmitterBehavior, BehaviorOrder } from './Behaviors';
-import { GetTextureFromString } from '../ParticleUtils';
+import { parseTextures } from '../ParticleUtils';
 
 /**
  * A Texture behavior that assigns a texture to each particle from its list, in order, before looping around to the first
@@ -27,12 +27,10 @@ export class OrderedTextureBehavior implements IEmitterBehavior {
     /**
      * Images to use for each particle, used in order before looping around
      */
-    textures: Texture[];
+    textures: (Texture | string)[];
   }) {
     this.index = 0;
-    this.textures = config.textures.map((tex) =>
-      typeof tex === 'string' ? GetTextureFromString(tex) : tex,
-    );
+    this.textures = parseTextures(config.textures);
   }
 
   initParticles(first: Particle): undefined {
