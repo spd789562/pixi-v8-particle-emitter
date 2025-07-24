@@ -94,7 +94,7 @@ function getTextures(
  * ```
  */
 export class RandomAnimatedTextureBehavior implements IEmitterBehavior {
-  public static type = 'animatedRandom';
+  public static type = 'animatedRandom' as const;
 
   public order = BehaviorOrder.Normal;
   private anims: ParsedAnimatedParticleArt[];
@@ -190,7 +190,7 @@ export class RandomAnimatedTextureBehavior implements IEmitterBehavior {
  * ```
  */
 export class SingleAnimatedTextureBehavior implements IEmitterBehavior {
-  public static type = 'animatedSingle';
+  public static type = 'animatedSingle' as const;
 
   public order = BehaviorOrder.Normal;
   private anim: ParsedAnimatedParticleArt;

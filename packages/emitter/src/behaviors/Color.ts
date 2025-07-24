@@ -21,7 +21,7 @@ import { type IEmitterBehavior, BehaviorOrder } from './Behaviors';
  * ```
  */
 export class ColorBehavior implements IEmitterBehavior {
-  public static type = 'color';
+  public static type = 'color' as const;
 
   public order = BehaviorOrder.Normal;
   private list: PropertyList<Color>;
@@ -65,7 +65,7 @@ export class ColorBehavior implements IEmitterBehavior {
  * ```
  */
 export class StaticColorBehavior implements IEmitterBehavior {
-  public static type = 'colorStatic';
+  public static type = 'colorStatic' as const;
 
   public order = BehaviorOrder.Normal;
   private value: PixiColor;

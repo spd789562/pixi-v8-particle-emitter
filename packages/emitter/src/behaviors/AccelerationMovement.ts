@@ -23,7 +23,7 @@ import { type IEmitterBehavior, BehaviorOrder } from './Behaviors';
  * ```
  */
 export class AccelerationBehavior implements IEmitterBehavior {
-  public static type = 'moveAcceleration';
+  public static type = 'moveAcceleration' as const;
 
   // doesn't _really_ need to be late, but doing so ensures that we can override any
   // rotation behavior that is mistakenly added

@@ -21,7 +21,7 @@ import { type IEmitterBehavior, BehaviorOrder } from './Behaviors';
  * ```
  */
 export class ScaleBehavior implements IEmitterBehavior {
-  public static type = 'scale';
+  public static type = 'scale' as const;
 
   public order = BehaviorOrder.Normal;
   private list: PropertyList<number>;
@@ -76,7 +76,7 @@ export class ScaleBehavior implements IEmitterBehavior {
  * ```
  */
 export class StaticScaleBehavior implements IEmitterBehavior {
-  public static type = 'scaleStatic';
+  public static type = 'scaleStatic' as const;
 
   public order = BehaviorOrder.Normal;
   private min: number;

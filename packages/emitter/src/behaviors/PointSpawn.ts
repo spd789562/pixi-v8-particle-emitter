@@ -13,7 +13,7 @@ import { type IEmitterBehavior, BehaviorOrder } from './Behaviors';
  * ```
  */
 export class PointSpawnBehavior implements IEmitterBehavior {
-  public static type = 'spawnPoint';
+  public static type = 'spawnPoint' as const;
 
   order = BehaviorOrder.Spawn;
 

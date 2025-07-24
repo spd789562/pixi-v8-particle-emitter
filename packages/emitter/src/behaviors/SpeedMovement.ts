@@ -23,7 +23,7 @@ import { type IEmitterBehavior, BehaviorOrder } from './Behaviors';
  * ```
  */
 export class SpeedBehavior implements IEmitterBehavior {
-  public static type = 'moveSpeed';
+  public static type = 'moveSpeed' as const;
 
   public order = BehaviorOrder.Late;
   private list: PropertyList<number>;
@@ -91,7 +91,7 @@ export class SpeedBehavior implements IEmitterBehavior {
  * ```
  */
 export class StaticSpeedBehavior implements IEmitterBehavior {
-  public static type = 'moveSpeedStatic';
+  public static type = 'moveSpeedStatic' as const;
 
   public order = BehaviorOrder.Late;
   private min: number;

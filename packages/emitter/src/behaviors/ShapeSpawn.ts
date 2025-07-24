@@ -32,7 +32,7 @@ import { Torus } from './shapes/Torus';
  * ```
  */
 export class ShapeSpawnBehavior implements IEmitterBehavior {
-  public static type = 'spawnShape';
+  public static type = 'spawnShape' as const;
 
   /**
    * Dictionary of all registered shape classes.

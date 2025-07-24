@@ -18,7 +18,7 @@ import { GetTextureFromString } from '../ParticleUtils';
  * ```
  */
 export class SingleTextureBehavior implements IEmitterBehavior {
-  public static type = 'textureSingle';
+  public static type = 'textureSingle' as const;
 
   public order = BehaviorOrder.Normal;
   private texture: Texture;

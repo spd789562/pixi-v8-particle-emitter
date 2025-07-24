@@ -26,7 +26,7 @@ export interface Segment {
  * ```
  */
 export class PolygonalChain implements SpawnShape {
-  public static type = 'polygonalChain';
+  public static type = 'polygonalChain' as const;
   /**
    * List of segment objects in the chain.
    */

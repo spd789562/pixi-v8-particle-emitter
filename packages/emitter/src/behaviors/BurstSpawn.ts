@@ -19,7 +19,7 @@ import { DEG_TO_RADS, rotatePoint } from '../ParticleUtils';
  * ```
  */
 export class BurstSpawnBehavior implements IEmitterBehavior {
-  public static type = 'spawnBurst';
+  public static type = 'spawnBurst' as const;
 
   order = BehaviorOrder.Spawn;
   private spacing: number;

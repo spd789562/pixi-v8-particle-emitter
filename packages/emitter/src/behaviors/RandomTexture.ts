@@ -19,7 +19,7 @@ import { parseTextures } from '../ParticleUtils';
  * ```
  */
 export class RandomTextureBehavior implements IEmitterBehavior {
-  public static type = 'textureRandom';
+  public static type = 'textureRandom' as const;
 
   public order = BehaviorOrder.Normal;
   private textures: Texture[];

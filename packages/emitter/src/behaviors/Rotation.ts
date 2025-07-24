@@ -20,7 +20,7 @@ import { type IEmitterBehavior, BehaviorOrder } from './Behaviors';
  * ```
  */
 export class RotationBehavior implements IEmitterBehavior {
-  public static type = 'rotation';
+  public static type = 'rotation' as const;
 
   public order = BehaviorOrder.Normal;
   private minStart: number;
@@ -102,7 +102,7 @@ export class RotationBehavior implements IEmitterBehavior {
  * ```
  */
 export class StaticRotationBehavior implements IEmitterBehavior {
-  public static type = 'rotationStatic';
+  public static type = 'rotationStatic' as const;
 
   public order = BehaviorOrder.Normal;
   private min: number;
@@ -151,7 +151,7 @@ export class StaticRotationBehavior implements IEmitterBehavior {
  * ```
  */
 export class NoRotationBehavior implements IEmitterBehavior {
-  public static type = 'noRotation';
+  public static type = 'noRotation' as const;
 
   public order = BehaviorOrder.Late + 1;
 

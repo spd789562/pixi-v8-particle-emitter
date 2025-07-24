@@ -18,7 +18,7 @@ import { parseTextures } from '../ParticleUtils';
  * ```
  */
 export class OrderedTextureBehavior implements IEmitterBehavior {
-  public static type = 'textureOrdered';
+  public static type = 'textureOrdered' as const;
 
   public order = BehaviorOrder.Normal;
   private textures: Texture[];

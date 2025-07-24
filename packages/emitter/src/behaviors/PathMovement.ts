@@ -130,7 +130,7 @@ function parsePath(pathString: string): (x: number) => number {
  *}
  */
 export class PathBehavior implements IEmitterBehavior {
-  public static type = 'movePath';
+  public static type = 'movePath' as const;
 
   // *MUST* happen after other behaviors do initialization so that we can read initial transformations
   public order = BehaviorOrder.Late;

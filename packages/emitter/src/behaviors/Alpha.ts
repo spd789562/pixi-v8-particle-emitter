@@ -19,7 +19,7 @@ import { type IEmitterBehavior, BehaviorOrder } from './Behaviors';
  * ```
  */
 export class AlphaBehavior implements IEmitterBehavior {
-  public static type = 'alpha';
+  public static type = 'alpha' as const;
 
   public order = BehaviorOrder.Normal;
   private list: PropertyList<number>;
@@ -61,7 +61,7 @@ export class AlphaBehavior implements IEmitterBehavior {
  * ```
  */
 export class StaticAlphaBehavior implements IEmitterBehavior {
-  public static type = 'alphaStatic';
+  public static type = 'alphaStatic' as const;
 
   public order = BehaviorOrder.Normal;
   private value: number;

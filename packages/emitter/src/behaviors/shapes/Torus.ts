@@ -21,7 +21,7 @@ import type { SpawnShape } from './SpawnShape';
  * ```
  */
 export class Torus implements SpawnShape {
-  public static type = 'torus';
+  public static type = 'torus' as const;
   /**
    * X position of the center of the shape.
    */

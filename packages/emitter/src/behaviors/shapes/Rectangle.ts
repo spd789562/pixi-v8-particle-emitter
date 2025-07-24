@@ -18,7 +18,7 @@ import type { SpawnShape } from './SpawnShape';
  * ```
  */
 export class Rectangle implements SpawnShape {
-  public static type = 'rect';
+  public static type = 'rect' as const;
   /**
    * X (left) position of the rectangle.
    */
