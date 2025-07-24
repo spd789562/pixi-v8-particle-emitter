@@ -1,14 +1,14 @@
 import type { EmitterConfigV3 } from '@repo/emitter';
 
-export const bubbleSprayTextures = ['Bubbles99'];
+export const bubbleVerticalTextures = ['Bubbles99'];
 
-export const bubbleSprayConfig: EmitterConfigV3 = {
+export const bubbleVerticalConfig: EmitterConfigV3 = {
   lifetime: {
-    min: 0.5,
-    max: 1,
+    min: 3.5,
+    max: 4,
   },
-  frequency: 0.008,
-  emitterLifetime: 0.15,
+  frequency: 0.016,
+  emitterLifetime: 0,
   maxParticles: 500,
   addAtBack: false,
   pos: {
@@ -27,27 +27,17 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
             },
             {
               time: 1,
-              value: 0.12,
+              value: 0.22,
             },
           ],
         },
       },
     },
     {
-      type: 'moveSpeed',
+      type: 'moveSpeedStatic',
       config: {
-        speed: {
-          list: [
-            {
-              time: 0,
-              value: 600,
-            },
-            {
-              time: 1,
-              value: 200,
-            },
-          ],
-        },
+        min: 200,
+        max: 200,
       },
     },
     {
@@ -57,11 +47,11 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
           list: [
             {
               time: 0,
-              value: 0.01,
+              value: 0.25,
             },
             {
               time: 1,
-              value: 0.8,
+              value: 0.5,
             },
           ],
         },
@@ -73,14 +63,22 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
       config: {
         accel: 0,
         minSpeed: 0,
-        maxSpeed: 10,
+        maxSpeed: 50,
         minStart: 260,
         maxStart: 280,
       },
     },
     {
-      type: 'spawnPoint',
-      config: {},
+      type: 'spawnShape',
+      config: {
+        type: 'rect',
+        data: {
+          x: -450,
+          y: 200,
+          w: 900,
+          h: 0,
+        },
+      },
     },
   ],
 };

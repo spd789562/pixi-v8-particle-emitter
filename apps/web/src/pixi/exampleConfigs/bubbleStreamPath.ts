@@ -1,14 +1,14 @@
 import type { EmitterConfigV3 } from '@repo/emitter';
 
-export const bubbleSprayTextures = ['Bubbles99'];
+export const bubbleStreamPathTextures = ['Bubbles99'];
 
-export const bubbleSprayConfig: EmitterConfigV3 = {
+export const bubbleStreamPathConfig: EmitterConfigV3 = {
   lifetime: {
-    min: 0.5,
-    max: 1,
+    min: 1.8,
+    max: 2,
   },
-  frequency: 0.008,
-  emitterLifetime: 0.15,
+  frequency: 0.1,
+  emitterLifetime: 0,
   maxParticles: 500,
   addAtBack: false,
   pos: {
@@ -27,27 +27,29 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
             },
             {
               time: 1,
-              value: 0.12,
+              value: 0.16,
             },
           ],
         },
       },
     },
     {
-      type: 'moveSpeed',
+      type: 'movePath',
       config: {
+        path: 'sin(x/10)*20',
         speed: {
           list: [
             {
               time: 0,
-              value: 600,
+              value: 150,
             },
             {
               time: 1,
-              value: 200,
+              value: 100,
             },
           ],
         },
+        minMult: 1,
       },
     },
     {
@@ -57,11 +59,11 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
           list: [
             {
               time: 0,
-              value: 0.01,
+              value: 0.3,
             },
             {
               time: 1,
-              value: 0.8,
+              value: 0.4,
             },
           ],
         },
@@ -73,9 +75,9 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
       config: {
         accel: 0,
         minSpeed: 0,
-        maxSpeed: 10,
-        minStart: 260,
-        maxStart: 280,
+        maxSpeed: 20,
+        minStart: 270,
+        maxStart: 270,
       },
     },
     {

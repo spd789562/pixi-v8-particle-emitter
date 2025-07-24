@@ -1,11 +1,11 @@
 import type { EmitterConfigV3 } from '@repo/emitter';
 
-export const bubbleSprayTextures = ['Bubbles99'];
+export const cartoonSmokeBlastTextures = ['CartoonSmoke'];
 
-export const bubbleSprayConfig: EmitterConfigV3 = {
+export const cartoonSmokeBlastConfig: EmitterConfigV3 = {
   lifetime: {
     min: 0.5,
-    max: 1,
+    max: 0.7,
   },
   frequency: 0.008,
   emitterLifetime: 0.15,
@@ -27,7 +27,7 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
             },
             {
               time: 1,
-              value: 0.12,
+              value: 0,
             },
           ],
         },
@@ -57,15 +57,15 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
           list: [
             {
               time: 0,
-              value: 0.01,
+              value: 0.1,
             },
             {
               time: 1,
-              value: 0.8,
+              value: 1.5,
             },
           ],
         },
-        minMult: 0.5,
+        minMult: 1,
       },
     },
     {
@@ -73,7 +73,7 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
       config: {
         accel: 0,
         minSpeed: 0,
-        maxSpeed: 10,
+        maxSpeed: 20,
         minStart: 260,
         maxStart: 280,
       },

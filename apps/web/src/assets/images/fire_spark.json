@@ -1,0 +1,75 @@
+{
+	"frames": {
+		"Fire.png": {
+			"frame": {
+				"x": 4,
+				"y": 4,
+				"w": 258,
+				"h": 51
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 258,
+				"h": 51
+			},
+			"sourceSize": {
+				"w": 258,
+				"h": 51
+			}
+		},
+		"Sparks.png": {
+			"frame": {
+				"x": 270,
+				"y": 4,
+				"w": 17,
+				"h": 5
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 17,
+				"h": 5
+			},
+			"sourceSize": {
+				"w": 17,
+				"h": 5
+			}
+		},
+		"particle.png": {
+			"frame": {
+				"x": 295,
+				"y": 4,
+				"w": 44,
+				"h": 44
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 44,
+				"h": 44
+			},
+			"sourceSize": {
+				"w": 44,
+				"h": 44
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "fire_spark.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 343,
+			"h": 59
+		},
+		"scale": "1"
+	}
+}

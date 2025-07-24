@@ -1,15 +1,16 @@
 import type { EmitterConfigV3 } from '@repo/emitter';
 
-export const bubbleSprayTextures = ['Bubbles99'];
+export const megamanDeathTextures = ['particle'];
 
-export const bubbleSprayConfig: EmitterConfigV3 = {
+export const megamanDeathConfig: EmitterConfigV3 = {
   lifetime: {
-    min: 0.5,
-    max: 1,
+    min: 0.8,
+    max: 0.8,
   },
-  frequency: 0.008,
-  emitterLifetime: 0.15,
-  maxParticles: 500,
+  particlesPerWave: 8,
+  frequency: 0.2,
+  emitterLifetime: 0.41,
+  maxParticles: 1000,
   addAtBack: false,
   pos: {
     x: 0,
@@ -23,31 +24,21 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
           list: [
             {
               time: 0,
-              value: 1,
+              value: 0.8,
             },
             {
               time: 1,
-              value: 0.12,
+              value: 0.7,
             },
           ],
         },
       },
     },
     {
-      type: 'moveSpeed',
+      type: 'moveSpeedStatic',
       config: {
-        speed: {
-          list: [
-            {
-              time: 0,
-              value: 600,
-            },
-            {
-              time: 1,
-              value: 200,
-            },
-          ],
-        },
+        min: 200,
+        max: 200,
       },
     },
     {
@@ -57,30 +48,41 @@ export const bubbleSprayConfig: EmitterConfigV3 = {
           list: [
             {
               time: 0,
-              value: 0.01,
+              value: 1,
             },
             {
               time: 1,
-              value: 0.8,
+              value: 0.3,
             },
           ],
         },
-        minMult: 0.5,
+        minMult: 1,
       },
     },
     {
-      type: 'rotation',
+      type: 'color',
       config: {
-        accel: 0,
-        minSpeed: 0,
-        maxSpeed: 10,
-        minStart: 260,
-        maxStart: 280,
+        color: {
+          list: [
+            {
+              time: 0,
+              value: 'e3f9ff',
+            },
+            {
+              time: 1,
+              value: '0ec8f8',
+            },
+          ],
+        },
       },
     },
     {
-      type: 'spawnPoint',
-      config: {},
+      type: 'spawnBurst',
+      config: {
+        start: 0,
+        spacing: 45,
+        distance: 0,
+      },
     },
   ],
 };

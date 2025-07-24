@@ -38,7 +38,7 @@ export function PixiApp() {
     await Assets.load(assets);
     await Promise.all(spriteSheetAssets.map(loadSpriteSheet));
 
-    const config = exampleConfigs.animatedBubble;
+    const config = exampleConfigs.bubbleVertical;
 
     const currentSprites = config.textures.map((texture, index) => {
       const sprite = new Sprite(Assets.get(texture));
@@ -60,6 +60,7 @@ export function PixiApp() {
 
     emitter = new Emitter(container, config.textures, config.config);
     emitter.autoUpdate = true;
+    refreshEmitterCenter();
 
     app.stage.addChild(container);
     containerRef.appendChild(app.canvas);
@@ -73,11 +74,20 @@ export function PixiApp() {
       emitter.resetPositionTracking();
       emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
     }
+    function refreshEmitterCenter() {
+      const screenCenter = {
+        x: containerRef.clientWidth / 2,
+        y: containerRef.clientHeight / 2,
+      };
+      emitter?.updateOwnerPos(screenCenter.x, screenCenter.y);
+    }
     containerRef.addEventListener('click', clickHandler);
+    app.renderer.on('resize', refreshEmitterCenter);
 
     onCleanup(() => {
       containerRef.removeChild(app.canvas);
       emitter?.destroy();
+      app.renderer.off('resize', refreshEmitterCenter);
       app.destroy();
       Ticker.shared.remove(refreshStatus);
       containerRef.removeEventListener('click', clickHandler);

@@ -15,6 +15,8 @@ import popAnimJson from '@assets/images/pop_anim.json?url';
 import popAnimImage from '@assets/images/pop_anim.png';
 import spaceshipJson from '@assets/images/spaceship.json?url';
 import spaceshipImage from '@assets/images/spaceship.png';
+import fireSparkJson from '@assets/images/fire_spark.json?url';
+import fireSparkImage from '@assets/images/fire_spark.png';
 
 export const assets = [
   {
@@ -66,6 +68,11 @@ export const spriteSheetAssets = [
     alias: 'spaceship',
     jsonUrl: spaceshipJson,
     imageUrl: spaceshipImage,
+  },
+  {
+    alias: 'fireSpark',
+    jsonUrl: fireSparkJson,
+    imageUrl: fireSparkImage,
   },
 ];
 
