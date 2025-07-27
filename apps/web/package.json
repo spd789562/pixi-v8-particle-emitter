@@ -2,7 +2,7 @@
   "name": "web",
   "type": "module",
   "scripts": {
-    "serve": "vite serve",
+    "dev": "vite serve",
     "build": "vite build"
   },
   "dependencies": {
