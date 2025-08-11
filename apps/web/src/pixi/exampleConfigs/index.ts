@@ -9,6 +9,10 @@ import {
 import { fountainConfig, fountainTextures } from './fountain';
 import { coinFountainConfig, coinFountainTextures } from './coinFountain';
 import { snowConfig, snowTextures } from './snow';
+import {
+  snowConfig as snowSvgEaseConfig,
+  snowTextures as snowSvgEaseTextures,
+} from './snowSvgEase';
 import { coinConfig, coinTextures } from './coin';
 import { animatedBubbleConfig, animatedBubbleTextures } from './animatedBubble';
 import { flameAndSmokeConfig, flameAndSmokeTextures } from './flameAndSmoke';
@@ -55,6 +59,10 @@ export const exampleConfigs = {
   snow: {
     textures: snowTextures,
     config: snowConfig,
+  },
+  snowSvgEase: {
+    textures: snowSvgEaseTextures,
+    config: snowSvgEaseConfig,
   },
   coin: {
     textures: coinTextures,
