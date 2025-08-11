@@ -5,6 +5,7 @@ import {
   parseTextures,
   type SimpleEase,
 } from './ParticleUtils';
+import { generateEaseFromPath } from './GsapCustomEase';
 import { Particle } from './Particle';
 import type { EmitterConfigV3 } from './EmitterConfig';
 import {
@@ -312,7 +313,9 @@ export class Emitter {
       this.customEase =
         typeof config.ease === 'function'
           ? config.ease
-          : generateEase(config.ease);
+          : typeof config.ease === 'string'
+            ? generateEaseFromPath(config.ease)
+            : generateEase(config.ease);
     } else {
       this.customEase = undefined;
     }

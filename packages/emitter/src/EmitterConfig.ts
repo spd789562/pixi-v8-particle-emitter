@@ -13,7 +13,7 @@ export interface EmitterConfigV3 {
   /**
    * Easing to be applied to all interpolated or stepped values across the particle lifetime.
    */
-  ease?: SimpleEase | EaseSegment[];
+  ease?: SimpleEase | EaseSegment[] | string;
   /**
    * How many particles to spawn at once, each time that it is determined that particles should be spawned.
    * If omitted, only one particle will spawn at a time.
