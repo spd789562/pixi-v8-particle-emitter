@@ -38,7 +38,7 @@ export function PixiApp() {
     await Assets.load(assets);
     await Promise.all(spriteSheetAssets.map(loadSpriteSheet));
 
-    const config = exampleConfigs.bubbleVertical;
+    const config = exampleConfigs.snowSvgEase;
 
     const currentSprites = config.textures.map((texture, index) => {
       const sprite = new Sprite(Assets.get(texture));
