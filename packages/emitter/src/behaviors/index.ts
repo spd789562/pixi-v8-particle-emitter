@@ -6,6 +6,7 @@ export * from './Behaviors';
 // export all of the individual behaviors
 export * from './AccelerationMovement';
 export * from './Alpha';
+export * from './Anchor';
 export * from './AnimatedTexture';
 export * from './BurstSpawn';
 export * from './Color';

@@ -4,6 +4,7 @@ import * as behaviors from './behaviors';
 Emitter.registerBehavior(behaviors.AccelerationBehavior);
 Emitter.registerBehavior(behaviors.AlphaBehavior);
 Emitter.registerBehavior(behaviors.StaticAlphaBehavior);
+Emitter.registerBehavior(behaviors.StaticAnchorBehavior);
 Emitter.registerBehavior(behaviors.RandomAnimatedTextureBehavior);
 Emitter.registerBehavior(behaviors.SingleAnimatedTextureBehavior);
 // Emitter.registerBehavior(behaviors.BlendModeBehavior);
