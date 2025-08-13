@@ -15,7 +15,7 @@ export type BehaviorType = GetBehaviorType<
   (typeof behaviors)[keyof typeof behaviors]
 >;
 
-type BehaviorConfigRecord = {
+export type BehaviorConfigRecord = {
   [K in keyof typeof behaviors]: (typeof behaviors)[K] extends behaviors.IEmitterBehaviorClass
     ? ExtractBehaviorConfig<(typeof behaviors)[K]>
     : never;

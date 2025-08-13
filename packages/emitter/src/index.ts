@@ -32,5 +32,9 @@ export * from './Emitter';
 export * from './EmitterConfig';
 export * from './PropertyList';
 export * from './PropertyNode';
-export type { BehaviorType, BehaviorConfigs } from './behaviors/BehaviorTypes';
+export type {
+  BehaviorType,
+  BehaviorConfigs,
+  BehaviorConfigRecord,
+} from './behaviors/BehaviorTypes';
 export type { ShapeType, ShapeConfigs } from './behaviors/shapes/ShapeType';
