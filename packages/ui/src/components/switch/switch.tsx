@@ -1,12 +1,12 @@
-import { splitProps, Show } from 'solid-js';
+import { splitProps, Show, type JSX } from 'solid-js';
 
 import { Switch as KSwitch, type SwitchRootProps } from '@kobalte/core/switch';
 
 import './style.css';
 
 export interface SwitchProps extends SwitchRootProps {
-  label?: string;
-  description?: string;
+  label?: JSX.Element;
+  description?: JSX.Element;
   reverse?: boolean;
   onClickSwitch?: (e: PointerEvent) => void;
 }
