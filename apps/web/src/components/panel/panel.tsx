@@ -2,6 +2,7 @@ import { Accordion, AccordionItem, AccordionItemWithSwitch } from '@repo/ui';
 
 import { GeneralSetting } from './GeneralSetting';
 import { SpeedSetting } from './SpeedSetting';
+import { RotationSetting } from './RotationSetting';
 
 import { type enabledConfig, setEnabledConfig } from '@/store/config';
 
@@ -23,17 +24,21 @@ export function Panel() {
           1
         </AccordionItemWithSwitch>
         <AccordionItemWithSwitch
-          onChange={handleEnabledChange}
           title="Speed"
           value="speed"
+          onChange={handleEnabledChange}
         >
           <SpeedSetting />
         </AccordionItemWithSwitch>
         <AccordionItemWithSwitch title="Colors" value="colors">
           1
         </AccordionItemWithSwitch>
-        <AccordionItemWithSwitch title="Rotation" value="rotation">
-          1
+        <AccordionItemWithSwitch
+          title="Rotation"
+          value="rotation"
+          onChange={handleEnabledChange}
+        >
+          <RotationSetting />
         </AccordionItemWithSwitch>
         <AccordionItemWithSwitch title="Scale" value="scale">
           1

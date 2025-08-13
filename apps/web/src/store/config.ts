@@ -44,7 +44,6 @@ export const [enabledConfig, setEnabledConfig] = createStore({
   speedType: 'static' as TransitionType,
 
   rotation: false,
-  rotationType: 'static' as TransitionType,
 
   scale: false,
   scaleType: 'static' as TransitionType,
@@ -65,11 +64,23 @@ export const [speedConfig, setSpeedConfig] = createStore<
   max: 200,
 });
 
+export const [rotationConfig, setRotationConfig] = createStore<
+  BehaviorConfigRecord['RotationBehavior']['config']
+>({
+  minStart: 0,
+  maxStart: 0,
+  minSpeed: 0,
+  maxSpeed: 0,
+  accel: 0,
+});
+export const [noRotation, setNoRotation] = createSignal(false);
+
 const fullConfigTracker = () => {
   trackStore(generalConfig);
   trackStore(speedList);
   trackStore(enabledConfig);
   trackStore(speedConfig);
+  trackStore(rotationConfig);
 };
 
 export const fullConfig = createMemo(
@@ -92,6 +103,31 @@ export const fullConfig = createMemo(
             speed: unwrap(speedList),
             minMult: 1,
           },
+        });
+      }
+    }
+    if (enabledConfig.rotation) {
+      const isStatic = rotationConfig.accel === 0;
+      if (isStatic) {
+        fullConfig.behaviors.push({
+          type: 'rotationStatic',
+          config: {
+            min: rotationConfig.minStart,
+            max: rotationConfig.maxStart,
+          },
+        });
+      } else {
+        fullConfig.behaviors.push({
+          type: 'rotation',
+          config: {
+            ...rotationConfig,
+          },
+        });
+      }
+      if (noRotation()) {
+        fullConfig.behaviors.push({
+          type: 'noRotation',
+          config: {},
         });
       }
     }
