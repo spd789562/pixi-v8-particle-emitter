@@ -66,11 +66,52 @@ export const [speedList, setSpeedList] = createStore<ValueList<number>>({
   ],
   isStepped: false,
 });
+export const [speedMinMult, setSpeedMinMult] = createSignal(1);
 export const [speedConfig, setSpeedConfig] = createStore<
   BehaviorConfigRecord['StaticSpeedBehavior']['config']
 >({
   min: 200,
   max: 200,
+});
+
+export const [scaleList, setScaleList] = createStore<ValueList<number>>({
+  list: [
+    {
+      value: 0.5,
+      time: 0,
+    },
+    {
+      value: 0.8,
+      time: 1,
+    },
+  ],
+  isStepped: false,
+});
+export const [scaleMinMult, setScaleMinMult] = createSignal(1);
+export const [scaleConfig, setScaleConfig] = createStore<
+  BehaviorConfigRecord['StaticScaleBehavior']['config']
+>({
+  min: 0.5,
+  max: 0.7,
+});
+
+export const [alphaList, setAlphaList] = createStore<ValueList<number>>({
+  list: [
+    {
+      value: 1,
+      time: 0,
+    },
+    {
+      value: 0,
+      time: 1,
+    },
+  ],
+  isStepped: false,
+});
+export const [alphaConfig, setAlphaConfig] = createStore<
+  BehaviorConfigRecord['StaticAlphaBehavior']['config']
+>({
+  alpha: 1,
 });
 
 export const [rotationConfig, setRotationConfig] = createStore<
@@ -90,6 +131,12 @@ const fullConfigTracker = () => {
   trackStore(enabledConfig);
   trackStore(speedConfig);
   trackStore(rotationConfig);
+  trackStore(scaleConfig);
+  trackStore(scaleList);
+  trackStore(alphaList);
+  trackStore(alphaConfig);
+  speedMinMult();
+  scaleMinMult();
 };
 
 export const fullConfig = createMemo(
@@ -111,7 +158,38 @@ export const fullConfig = createMemo(
           config: {
             // should I sort the inner list?
             speed: unwrap(speedList),
-            minMult: 1,
+            minMult: speedMinMult(),
+          },
+        });
+      }
+    }
+    if (enabledConfig.scale) {
+      if (enabledConfig.scaleType === 'static') {
+        fullConfig.behaviors.push({
+          type: 'scaleStatic',
+          config: scaleConfig,
+        });
+      } else {
+        fullConfig.behaviors.push({
+          type: 'scale',
+          config: {
+            scale: unwrap(scaleList),
+            minMult: scaleMinMult(),
+          },
+        });
+      }
+    }
+    if (enabledConfig.alpha) {
+      if (enabledConfig.alphaType === 'static') {
+        fullConfig.behaviors.push({
+          type: 'alphaStatic',
+          config: alphaConfig,
+        });
+      } else {
+        fullConfig.behaviors.push({
+          type: 'alpha',
+          config: {
+            alpha: unwrap(alphaList),
           },
         });
       }

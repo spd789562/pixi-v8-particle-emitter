@@ -59,7 +59,6 @@ function StaticSpeedSetting() {
       step={1}
       min={0}
       slideMultiplier={1}
-      numberPrecision={3}
       minValue={speedConfig.min}
       maxValue={speedConfig.max}
       sync={syncConfig.speed}

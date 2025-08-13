@@ -3,6 +3,8 @@ import { Accordion, AccordionItem, AccordionItemWithSwitch } from '@repo/ui';
 import { GeneralSetting } from './GeneralSetting';
 import { SpeedSetting } from './SpeedSetting';
 import { RotationSetting } from './RotationSetting';
+import { ScaleSetting } from './ScaleSetting';
+import { AlphaSetting } from './AlphaSetting';
 
 import { type enabledConfig, setEnabledConfig } from '@/store/config';
 
@@ -30,8 +32,15 @@ export function Panel() {
         >
           <SpeedSetting />
         </AccordionItemWithSwitch>
-        <AccordionItemWithSwitch title="Colors" value="colors">
+        <AccordionItemWithSwitch title="Color" value="color">
           1
+        </AccordionItemWithSwitch>
+        <AccordionItemWithSwitch
+          title="Alpha"
+          value="alpha"
+          onChange={handleEnabledChange}
+        >
+          <AlphaSetting />
         </AccordionItemWithSwitch>
         <AccordionItemWithSwitch
           title="Rotation"
@@ -40,8 +49,12 @@ export function Panel() {
         >
           <RotationSetting />
         </AccordionItemWithSwitch>
-        <AccordionItemWithSwitch title="Scale" value="scale">
-          1
+        <AccordionItemWithSwitch
+          title="Scale"
+          value="scale"
+          onChange={handleEnabledChange}
+        >
+          <ScaleSetting />
         </AccordionItemWithSwitch>
         <AccordionItem title="Stage" value="stage">
           1

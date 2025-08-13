@@ -3,13 +3,14 @@ import { produce, type SetStoreFunction } from 'solid-js/store';
 
 import PlusIcon from 'lucide-solid/icons/plus';
 import TrashIcon from 'lucide-solid/icons/trash';
-import { MouseNumberInput, cn } from '@repo/ui';
+import { MouseNumberInput, cn, type MouseNumberInputProps } from '@repo/ui';
 
 import type { ValueList } from '@repo/emitter';
 
 export interface ValueInputListProps<T> {
   data: ValueList<T>;
   onChange: SetStoreFunction<ValueList<T>>;
+  valueInputProps?: MouseNumberInputProps;
 }
 
 export function ValueInputList<T>(props: ValueInputListProps<T>) {
@@ -65,6 +66,7 @@ export function ValueInputList<T>(props: ValueInputListProps<T>) {
             hasAddNext={index() !== props.data.list.length - 1}
             onAddNext={() => onAddNext(index())}
             onRemove={() => onRemove(index())}
+            valueInputProps={props.valueInputProps}
           />
         )}
       </For>
@@ -82,6 +84,7 @@ export interface ValueNumberInputItemProps {
   hasAddNext?: boolean;
   disabled?: boolean;
   pin?: boolean;
+  valueInputProps?: MouseNumberInputProps;
 }
 export function ValueNumberInputItem(props: ValueNumberInputItemProps) {
   return (
@@ -108,6 +111,7 @@ export function ValueNumberInputItem(props: ValueNumberInputItemProps) {
           rawValue={props.value}
           onRawValueChange={props.onValueChange}
           disabled={props.disabled}
+          {...props.valueInputProps}
         />
       </div>
       <Show when={!props.pin}>
