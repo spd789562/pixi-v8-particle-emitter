@@ -37,7 +37,7 @@ export function MouseNumberInput(props: MouseNumberInputProps) {
 
   function handleMouseDown(e: MouseEvent) {
     const startX = e.clientX;
-    const startValue = Number(props.value ?? 0);
+    const startValue = props.rawValue ?? 0;
     const mouseDownTime = Date.now();
 
     clearListener = makeMousePositionListener(

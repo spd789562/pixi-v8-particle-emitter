@@ -6,7 +6,7 @@ import { Switch } from '../switch';
 export interface AccordionItemWithSwitchProps extends AccordionItemProps {
   id?: string;
   checked?: boolean;
-  onChange?: (checked: boolean) => void;
+  onChange?: (checked: boolean, value: string) => void;
 }
 
 export function AccordionItemWithSwitch(props: AccordionItemWithSwitchProps) {
@@ -24,7 +24,7 @@ export function AccordionItemWithSwitch(props: AccordionItemWithSwitchProps) {
           <Switch
             id={props.id}
             checked={props.checked}
-            onChange={props.onChange}
+            onChange={(checked) => props.onChange?.(checked, props.value)}
             onClickSwitch={preventPropagation}
           />
           <label for={`${props.id}-input`}>{props.title}</label>
