@@ -54,7 +54,16 @@ export const [enabledConfig, setEnabledConfig] = createStore({
 });
 
 export const [speedList, setSpeedList] = createStore<ValueList<number>>({
-  list: [],
+  list: [
+    {
+      value: 100,
+      time: 0,
+    },
+    {
+      value: 200,
+      time: 1,
+    },
+  ],
   isStepped: false,
 });
 export const [speedConfig, setSpeedConfig] = createStore<
@@ -100,6 +109,7 @@ export const fullConfig = createMemo(
         fullConfig.behaviors.push({
           type: 'moveSpeed',
           config: {
+            // should I sort the inner list?
             speed: unwrap(speedList),
             minMult: 1,
           },
