@@ -7,21 +7,37 @@ import './style.css';
 export interface SwitchProps extends SwitchRootProps {
   label?: string;
   description?: string;
+  reverse?: boolean;
+  onClickSwitch?: (e: PointerEvent) => void;
 }
 
 export function Switch(props: SwitchProps) {
-  const [local, rest] = splitProps(props, ['description']);
+  const [_, rest] = splitProps(props, [
+    'description',
+    'reverse',
+    'label',
+    'onClickSwitch',
+  ]);
 
   return (
-    <KSwitch {...rest}>
-      <KSwitch.Label>{props.label}</KSwitch.Label>
-      <Show when={local.description}>
-        <KSwitch.Description>{local.description}</KSwitch.Description>
+    <KSwitch
+      class={`switch ${props.reverse ? 'switch--reverse' : ''}`}
+      {...rest}
+      onClick={props.onClickSwitch}
+    >
+      <Show when={props.label && !props.reverse}>
+        <KSwitch.Label class="switch__label">{props.label}</KSwitch.Label>
       </Show>
-      <KSwitch.Input />
-      <KSwitch.Control>
-        <KSwitch.Thumb />
+      <Show when={props.description}>
+        <KSwitch.Description>{props.description}</KSwitch.Description>
+      </Show>
+      <KSwitch.Input class="switch__input" />
+      <KSwitch.Control class="switch__control">
+        <KSwitch.Thumb class="switch__thumb" />
       </KSwitch.Control>
+      <Show when={props.label && props.reverse}>
+        <KSwitch.Label class="switch__label">{props.label}</KSwitch.Label>
+      </Show>
     </KSwitch>
   );
 }

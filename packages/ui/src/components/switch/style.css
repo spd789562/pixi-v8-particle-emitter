@@ -87,3 +87,8 @@
 [data-kb-theme="dark"] .switch__description {
   color: hsl(240 5% 65%);
 }
+
+.switch--reverse .switch__label {
+  margin-right: 0;
+  margin-left: 6px;
+}

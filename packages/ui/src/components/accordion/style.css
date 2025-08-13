@@ -39,6 +39,12 @@
   transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
 }
 
+.accordion__item-trigger-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .accordion__item-trigger[data-expanded] > .accordion__item-trigger-icon {
   transform: rotate(180deg);
 }
@@ -46,20 +52,20 @@
 .accordion__item-content {
   overflow: hidden;
   font-size: 16px;
-  animation: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
+  animation: slideUp 300ms ease;
 }
 
 .accordion__item-content[data-expanded] {
-  animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
+  animation: slideDown 300ms ease;
 }
 
 .accordion__item-content-body {
-  padding: 16px;
+  padding: 12px;
 }
 
 @keyframes slideDown {
   from {
-    height: 0;
+    height: 0px;
   }
   to {
     height: var(--kb-accordion-content-height);
@@ -71,7 +77,7 @@
     height: var(--kb-accordion-content-height);
   }
   to {
-    height: 0;
+    height: 0px;
   }
 }
 
