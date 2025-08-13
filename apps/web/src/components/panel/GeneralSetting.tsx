@@ -2,6 +2,7 @@ import { produce } from 'solid-js/store';
 
 import { MouseNumberInput, Switch } from '@repo/ui';
 import { InputGroup } from '@/components/InputGroup';
+import { MinMaxInputGroup } from '@/components/MinMaxInputGroup';
 
 import { generalConfig, setGeneralConfig } from '@/store/config';
 import { syncConfig, setSyncConfig } from '@/store/input';
@@ -26,9 +27,6 @@ export function GeneralSetting() {
     setGeneralConfig(
       produce((draft) => {
         draft.lifetime.min = value;
-        if (syncConfig.lifetime) {
-          draft.lifetime.max = value;
-        }
       }),
     );
   };
@@ -36,9 +34,6 @@ export function GeneralSetting() {
     setGeneralConfig(
       produce((draft) => {
         draft.lifetime.max = value;
-        if (syncConfig.lifetime) {
-          draft.lifetime.min = value;
-        }
       }),
     );
   };
@@ -84,31 +79,17 @@ export function GeneralSetting() {
         />
       </div>
       <InputGroup title="Particle Lifetime">
-        <div class="flex gap-2 items-center">
-          <MouseNumberInput
-            label="Min"
-            rawValue={generalConfig.lifetime.min}
-            onRawValueChange={handleMinLifetimeChange}
-            step={0.01}
-            minValue={0.01}
-            slideMultiplier={0.01}
-            numberPrecision={3}
-          />
-          <span class="pt-5">~</span>
-          <MouseNumberInput
-            label="Max"
-            rawValue={generalConfig.lifetime.max}
-            onRawValueChange={handleMaxLifetimeChange}
-            step={0.01}
-            minValue={0.01}
-            slideMultiplier={0.01}
-            numberPrecision={3}
-          />
-        </div>
-        <Switch
-          label="sync min & max"
-          checked={syncConfig.lifetime}
-          onChange={handleSyncLifetimeChange}
+        <MinMaxInputGroup
+          step={0.01}
+          min={0.01}
+          slideMultiplier={0.01}
+          numberPrecision={3}
+          minValue={generalConfig.lifetime.min}
+          maxValue={generalConfig.lifetime.max}
+          sync={syncConfig.lifetime}
+          setMinValue={handleMinLifetimeChange}
+          setMaxValue={handleMaxLifetimeChange}
+          setSync={handleSyncLifetimeChange}
         />
       </InputGroup>
       <div>
