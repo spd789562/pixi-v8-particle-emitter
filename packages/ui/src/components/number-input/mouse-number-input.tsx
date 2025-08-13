@@ -1,4 +1,4 @@
-import { Show, splitProps } from 'solid-js';
+import { Show, splitProps, type JSX } from 'solid-js';
 
 import {
   NumberField,
@@ -10,10 +10,11 @@ import { makeMousePositionListener } from '@solid-primitives/mouse';
 import './style.css';
 
 export interface MouseNumberInputProps extends NumberFieldRootProps {
-  label?: string;
-  description?: string;
-  errorMessage?: string;
+  label?: JSX.Element;
+  description?: JSX.Element;
+  errorMessage?: JSX.Element;
   slideMultiplier?: number;
+  numberPrecision?: number;
 }
 
 export function MouseNumberInput(props: MouseNumberInputProps) {
@@ -23,20 +24,32 @@ export function MouseNumberInput(props: MouseNumberInputProps) {
     'description',
     'errorMessage',
     'slideMultiplier',
+    'numberPrecision',
   ]);
   const multiplier = () => props.slideMultiplier ?? 1;
+  const precision = () => props.numberPrecision ?? 0;
+  const clamp = (value: number) => {
+    return Math.max(
+      props.minValue ?? Number.MIN_SAFE_INTEGER,
+      Math.min(props.maxValue ?? Number.MAX_SAFE_INTEGER, value),
+    );
+  };
 
   function handleMouseDown(e: MouseEvent) {
     const startX = e.clientX;
     const startValue = Number(props.value ?? 0);
+    const mouseDownTime = Date.now();
 
     clearListener = makeMousePositionListener(
       e.currentTarget as HTMLElement,
       (e) => {
+        if (Date.now() - mouseDownTime < 100) {
+          return;
+        }
+
         const offsetX = e.x - startX;
-        props.onRawValueChange?.(
-          startValue + Math.floor(offsetX * multiplier()),
-        );
+        const result = startValue + offsetX * multiplier();
+        props.onRawValueChange?.(clamp(result));
       },
       {
         touch: false,
@@ -48,7 +61,16 @@ export function MouseNumberInput(props: MouseNumberInputProps) {
   }
 
   return (
-    <NumberField class="number-field" {...rest}>
+    <NumberField
+      class="number-field"
+      {...rest}
+      formatOptions={{
+        maximumFractionDigits: precision(),
+        // default to not grouping like 1,000 -> 1000
+        useGrouping: false,
+        ...rest.formatOptions,
+      }}
+    >
       <Show when={props.label}>
         <NumberField.Label class="number-field__label">
           {props.label}

@@ -12,6 +12,7 @@ export interface NumberInputProps extends NumberFieldRootProps {
   label?: string;
   description?: string;
   errorMessage?: string;
+  numberPrecision?: number;
 }
 
 export function NumberInput(props: NumberInputProps) {
@@ -19,10 +20,22 @@ export function NumberInput(props: NumberInputProps) {
     'label',
     'description',
     'errorMessage',
+    'numberPrecision',
   ]);
 
+  const precision = () => props.numberPrecision ?? 0;
+
   return (
-    <NumberField class="number-field" {...rest}>
+    <NumberField
+      class="number-field"
+      {...rest}
+      formatOptions={{
+        maximumFractionDigits: precision(),
+        // default to not grouping like 1,000 -> 1000
+        useGrouping: false,
+        ...rest.formatOptions,
+      }}
+    >
       <Show when={local.label}>
         <NumberField.Label class="number-field__label">
           {local.label}
