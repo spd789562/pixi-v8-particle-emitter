@@ -1,4 +1,5 @@
-import { onMount, onCleanup } from 'solid-js';
+import { onMount, onCleanup, createEffect } from 'solid-js';
+import { unwrap } from 'solid-js/store';
 import {
   Application,
   Assets,
@@ -6,13 +7,16 @@ import {
   ParticleContainer,
   Ticker,
 } from 'pixi.js';
-import { Emitter } from '@repo/emitter';
+import { Emitter, type EmitterConfigV3 } from '@repo/emitter';
 
 import { StatusPanel } from './StatusPanel';
 
-import { exampleConfigs } from './exampleConfigs';
 import { assets, spriteSheetAssets, loadSpriteSheet } from './assets';
+
 import { setFps, setParticleCounts } from '@/store/status';
+import { fullConfig, usedTextures } from '@/store/config';
+
+import { leadingAndTrailing, throttle } from '@solid-primitives/scheduled';
 
 export function PixiApp() {
   let containerRef!: HTMLDivElement;
@@ -38,9 +42,10 @@ export function PixiApp() {
     await Assets.load(assets);
     await Promise.all(spriteSheetAssets.map(loadSpriteSheet));
 
-    const config = exampleConfigs.snowSvgEase;
+    const textures = usedTextures();
+    const config = unwrap(fullConfig());
 
-    const currentSprites = config.textures.map((texture, index) => {
+    const currentSprites = textures.map((texture, index) => {
       const sprite = new Sprite(Assets.get(texture));
       sprite.y = 30;
       sprite.x = 30 + index * 100;
@@ -58,8 +63,21 @@ export function PixiApp() {
       },
     });
 
-    emitter = new Emitter(container, config.textures, config.config);
+    emitter = new Emitter(container, textures, config);
     emitter.autoUpdate = true;
+
+    const throttledInitEmitter = leadingAndTrailing(
+      throttle,
+      (config: EmitterConfigV3) => {
+        emitter?.init({
+          ...config,
+          autoUpdate: true,
+        });
+        refreshEmitterCenter();
+      },
+      400,
+    );
+
     refreshEmitterCenter();
 
     app.stage.addChild(container);
@@ -91,6 +109,11 @@ export function PixiApp() {
       app.destroy();
       Ticker.shared.remove(refreshStatus);
       containerRef.removeEventListener('click', clickHandler);
+    });
+
+    createEffect(() => {
+      const _config = unwrap(fullConfig());
+      throttledInitEmitter(_config);
     });
   });
 
