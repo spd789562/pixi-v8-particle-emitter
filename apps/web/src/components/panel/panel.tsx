@@ -7,6 +7,7 @@ import { ScaleSetting } from './ScaleSetting';
 import { AlphaSetting } from './AlphaSetting';
 import { AccelerationSetting } from './AccelerationSetting';
 import { ColorSetting } from './ColorSetting';
+import { SpawnSetting } from './SpawnSetting';
 
 import { enabledConfig, setEnabledConfig } from '@/store/config';
 
@@ -16,13 +17,13 @@ export function Panel() {
   }
 
   return (
-    <div class="w-full flex flex-col gap-2">
+    <div class="h-full w-full flex flex-col gap-2 overflow-y-auto">
       <Accordion multiple>
         <AccordionItem title="General" value="general">
           <GeneralSetting />
         </AccordionItem>
         <AccordionItem title="Spawn" value="spawn">
-          1
+          <SpawnSetting />
         </AccordionItem>
         <AccordionItemWithSwitch
           title="Acceleration"

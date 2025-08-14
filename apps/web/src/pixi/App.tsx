@@ -14,7 +14,12 @@ import { StatusPanel } from './StatusPanel';
 import { assets, spriteSheetAssets, loadSpriteSheet } from './assets';
 
 import { setFps, setParticleCounts } from '@/store/status';
-import { fullConfig, usedTextures } from '@/store/config';
+import {
+  fullConfig,
+  setSpawnPosition,
+  spawnPosition,
+  usedTextures,
+} from '@/store/config';
 
 import { leadingAndTrailing, throttle } from '@solid-primitives/scheduled';
 
@@ -52,6 +57,7 @@ export function PixiApp() {
       return sprite;
     });
     app.stage.addChild(...currentSprites);
+
     const container = new ParticleContainer({
       dynamicProperties: {
         uvs: true, // enabled when you need multiple from same texture(aka spritesheet)
@@ -73,7 +79,6 @@ export function PixiApp() {
           ...config,
           autoUpdate: true,
         });
-        refreshEmitterCenter();
       },
       400,
     );
@@ -89,15 +94,20 @@ export function PixiApp() {
       if (!emitter) return;
 
       emitter.emit = true;
-      emitter.resetPositionTracking();
-      emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
+      setSpawnPosition({
+        x: e.offsetX || e.layerX,
+        y: e.offsetY || e.layerY,
+      });
     }
     function refreshEmitterCenter() {
       const screenCenter = {
         x: containerRef.clientWidth / 2,
         y: containerRef.clientHeight / 2,
       };
-      emitter?.updateOwnerPos(screenCenter.x, screenCenter.y);
+      setSpawnPosition({
+        x: screenCenter.x,
+        y: screenCenter.y,
+      });
     }
     containerRef.addEventListener('click', clickHandler);
     app.renderer.on('resize', refreshEmitterCenter);
@@ -114,6 +124,12 @@ export function PixiApp() {
     createEffect(() => {
       const _config = unwrap(fullConfig());
       throttledInitEmitter(_config);
+    });
+    createEffect(() => {
+      const _x = spawnPosition.x;
+      const _y = spawnPosition.y;
+      emitter?.resetPositionTracking();
+      emitter?.updateOwnerPos(0, 0);
     });
   });
 

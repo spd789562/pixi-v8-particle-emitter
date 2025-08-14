@@ -51,7 +51,7 @@ export function MinMaxInputGroup(props: MinMaxInputGroupProps) {
         />
         <span class="pt-5">~</span>
         <MouseNumberInput
-          label="Max"
+          label={props.maxLabel ?? 'Max'}
           rawValue={props.maxValue}
           onRawValueChange={handleMaxChange}
           step={props.step}

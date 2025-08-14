@@ -59,16 +59,14 @@ export function AccelerationSetting() {
         </div>
       </InputGroup>
 
-      <InputGroup title="Max Speed">
-        <div class="flex gap-2">
-          <MouseNumberInput
-            label="Max"
-            rawValue={accelerationConfig.maxSpeed}
-            onRawValueChange={(v) => setAccelerationConfig('maxSpeed', v)}
-            disabled={accelerationInputDisabled()}
-          />
-        </div>
-      </InputGroup>
+      <div class="w-3/5">
+        <MouseNumberInput
+          label="Max Speed"
+          rawValue={accelerationConfig.maxSpeed}
+          onRawValueChange={(v) => setAccelerationConfig('maxSpeed', v)}
+          disabled={accelerationInputDisabled()}
+        />
+      </div>
 
       <Switch
         label="Rotate with movement"

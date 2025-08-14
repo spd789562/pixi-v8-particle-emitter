@@ -7,4 +7,5 @@ export const [syncConfig, setSyncConfig] = createStore({
   rotation: false,
   scale: false,
   alpha: false,
+  spawnRect: false,
 });

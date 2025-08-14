@@ -5,6 +5,7 @@ import type {
   BehaviorConfigRecord,
   BehaviorConfigs,
   ShapeType,
+  ShapeConfigRecord,
   ValueList,
 } from '@repo/emitter';
 import { trackStore } from '@solid-primitives/deep';
@@ -30,7 +31,7 @@ export const [generalConfig, setGeneralConfig] = createStore<GeneralConfig>({
 } satisfies GeneralConfig);
 
 export type TransitionType = 'static' | 'list';
-export type SpawnType = 'point' | ShapeType;
+export type SpawnType = 'point' | 'spawnBurst' | ShapeType;
 
 export const [enabledConfig, setEnabledConfig] = createStore({
   acceleration: false,
@@ -154,6 +155,41 @@ export const [rotationConfig, setRotationConfig] = createStore<
 });
 export const [noRotation, setNoRotation] = createSignal(false);
 
+export const [spawnPosition, setSpawnPosition] = createStore({
+  x: 0,
+  y: 0,
+});
+export const [spawnRectConfig, setSpawnRectConfig] = createStore<
+  ShapeConfigRecord['Rectangle']['config']
+>({
+  x: 0,
+  y: 0,
+  w: 100,
+  h: 100,
+});
+export const [spawnTorusConfig, setSpawnTorusConfig] = createStore<
+  ShapeConfigRecord['Torus']['config']
+>({
+  x: 0,
+  y: 0,
+  radius: 100,
+  innerRadius: 50,
+  affectRotation: false,
+});
+export const [spawnPathConfig, setSpawnPathConfig] = createStore<
+  ShapeConfigRecord['PolygonalChain']['config']
+>([
+  { x: 0, y: 0 },
+  { x: 100, y: 100 },
+]);
+export const [spawnBurstConfig, setSpawnBurstConfig] = createStore<
+  BehaviorConfigRecord['BurstSpawnBehavior']['config']
+>({
+  spacing: 0,
+  start: 0,
+  distance: 100,
+});
+
 const fullConfigTracker = () => {
   trackStore(generalConfig);
   trackStore(speedList);
@@ -167,6 +203,11 @@ const fullConfigTracker = () => {
   trackStore(alphaConfig);
   trackStore(colorList);
   trackStore(colorConfig);
+  trackStore(spawnPosition);
+  trackStore(spawnRectConfig);
+  trackStore(spawnTorusConfig);
+  trackStore(spawnPathConfig);
+  trackStore(spawnBurstConfig);
   speedMinMult();
   scaleMinMult();
 };
@@ -175,8 +216,49 @@ export const fullConfig = createMemo(
   on(fullConfigTracker, () => {
     const fullConfig = {
       ...unwrap(generalConfig),
+      pos: {
+        x: spawnPosition.x,
+        y: spawnPosition.y,
+      },
       behaviors: [] as BehaviorConfigs[],
     } satisfies EmitterConfigV3;
+
+    if (enabledConfig.spawnType === 'point') {
+      // do nothing
+    } else if (enabledConfig.spawnType === 'spawnBurst') {
+      fullConfig.behaviors.push({
+        type: 'spawnBurst',
+        config: spawnBurstConfig,
+      });
+    } else if (enabledConfig.spawnType === 'rect') {
+      fullConfig.behaviors.push({
+        type: 'spawnShape',
+        config: {
+          type: 'rect',
+          data: spawnRectConfig,
+        },
+      });
+    } else if (enabledConfig.spawnType === 'torus') {
+      fullConfig.behaviors.push({
+        type: 'spawnShape',
+        config: {
+          type: 'torus',
+          data: spawnTorusConfig,
+        },
+      });
+    } else if (
+      enabledConfig.spawnType === 'polygonalChain' &&
+      spawnPathConfig.length > 0
+    ) {
+      console.log('spawnPathConfig', spawnPathConfig);
+      fullConfig.behaviors.push({
+        type: 'spawnShape',
+        config: {
+          type: 'polygonalChain',
+          data: spawnPathConfig,
+        },
+      });
+    }
 
     if (enabledConfig.speed) {
       if (enabledConfig.speedType === 'static') {
