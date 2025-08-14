@@ -5,6 +5,7 @@ import { SpeedSetting } from './SpeedSetting';
 import { RotationSetting } from './RotationSetting';
 import { ScaleSetting } from './ScaleSetting';
 import { AlphaSetting } from './AlphaSetting';
+import { AccelerationSetting } from './AccelerationSetting';
 
 import { type enabledConfig, setEnabledConfig } from '@/store/config';
 
@@ -22,8 +23,12 @@ export function Panel() {
         <AccordionItem title="Spawn" value="spawn">
           1
         </AccordionItem>
-        <AccordionItemWithSwitch title="Acceleration" value="acceleration">
-          1
+        <AccordionItemWithSwitch
+          title="Acceleration"
+          value="acceleration"
+          onChange={handleEnabledChange}
+        >
+          <AccelerationSetting />
         </AccordionItemWithSwitch>
         <AccordionItemWithSwitch
           title="Speed"

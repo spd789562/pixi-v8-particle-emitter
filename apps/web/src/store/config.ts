@@ -53,6 +53,16 @@ export const [enabledConfig, setEnabledConfig] = createStore({
   spawnType: 'point' as SpawnType,
 });
 
+export const [accelerationConfig, setAccelerationConfig] = createStore<
+  BehaviorConfigRecord['AccelerationBehavior']['config']
+>({
+  minStart: 0,
+  maxStart: 0,
+  accel: { x: 0, y: 0 },
+  rotate: false,
+  maxSpeed: 0,
+});
+
 export const [speedList, setSpeedList] = createStore<ValueList<number>>({
   list: [
     {
@@ -130,6 +140,7 @@ const fullConfigTracker = () => {
   trackStore(speedList);
   trackStore(enabledConfig);
   trackStore(speedConfig);
+  trackStore(accelerationConfig);
   trackStore(rotationConfig);
   trackStore(scaleConfig);
   trackStore(scaleList);
@@ -162,6 +173,12 @@ export const fullConfig = createMemo(
           },
         });
       }
+    }
+    if (enabledConfig.acceleration) {
+      fullConfig.behaviors.push({
+        type: 'moveAcceleration',
+        config: accelerationConfig,
+      });
     }
     if (enabledConfig.scale) {
       if (enabledConfig.scaleType === 'static') {
