@@ -1,9 +1,15 @@
 import { For, Show } from 'solid-js';
+import { Dynamic } from 'solid-js/web';
 import { produce, type SetStoreFunction } from 'solid-js/store';
 
 import PlusIcon from 'lucide-solid/icons/plus';
 import TrashIcon from 'lucide-solid/icons/trash';
-import { MouseNumberInput, cn, type MouseNumberInputProps } from '@repo/ui';
+import {
+  MouseNumberInput,
+  ColorPickerBlock,
+  cn,
+  type MouseNumberInputProps,
+} from '@repo/ui';
 
 import type { ValueList } from '@repo/emitter';
 
@@ -11,6 +17,7 @@ export interface ValueInputListProps<T> {
   data: ValueList<T>;
   onChange: SetStoreFunction<ValueList<T>>;
   valueInputProps?: MouseNumberInputProps;
+  type?: 'number' | 'color';
 }
 
 export function ValueInputList<T>(props: ValueInputListProps<T>) {
@@ -56,12 +63,15 @@ export function ValueInputList<T>(props: ValueInputListProps<T>) {
       </div>
       <For each={props.data.list}>
         {(item, index) => (
-          <ValueNumberInputItem
+          <Dynamic
+            component={
+              props.type === 'color' ? ValueColorItem : ValueNumberInputItem
+            }
             progress={item.time}
             /* force cast fix this later */
             value={item.value as number}
             onProgressChange={(v) => onProgressChange(index(), v)}
-            onValueChange={(v) => onValueChange(index(), v as T)}
+            onValueChange={(v: any) => onValueChange(index(), v as T)}
             pin={index() === 0 || index() === props.data.list.length - 1}
             hasAddNext={index() !== props.data.list.length - 1}
             onAddNext={() => onAddNext(index())}
@@ -136,4 +146,64 @@ export function ValueNumberInputItem(props: ValueNumberInputItemProps) {
   );
 }
 
-/* TODO: add color input item */
+export interface ValueColorItemProps {
+  progress: number;
+  value: string;
+  onProgressChange: (progress: number) => void;
+  onValueChange: (value: string) => void;
+  onAddNext?: () => void;
+  onRemove?: () => void;
+  hasAddNext?: boolean;
+  disabled?: boolean;
+  pin?: boolean;
+}
+export function ValueColorItem(props: ValueColorItemProps) {
+  return (
+    <div
+      class={cn(
+        'flex gap-2 items-center p-1 rounded-sm',
+        props.pin && 'bg-gray-50',
+      )}
+    >
+      <div class="w-18 shrink-0">
+        <MouseNumberInput
+          step={0.01}
+          minValue={0}
+          maxValue={1}
+          numberPrecision={2}
+          slideMultiplier={0.01}
+          rawValue={props.progress}
+          onRawValueChange={props.onProgressChange}
+          disabled={props.disabled || props.pin}
+        />
+      </div>
+      <div class="flex-1">
+        <div class="w-32 h-8">
+          <ColorPickerBlock
+            value={props.value}
+            onChange={(c) => props.onValueChange(c.toString('hex'))}
+            disabled={props.disabled}
+          />
+        </div>
+      </div>
+      <Show when={!props.pin}>
+        <button
+          type="button"
+          class="p-2 bg-transparent cursor-pointer hover:bg-gray-100"
+          onClick={props.onRemove}
+        >
+          <TrashIcon size={16} />
+        </button>
+      </Show>
+      <Show when={props.hasAddNext}>
+        <button
+          type="button"
+          class="p-2 bg-transparent cursor-pointer hover:bg-gray-100"
+          onClick={props.onAddNext}
+        >
+          <PlusIcon size={16} />
+        </button>
+      </Show>
+    </div>
+  );
+}

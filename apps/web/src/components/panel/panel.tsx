@@ -6,8 +6,9 @@ import { RotationSetting } from './RotationSetting';
 import { ScaleSetting } from './ScaleSetting';
 import { AlphaSetting } from './AlphaSetting';
 import { AccelerationSetting } from './AccelerationSetting';
+import { ColorSetting } from './ColorSetting';
 
-import { type enabledConfig, setEnabledConfig } from '@/store/config';
+import { enabledConfig, setEnabledConfig } from '@/store/config';
 
 export function Panel() {
   function handleEnabledChange(checked: boolean, value: string) {
@@ -26,6 +27,7 @@ export function Panel() {
         <AccordionItemWithSwitch
           title="Acceleration"
           value="acceleration"
+          checked={enabledConfig.acceleration}
           onChange={handleEnabledChange}
         >
           <AccelerationSetting />
@@ -33,16 +35,23 @@ export function Panel() {
         <AccordionItemWithSwitch
           title="Speed"
           value="speed"
+          checked={enabledConfig.speed}
           onChange={handleEnabledChange}
         >
           <SpeedSetting />
         </AccordionItemWithSwitch>
-        <AccordionItemWithSwitch title="Color" value="color">
-          1
+        <AccordionItemWithSwitch
+          title="Color"
+          value="color"
+          checked={enabledConfig.color}
+          onChange={handleEnabledChange}
+        >
+          <ColorSetting />
         </AccordionItemWithSwitch>
         <AccordionItemWithSwitch
           title="Alpha"
           value="alpha"
+          checked={enabledConfig.alpha}
           onChange={handleEnabledChange}
         >
           <AlphaSetting />
@@ -50,6 +59,7 @@ export function Panel() {
         <AccordionItemWithSwitch
           title="Rotation"
           value="rotation"
+          checked={enabledConfig.rotation}
           onChange={handleEnabledChange}
         >
           <RotationSetting />
@@ -57,6 +67,7 @@ export function Panel() {
         <AccordionItemWithSwitch
           title="Scale"
           value="scale"
+          checked={enabledConfig.scale}
           onChange={handleEnabledChange}
         >
           <ScaleSetting />

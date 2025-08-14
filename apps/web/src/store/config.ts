@@ -34,18 +34,18 @@ export type SpawnType = 'point' | ShapeType;
 
 export const [enabledConfig, setEnabledConfig] = createStore({
   acceleration: false,
-  color: false,
+  color: true,
   colorType: 'static' as TransitionType,
 
-  alpha: false,
+  alpha: true,
   alphaType: 'static' as TransitionType,
 
-  speed: false,
+  speed: true,
   speedType: 'static' as TransitionType,
 
-  rotation: false,
+  rotation: true,
 
-  scale: false,
+  scale: true,
   scaleType: 'static' as TransitionType,
 
   anchor: false,
@@ -101,8 +101,8 @@ export const [scaleMinMult, setScaleMinMult] = createSignal(1);
 export const [scaleConfig, setScaleConfig] = createStore<
   BehaviorConfigRecord['StaticScaleBehavior']['config']
 >({
-  min: 0.5,
-  max: 0.7,
+  min: 0.3,
+  max: 0.5,
 });
 
 export const [alphaList, setAlphaList] = createStore<ValueList<number>>({
@@ -124,11 +124,30 @@ export const [alphaConfig, setAlphaConfig] = createStore<
   alpha: 1,
 });
 
+export const [colorList, setColorList] = createStore<ValueList<string>>({
+  list: [
+    {
+      value: '#ffffff',
+      time: 0,
+    },
+    {
+      value: '#333399',
+      time: 1,
+    },
+  ],
+  isStepped: false,
+});
+export const [colorConfig, setColorConfig] = createStore<
+  BehaviorConfigRecord['StaticColorBehavior']['config']
+>({
+  color: '#ffffff',
+});
+
 export const [rotationConfig, setRotationConfig] = createStore<
   BehaviorConfigRecord['RotationBehavior']['config']
 >({
-  minStart: 0,
-  maxStart: 0,
+  minStart: 260,
+  maxStart: 280,
   minSpeed: 0,
   maxSpeed: 0,
   accel: 0,
@@ -146,6 +165,8 @@ const fullConfigTracker = () => {
   trackStore(scaleList);
   trackStore(alphaList);
   trackStore(alphaConfig);
+  trackStore(colorList);
+  trackStore(colorConfig);
   speedMinMult();
   scaleMinMult();
 };
@@ -207,6 +228,21 @@ export const fullConfig = createMemo(
           type: 'alpha',
           config: {
             alpha: unwrap(alphaList),
+          },
+        });
+      }
+    }
+    if (enabledConfig.color) {
+      if (enabledConfig.colorType === 'static') {
+        fullConfig.behaviors.push({
+          type: 'colorStatic',
+          config: colorConfig,
+        });
+      } else {
+        fullConfig.behaviors.push({
+          type: 'color',
+          config: {
+            color: unwrap(colorList),
           },
         });
       }
