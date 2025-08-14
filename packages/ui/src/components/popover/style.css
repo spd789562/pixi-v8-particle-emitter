@@ -1,4 +1,4 @@
-.popover__trigger {
+/* .popover__trigger {
 	appearance: none;
 	display: inline-flex;
 	justify-content: center;
@@ -26,7 +26,7 @@
 
 .popover__trigger:active {
 	background-color: hsl(201 90% 27%);
-}
+} */
 
 .popover__anchor {
 	background-color: hsl(240 5% 96%);
@@ -36,7 +36,7 @@
 
 .popover__content {
 	z-index: 50;
-	max-width: min(calc(100vw - 16px), 380px);
+	/* max-width: min(calc(100vw - 16px), 380px); */
 	border: 1px solid hsl(240 5% 84%);
 	border-radius: 6px;
 	padding: 12px;

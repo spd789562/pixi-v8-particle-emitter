@@ -1,0 +1,17 @@
+.color-swatch {
+  width: 100%;
+  height: 100%;
+  border: 1px solid hsl(240 6% 90%);
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.color-swatch__color {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
+
+[data-kb-theme="dark"] .color-swatch {
+  border-color: hsl(240 5% 34%);
+}
