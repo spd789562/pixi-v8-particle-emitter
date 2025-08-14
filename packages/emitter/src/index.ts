@@ -37,4 +37,8 @@ export type {
   BehaviorConfigs,
   BehaviorConfigRecord,
 } from './behaviors/BehaviorTypes';
-export type { ShapeType, ShapeConfigs } from './behaviors/shapes/ShapeType';
+export type {
+  ShapeType,
+  ShapeConfigs,
+  ShapeConfigRecord,
+} from './behaviors/shapes/ShapeType';

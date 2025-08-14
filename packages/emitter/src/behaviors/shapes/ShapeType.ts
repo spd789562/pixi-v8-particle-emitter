@@ -7,7 +7,7 @@ type ExtractShapeConfig<T extends shapes.SpawnShapeClass> = {
 
 export type ShapeType = (typeof shapes)[keyof typeof shapes]['type'];
 
-type ShapeConfigRecord = {
+export type ShapeConfigRecord = {
   [K in keyof typeof shapes]: ExtractShapeConfig<(typeof shapes)[K]>;
 };
 
