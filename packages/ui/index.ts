@@ -11,6 +11,8 @@ export * from './src/components/color-swatch/index';
 export * from './src/components/color-input/index';
 export * from './src/components/color-picker/index';
 export * from './src/components/popover/index';
+export * from './src/components/toast/index';
+export * from './src/components/segment-control/index';
 
 // @Utils
 export * from './src/utils/index';
