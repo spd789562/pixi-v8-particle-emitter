@@ -7,11 +7,13 @@ export class TorusGraphic extends BaseGraphic<TorusConfig> {
   drawShape() {
     this.graphics.clear();
 
-    if (this.config.innerRadius) {
+    const hasInnerRadius =
+      this.config.innerRadius && this.config.innerRadius > 0;
+    if (hasInnerRadius) {
       this.graphics.circle(
         this.config.x,
         this.config.y,
-        this.config.innerRadius,
+        this.config.innerRadius!,
       );
       this.graphics.stroke({
         color: this.colorOption.stroke,
@@ -25,9 +27,11 @@ export class TorusGraphic extends BaseGraphic<TorusConfig> {
       pixelLine: true,
       alpha: this.colorOption.strokeAlpha,
     });
-    // this.graphics.fill({
-    //   color: this.colorOption.fill,
-    //   alpha: this.colorOption.alpha,
-    // });
+    if (!hasInnerRadius) {
+      this.graphics.fill({
+        color: this.colorOption.fill,
+        alpha: this.colorOption.alpha,
+      });
+    }
   }
 }

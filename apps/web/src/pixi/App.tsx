@@ -1,12 +1,6 @@
 import { onMount, onCleanup, createEffect } from 'solid-js';
 import { unwrap } from 'solid-js/store';
-import {
-  Application,
-  Assets,
-  Sprite,
-  ParticleContainer,
-  Ticker,
-} from 'pixi.js';
+import { Application, Assets, ParticleContainer, Ticker } from 'pixi.js';
 import { Emitter, type EmitterConfigV3 } from '@repo/emitter';
 
 import { StatusPanel } from './StatusPanel';
@@ -53,13 +47,14 @@ export function PixiApp() {
     const textures = usedTextures();
     const config = unwrap(fullConfig());
 
-    const currentSprites = textures.map((texture, index) => {
-      const sprite = new Sprite(Assets.get(texture));
-      sprite.y = 30;
-      sprite.x = 30 + index * 100;
-      return sprite;
-    });
-    app.stage.addChild(...currentSprites);
+    // Debug, display current textures
+    // const currentSprites = textures.map((texture, index) => {
+    //   const sprite = new Sprite(Assets.get(texture));
+    //   sprite.y = 30;
+    //   sprite.x = 30 + index * 100;
+    //   return sprite;
+    // });
+    // app.stage.addChild(...currentSprites);
     const debugSpawnContainer = new DebugSpawn();
     app.stage.addChild(debugSpawnContainer);
 

@@ -8,6 +8,7 @@ import { AlphaSetting } from './AlphaSetting';
 import { AccelerationSetting } from './AccelerationSetting';
 import { ColorSetting } from './ColorSetting';
 import { SpawnSetting } from './SpawnSetting';
+import { DebugSetting } from './DebugSetting';
 
 import { enabledConfig, setEnabledConfig } from '@/store/config';
 
@@ -77,7 +78,7 @@ export function Panel() {
           1
         </AccordionItem>
         <AccordionItem title="Debug" value="debug">
-          1
+          <DebugSetting />
         </AccordionItem>
       </Accordion>
     </div>

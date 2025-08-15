@@ -20,6 +20,9 @@ export function GeneralSetting() {
   const handleParticlesPerWaveChange = (value: number) => {
     setGeneralConfig('particlesPerWave', value);
   };
+  const handleSpawnChanceChange = (value: number) => {
+    setGeneralConfig('spawnChance', value);
+  };
   const handleSyncLifetimeChange = (checked: boolean) => {
     setSyncConfig('lifetime', checked);
   };
@@ -76,6 +79,15 @@ export function GeneralSetting() {
           step={1}
           minValue={1}
           numberPrecision={1}
+        />
+        <MouseNumberInput
+          label="Particles Spawn Chance"
+          rawValue={generalConfig.spawnChance}
+          onRawValueChange={handleSpawnChanceChange}
+          step={0.01}
+          minValue={0}
+          maxValue={1}
+          numberPrecision={2}
         />
       </div>
       <InputGroup title="Particle Lifetime">

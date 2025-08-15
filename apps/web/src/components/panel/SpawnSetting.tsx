@@ -100,18 +100,21 @@ export function RectShapeSetting() {
           />
         </div>
       </InputGroup>
-      <MinMaxInputGroup
-        numberPrecision={1}
-        minLabel="Width"
-        maxLabel="Height"
-        syncText="square"
-        minValue={spawnRectConfig.w}
-        maxValue={spawnRectConfig.h}
-        sync={syncConfig.spawnRect}
-        setMinValue={(v) => setSpawnRectConfig('w', v)}
-        setMaxValue={(v) => setSpawnRectConfig('h', v)}
-        setSync={(v) => setSyncConfig('spawnRect', v)}
-      />
+      <InputGroup title="Size">
+        <MinMaxInputGroup
+          numberPrecision={1}
+          minLabel="Width"
+          maxLabel="Height"
+          syncText="square"
+          separator="x"
+          minValue={spawnRectConfig.w}
+          maxValue={spawnRectConfig.h}
+          sync={syncConfig.spawnRect}
+          setMinValue={(v) => setSpawnRectConfig('w', v)}
+          setMaxValue={(v) => setSpawnRectConfig('h', v)}
+          setSync={(v) => setSyncConfig('spawnRect', v)}
+        />
+      </InputGroup>
     </div>
   );
 }
@@ -140,6 +143,7 @@ export function TorusShapeSetting() {
         rawValue={spawnTorusConfig.radius}
         onRawValueChange={(v) => setSpawnTorusConfig('radius', v)}
         numberPrecision={1}
+        minValue={0}
         description="Outer radius(in degree)"
       />
       <MouseNumberInput
@@ -147,6 +151,7 @@ export function TorusShapeSetting() {
         rawValue={spawnTorusConfig.innerRadius}
         onRawValueChange={(v) => setSpawnTorusConfig('innerRadius', v)}
         numberPrecision={1}
+        minValue={0}
         description="Inner radius(in degree)"
       />
       <Switch

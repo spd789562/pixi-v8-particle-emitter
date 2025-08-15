@@ -16,8 +16,6 @@ export class BurstGraphic extends BaseGraphic<SpawnBurstConfig> {
 
     const destLength = (distance || 0) + BurstGraphic.burstLineLength;
 
-    console.log(count, 'count', this.config, BurstGraphic.burstLineLength);
-
     for (let i = 0; i < count; i++) {
       const startX = Math.cos(angle) * distance;
       const startY = Math.sin(angle) * distance;

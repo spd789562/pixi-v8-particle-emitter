@@ -1,7 +1,7 @@
 import { createStore } from 'solid-js/store';
 
 export const [debugColor, setDebugColor] = createStore({
-  fill: '#991111',
+  fill: '#F5B8B8',
   stroke: '#991111',
   alpha: 0.2,
   strokeAlpha: 1,

@@ -108,7 +108,7 @@ export class DebugSpawn extends Container {
           if (enabledConfig.spawnType === 'point') {
             return;
           }
-          const current = this.spawnRecord[unwrap(enabledConfig).spawnType];
+          const current = this.spawnRecord[enabledConfig.spawnType];
           current.updateConfig(current.config, unwrap(debugColor));
         },
       ),
@@ -120,7 +120,7 @@ export class DebugSpawn extends Container {
           if (enabledConfig.spawnType === 'point') {
             return;
           }
-          const current = this.spawnRecord[unwrap(enabledConfig).spawnType];
+          const current = this.spawnRecord[enabledConfig.spawnType];
           current.updateConfig(current.config, unwrap(debugColor));
           this.shapeContainer.removeChildren();
           this.shapeContainer.addChild(current as unknown as ContainerChild);

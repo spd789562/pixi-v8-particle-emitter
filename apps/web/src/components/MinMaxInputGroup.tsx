@@ -8,6 +8,7 @@ export interface MinMaxInputGroupProps {
   slideMultiplier?: number;
   numberPrecision?: number;
   disabled?: boolean;
+  separator?: JSX.Element;
 
   minLabel?: JSX.Element;
   maxLabel?: JSX.Element;
@@ -49,7 +50,7 @@ export function MinMaxInputGroup(props: MinMaxInputGroupProps) {
           numberPrecision={props.numberPrecision}
           disabled={props.disabled}
         />
-        <span class="pt-5">~</span>
+        <span class="pt-5">{props.separator ?? '~'}</span>
         <MouseNumberInput
           label={props.maxLabel ?? 'Max'}
           rawValue={props.maxValue}
