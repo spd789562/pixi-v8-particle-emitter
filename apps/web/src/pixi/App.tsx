@@ -11,6 +11,8 @@ import { Emitter, type EmitterConfigV3 } from '@repo/emitter';
 
 import { StatusPanel } from './StatusPanel';
 
+import { DebugSpawn } from './elements/DebugSpawn';
+
 import { assets, spriteSheetAssets, loadSpriteSheet } from './assets';
 
 import { setFps, setParticleCounts } from '@/store/status';
@@ -20,6 +22,7 @@ import {
   spawnPosition,
   usedTextures,
 } from '@/store/config';
+import { debugSpawn } from '@/store/debug';
 
 import { leadingAndTrailing, throttle } from '@solid-primitives/scheduled';
 
@@ -57,6 +60,8 @@ export function PixiApp() {
       return sprite;
     });
     app.stage.addChild(...currentSprites);
+    const debugSpawnContainer = new DebugSpawn();
+    app.stage.addChild(debugSpawnContainer);
 
     const container = new ParticleContainer({
       dynamicProperties: {
@@ -130,6 +135,12 @@ export function PixiApp() {
       const _y = spawnPosition.y;
       emitter?.resetPositionTracking();
       emitter?.updateOwnerPos(0, 0);
+    });
+    createEffect(() => {
+      const enabledPoint = debugSpawn.enabledPoint;
+      const enabledShape = debugSpawn.enabledShape;
+      debugSpawnContainer.spawnPoint.visible = enabledPoint;
+      debugSpawnContainer.shapeContainer.visible = enabledShape;
     });
   });
 

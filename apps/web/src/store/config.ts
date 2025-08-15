@@ -179,13 +179,13 @@ export const [spawnTorusConfig, setSpawnTorusConfig] = createStore<
 export const [spawnPathConfig, setSpawnPathConfig] = createStore<
   ShapeConfigRecord['PolygonalChain']['config']
 >([
-  { x: 0, y: 0 },
-  { x: 100, y: 100 },
+  { x: -50, y: -50 },
+  { x: 50, y: 50 },
 ]);
 export const [spawnBurstConfig, setSpawnBurstConfig] = createStore<
   BehaviorConfigRecord['BurstSpawnBehavior']['config']
 >({
-  spacing: 0,
+  spacing: 10,
   start: 0,
   distance: 100,
 });

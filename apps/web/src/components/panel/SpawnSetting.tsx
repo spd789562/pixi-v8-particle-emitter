@@ -88,14 +88,14 @@ export function RectShapeSetting() {
         <div class="flex gap-2">
           <MouseNumberInput
             label="X"
-            rawValue={spawnPosition.x}
-            onRawValueChange={(v) => setSpawnPosition('x', v)}
+            rawValue={spawnRectConfig.x}
+            onRawValueChange={(v) => setSpawnRectConfig('x', v)}
             numberPrecision={1}
           />
           <MouseNumberInput
             label="Y"
-            rawValue={spawnPosition.y}
-            onRawValueChange={(v) => setSpawnPosition('y', v)}
+            rawValue={spawnRectConfig.y}
+            onRawValueChange={(v) => setSpawnRectConfig('y', v)}
             numberPrecision={1}
           />
         </div>
@@ -123,14 +123,14 @@ export function TorusShapeSetting() {
         <div class="flex gap-2">
           <MouseNumberInput
             label="X"
-            rawValue={spawnPosition.x}
-            onRawValueChange={(v) => setSpawnPosition('x', v)}
+            rawValue={spawnTorusConfig.x}
+            onRawValueChange={(v) => setSpawnTorusConfig('x', v)}
             numberPrecision={1}
           />
           <MouseNumberInput
             label="Y"
-            rawValue={spawnPosition.y}
-            onRawValueChange={(v) => setSpawnPosition('y', v)}
+            rawValue={spawnTorusConfig.y}
+            onRawValueChange={(v) => setSpawnTorusConfig('y', v)}
             numberPrecision={1}
           />
         </div>
@@ -179,7 +179,13 @@ export function PolygonalChainShapeSetting() {
 export function BurstSpawnSetting() {
   return (
     <div class="flex flex-col gap-2">
+      <span class="text-sm text-gray-500">
+        Don't forget to adjust the Particles Pre Wave to see it burst at each
+        direction
+      </span>
       <MouseNumberInput
+        minValue={1}
+        maxValue={360}
         label="Spacing"
         rawValue={spawnBurstConfig.spacing}
         onRawValueChange={(v) => setSpawnBurstConfig('spacing', v)}
@@ -191,7 +197,6 @@ export function BurstSpawnSetting() {
         rawValue={spawnBurstConfig.start}
         onRawValueChange={(v) => setSpawnBurstConfig('start', v)}
         numberPrecision={1}
-        description="Start angle"
       />
       <MouseNumberInput
         label="Distance"
