@@ -1,4 +1,4 @@
-import { Assets, type Spritesheet, type Texture } from 'pixi.js';
+import { Assets, Spritesheet, type Texture } from 'pixi.js';
 
 import Bubbles99 from '@assets/images/Bubbles99.png?url';
 import CartoonSmoke from '@assets/images/CartoonSmoke.png';
@@ -87,12 +87,20 @@ export async function loadSpriteSheet({
   imageUrl: string;
   skipAlias?: boolean;
 }): Promise<Spritesheet> {
-  const imageTexture = await Assets.load<Texture>(imageUrl);
-  const spritesheet = await Assets.load<Spritesheet>({
+  const imageTexture = await Assets.load<Texture>({
+    src: imageUrl,
+    loadParser: 'loadTextures',
+  });
+  let spritesheet = await Assets.load<any>({
     alias,
+    loadParser: 'loadJson',
     src: jsonUrl,
     data: { texture: imageTexture },
   });
+  if (!(spritesheet instanceof Spritesheet)) {
+    spritesheet = new Spritesheet(imageTexture, spritesheet);
+    await spritesheet.parse();
+  }
 
   if (!skipAlias) {
     const prefix = `${alias}_`;

@@ -118,12 +118,12 @@ export class DebugSpawn extends Container {
       on(
         () => enabledConfig.spawnType,
         () => {
+          this.shapeContainer.removeChildren();
           if (enabledConfig.spawnType === 'point') {
             return;
           }
           const current = this.spawnRecord[enabledConfig.spawnType];
           current.updateConfig(current.config, unwrap(debugColor));
-          this.shapeContainer.removeChildren();
           this.shapeContainer.addChild(current as unknown as ContainerChild);
         },
       ),

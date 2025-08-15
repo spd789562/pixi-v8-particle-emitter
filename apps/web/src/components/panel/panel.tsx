@@ -1,6 +1,7 @@
 import { Accordion, AccordionItem, AccordionItemWithSwitch } from '@repo/ui';
 
 import { GeneralSetting } from './GeneralSetting';
+import { TextureSetting } from './TextureSetting';
 import { SpeedSetting } from './SpeedSetting';
 import { RotationSetting } from './RotationSetting';
 import { ScaleSetting } from './ScaleSetting';
@@ -23,6 +24,9 @@ export function Panel() {
       <Accordion multiple>
         <AccordionItem title="General" value="general">
           <GeneralSetting />
+        </AccordionItem>
+        <AccordionItem title="Texture" value="texture">
+          <TextureSetting />
         </AccordionItem>
         <AccordionItem title="Spawn" value="spawn">
           <SpawnSetting />

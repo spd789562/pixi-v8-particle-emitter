@@ -13,6 +13,9 @@ import { trackStore } from '@solid-primitives/deep';
 export const [usedTextures, setUsedTextures] = createSignal<string[]>([
   'Bubbles99',
 ]);
+export type TexturePlayingType = 'static' | 'random' | 'animated';
+export const [texturePlayingType, setTexturePlayingType] =
+  createSignal<TexturePlayingType>('static');
 
 export type GeneralConfig = Omit<
   EmitterConfigV3,
@@ -208,6 +211,7 @@ const fullConfigTracker = () => {
   trackStore(spawnTorusConfig);
   trackStore(spawnPathConfig);
   trackStore(spawnBurstConfig);
+  texturePlayingType();
   speedMinMult();
   scaleMinMult();
 };
@@ -222,6 +226,28 @@ export const fullConfig = createMemo(
       },
       behaviors: [] as BehaviorConfigs[],
     } satisfies EmitterConfigV3;
+
+    if (usedTextures().length > 1) {
+      if (texturePlayingType() === 'random') {
+        fullConfig.behaviors.push({
+          type: 'textureRandom',
+          config: {
+            textures: usedTextures(),
+          },
+        });
+      } else if (texturePlayingType() === 'animated') {
+        fullConfig.behaviors.push({
+          type: 'animatedSingle',
+          config: {
+            anim: {
+              framerate: -1,
+              loop: true,
+              textures: usedTextures(),
+            },
+          },
+        });
+      }
+    }
 
     if (enabledConfig.spawnType === 'point') {
       // do nothing

@@ -1,4 +1,10 @@
-import { ColorPickerField, MouseNumberInput, Switch, Button } from '@repo/ui';
+import {
+  ColorPickerField,
+  MouseNumberInput,
+  Switch,
+  Button,
+  toast,
+} from '@repo/ui';
 import { Assets } from 'pixi.js';
 
 import { stageConfig, setStageConfig } from '@/store/stage';
@@ -63,11 +69,18 @@ function UploadBackgroundImage() {
     const file = (e.target as HTMLInputElement).files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
-      await Assets.load({
-        loadParser: 'loadTextures',
-        src: url,
-      });
-      setStageConfig('backgroundImage', url);
+      try {
+        await Assets.load({
+          loadParser: 'loadTextures',
+          src: url,
+        });
+        setStageConfig('backgroundImage', url);
+      } catch (error) {
+        toast.error({
+          title: 'Failed to load image',
+          message: error instanceof Error ? error.message : 'Unknown error',
+        });
+      }
     }
   }
   return (
