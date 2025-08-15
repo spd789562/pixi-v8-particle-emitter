@@ -44,4 +44,21 @@
   --kb-color-slider-width: 14px;
 }
 
+.color-picker-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
+.color-picker-field__label {
+  color: hsl(240 6% 10%);
+  font-size: 14px;
+  font-weight: 500;
+  user-select: none;
+}
+
+.color-picker-field__trigger {
+  width: 100%;
+  min-width: 64px;
+  height: 32px;
+}

@@ -26,7 +26,7 @@ export function MouseNumberInput(props: MouseNumberInputProps) {
     'slideMultiplier',
     'numberPrecision',
   ]);
-  const multiplier = () => props.slideMultiplier ?? 1;
+  const multiplier = () => props.slideMultiplier ?? props.step ?? 1;
   const precision = () => props.numberPrecision ?? 0;
   const clamp = (value: number) => {
     return Math.max(
