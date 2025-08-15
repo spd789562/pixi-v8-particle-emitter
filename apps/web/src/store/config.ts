@@ -250,7 +250,6 @@ export const fullConfig = createMemo(
       enabledConfig.spawnType === 'polygonalChain' &&
       spawnPathConfig.length > 0
     ) {
-      console.log('spawnPathConfig', spawnPathConfig);
       fullConfig.behaviors.push({
         type: 'spawnShape',
         config: {

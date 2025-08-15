@@ -37,7 +37,6 @@ export class SpawnPoint
     this.config = size;
 
     if (color?.stroke) {
-      console.log(color.stroke, 'color.stroke');
       this.colorOption.stroke.setValue(color.stroke);
     }
 
