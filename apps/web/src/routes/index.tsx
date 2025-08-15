@@ -1,5 +1,6 @@
 import { PixiApp } from '@/pixi/App';
 import { Panel } from '@/components/panel/panel';
+import { TopButtonGroup } from '@/components/TopButtonGroup';
 import { ToastRoot } from '@repo/ui';
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
         <PixiApp />
       </div>
       <div class="w-[400px] shrink-0 shadow p-4">
+        <TopButtonGroup />
         <Panel />
       </div>
       <ToastRoot />
