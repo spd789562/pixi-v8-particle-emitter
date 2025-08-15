@@ -20,6 +20,7 @@ import {
   spawnBurstConfig,
 } from '@/store/config';
 import { debugColor, spawnPointColor } from '@/store/debug';
+import { particleOwnerPosition } from '@/store/stage';
 
 export class DebugSpawn extends Container {
   private spawnRecord: Record<SpawnType, ISpawnShapeContainer<any>>;
@@ -130,8 +131,12 @@ export class DebugSpawn extends Container {
   }
   listenPosition() {
     createEffect(() => {
-      const position = trackDeep(spawnPosition);
-      this.position.set(position.x, position.y);
+      const emitPosition = trackDeep(spawnPosition);
+      const ownerPosition = trackDeep(particleOwnerPosition);
+      this.position.set(
+        emitPosition.x + ownerPosition.x,
+        emitPosition.y + ownerPosition.y,
+      );
     });
   }
 }

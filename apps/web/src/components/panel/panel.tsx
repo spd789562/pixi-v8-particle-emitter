@@ -9,6 +9,7 @@ import { AccelerationSetting } from './AccelerationSetting';
 import { ColorSetting } from './ColorSetting';
 import { SpawnSetting } from './SpawnSetting';
 import { DebugSetting } from './DebugSetting';
+import { StageSetting } from './StageSetting';
 
 import { enabledConfig, setEnabledConfig } from '@/store/config';
 
@@ -75,7 +76,7 @@ export function Panel() {
           <ScaleSetting />
         </AccordionItemWithSwitch>
         <AccordionItem title="Stage" value="stage">
-          1
+          <StageSetting />
         </AccordionItem>
         <AccordionItem title="Debug" value="debug">
           <DebugSetting />

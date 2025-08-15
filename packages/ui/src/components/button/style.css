@@ -24,3 +24,13 @@
 .button:active {
 	background-color: hsl(201 90% 27%);
 }
+
+.button--outline {
+	background-color: transparent;
+	color: #363636;
+	border: 1px solid #363636;
+}
+.button--outline:hover {
+	background-color: #363636;
+	color: white;
+}

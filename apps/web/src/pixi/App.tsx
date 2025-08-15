@@ -6,16 +6,18 @@ import { Emitter, type EmitterConfigV3 } from '@repo/emitter';
 import { StatusPanel } from './StatusPanel';
 
 import { DebugSpawn } from './elements/DebugSpawn';
+import { BackgroundImage } from './elements/BackgroundImage';
 
 import { assets, spriteSheetAssets, loadSpriteSheet } from './assets';
 
 import { setFps, setParticleCounts } from '@/store/status';
+import { fullConfig, usedTextures } from '@/store/config';
 import {
-  fullConfig,
-  setSpawnPosition,
-  spawnPosition,
-  usedTextures,
-} from '@/store/config';
+  setParticleOwnerPosition,
+  particleOwnerPosition,
+  stageConfig,
+  setScreenCenter,
+} from '@/store/stage';
 import { debugSpawn } from '@/store/debug';
 
 import { leadingAndTrailing, throttle } from '@solid-primitives/scheduled';
@@ -55,6 +57,8 @@ export function PixiApp() {
     //   return sprite;
     // });
     // app.stage.addChild(...currentSprites);
+    const backgroundImage = new BackgroundImage();
+    app.stage.addChild(backgroundImage);
     const debugSpawnContainer = new DebugSpawn();
     app.stage.addChild(debugSpawnContainer);
 
@@ -75,10 +79,17 @@ export function PixiApp() {
     const throttledInitEmitter = leadingAndTrailing(
       throttle,
       (config: EmitterConfigV3) => {
-        emitter?.init({
+        if (!emitter) return;
+        emitter?.resetPositionTracking();
+
+        emitter.init({
           ...config,
           autoUpdate: true,
         });
+        emitter.updateOwnerPos(
+          particleOwnerPosition.x,
+          particleOwnerPosition.y,
+        );
       },
       400,
     );
@@ -94,7 +105,14 @@ export function PixiApp() {
       if (!emitter) return;
 
       emitter.emit = true;
-      setSpawnPosition({
+      setParticleOwnerPosition({
+        x: e.offsetX || e.layerX,
+        y: e.offsetY || e.layerY,
+      });
+    }
+    function mouseMoveHandler(e: MouseEvent) {
+      if (!stageConfig.followMouse) return;
+      setParticleOwnerPosition({
         x: e.offsetX || e.layerX,
         y: e.offsetY || e.layerY,
       });
@@ -104,7 +122,8 @@ export function PixiApp() {
         x: containerRef.clientWidth / 2,
         y: containerRef.clientHeight / 2,
       };
-      setSpawnPosition({
+      setScreenCenter(screenCenter);
+      setParticleOwnerPosition({
         x: screenCenter.x,
         y: screenCenter.y,
       });
@@ -121,21 +140,39 @@ export function PixiApp() {
       containerRef.removeEventListener('click', clickHandler);
     });
 
+    // config update
     createEffect(() => {
       const _config = unwrap(fullConfig());
       throttledInitEmitter(_config);
     });
+
+    // emitter position update
     createEffect(() => {
-      const _x = spawnPosition.x;
-      const _y = spawnPosition.y;
       emitter?.resetPositionTracking();
-      emitter?.updateOwnerPos(0, 0);
+      emitter?.updateOwnerPos(particleOwnerPosition.x, particleOwnerPosition.y);
     });
+
+    // follow mouse setting
+    createEffect(() => {
+      if (stageConfig.followMouse) {
+        containerRef.addEventListener('mousemove', mouseMoveHandler);
+      } else {
+        containerRef.removeEventListener('mousemove', mouseMoveHandler);
+      }
+    });
+
+    // debug spawn setting
     createEffect(() => {
       const enabledPoint = debugSpawn.enabledPoint;
       const enabledShape = debugSpawn.enabledShape;
       debugSpawnContainer.spawnPoint.visible = enabledPoint;
       debugSpawnContainer.shapeContainer.visible = enabledShape;
+    });
+
+    // background color update
+    createEffect(() => {
+      const backgroundColor = stageConfig.backgroundColor;
+      app.renderer.background.color = backgroundColor;
     });
   });
 

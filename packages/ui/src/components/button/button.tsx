@@ -11,6 +11,7 @@ interface ButtonWrapperProps
   children?: JSX.Element;
   ref?: (el: ButtonElement) => void;
   class?: string;
+  for?: string;
 }
 
 // Button Component
@@ -27,10 +28,7 @@ const Button: Component<ButtonWrapperProps> = (props) => {
     <Dynamic
       component={local.asChild || 'button'}
       ref={local.ref}
-      class={cn(
-        'flex items-center justify-center gap-3  outline-none cursor-pointer p-4 rounded-sm text-[1rem] w-full mx-auto',
-        local?.class,
-      )}
+      class={cn('button', local?.class)}
       {...others}
     >
       {local.children}
