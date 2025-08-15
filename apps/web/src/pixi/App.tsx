@@ -62,7 +62,7 @@ export function PixiApp() {
     const debugSpawnContainer = new DebugSpawn();
     app.stage.addChild(debugSpawnContainer);
 
-    const container = new ParticleContainer({
+    let particleContainer = new ParticleContainer({
       dynamicProperties: {
         uvs: true, // enabled when you need multiple from same texture(aka spritesheet)
         vertex: true, // enabled when the spritesheet is not trimmed
@@ -73,19 +73,43 @@ export function PixiApp() {
       },
     });
 
-    emitter = new Emitter(container, textures, config);
+    emitter = new Emitter(particleContainer, textures, config);
     emitter.autoUpdate = true;
 
+    const lastTextures = usedTextures().join(',');
     const throttledInitEmitter = leadingAndTrailing(
       throttle,
       (config: EmitterConfigV3) => {
         if (!emitter) return;
-        emitter?.resetPositionTracking();
+        const currentTextures = usedTextures();
+        const texutreHash = currentTextures.join(',');
 
-        emitter.init({
-          ...config,
-          autoUpdate: true,
-        });
+        // recreate particle container and emitter if textures changed
+        if (lastTextures !== texutreHash) {
+          particleContainer.removeFromParent();
+          particleContainer.destroy();
+          particleContainer = new ParticleContainer({
+            dynamicProperties: {
+              uvs: true, // enabled when you need multiple from same texture(aka spritesheet)
+              vertex: true, // enabled when the spritesheet is not trimmed
+              position: true,
+              rotation: true,
+              scale: true,
+              color: true,
+            },
+          });
+          app.stage.addChild(particleContainer);
+
+          emitter = new Emitter(particleContainer, currentTextures, config);
+          emitter.autoUpdate = true;
+        } else {
+          emitter?.resetPositionTracking();
+          emitter.particleImages = usedTextures();
+          emitter.init({
+            ...config,
+            autoUpdate: true,
+          });
+        }
         emitter.updateOwnerPos(
           particleOwnerPosition.x,
           particleOwnerPosition.y,
@@ -96,7 +120,7 @@ export function PixiApp() {
 
     refreshEmitterCenter();
 
-    app.stage.addChild(container);
+    app.stage.addChild(particleContainer);
     containerRef.appendChild(app.canvas);
 
     Ticker.shared.add(refreshStatus);
