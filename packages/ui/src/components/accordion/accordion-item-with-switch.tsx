@@ -1,6 +1,8 @@
 import { splitProps } from 'solid-js';
 
 import { AccordionItem, type AccordionItemProps } from './accordion-item';
+import { useAccordionContext } from '@kobalte/core/accordion';
+
 import { Switch } from '../switch';
 
 export interface AccordionItemWithSwitchProps extends AccordionItemProps {
@@ -12,8 +14,22 @@ export interface AccordionItemWithSwitchProps extends AccordionItemProps {
 export function AccordionItemWithSwitch(props: AccordionItemWithSwitchProps) {
   const [_, itemProps] = splitProps(props, ['checked', 'onChange', 'id']);
 
+  const ctx = useAccordionContext();
+
   function preventPropagation(e: Event) {
     e.stopPropagation();
+  }
+
+  function syncAccordionWithSwitch(checked: boolean) {
+    const selectionManager = ctx.listState().selectionManager();
+
+    const isCurrentSelected = selectionManager.isSelected(props.value);
+
+    if (checked === !isCurrentSelected) {
+      selectionManager.select(props.value);
+    }
+
+    props.onChange?.(checked, props.value);
   }
 
   return (
@@ -24,7 +40,7 @@ export function AccordionItemWithSwitch(props: AccordionItemWithSwitchProps) {
           <Switch
             id={props.id}
             checked={props.checked}
-            onChange={(checked) => props.onChange?.(checked, props.value)}
+            onChange={syncAccordionWithSwitch}
             onClickSwitch={preventPropagation}
           />
           <label for={`${props.id}-input`}>{props.title}</label>

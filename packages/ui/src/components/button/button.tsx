@@ -4,7 +4,7 @@ import { type Component, type JSX, splitProps } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 // Button props
-interface ButtonWrapperProps
+export interface ButtonWrapperProps
   extends PrimitveButtonProps,
     JSX.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: keyof JSX.IntrinsicElements | Component<any>;

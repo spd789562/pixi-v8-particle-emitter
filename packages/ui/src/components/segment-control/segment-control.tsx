@@ -5,16 +5,25 @@ import {
   type SegmentedControlRootProps,
 } from '@kobalte/core/segmented-control';
 
+import { cn } from '../../utils';
+
 export interface SegmentedControlProps extends SegmentedControlRootProps {
+  class?: string;
   items: string[];
+  disabledItems?: string[];
   label?: string;
 }
 
 export function SegmentedControl(props: SegmentedControlProps) {
-  const [_, rest] = splitProps(props, ['items', 'label']);
+  const [_, rest] = splitProps(props, [
+    'items',
+    'label',
+    'class',
+    'disabledItems',
+  ]);
 
   return (
-    <KSegmentedControl class="segmented-control" {...rest}>
+    <KSegmentedControl class={cn('segmented-control', props.class)} {...rest}>
       <Show when={props.label}>
         <KSegmentedControl.Label class="segmented-control__label">
           {props.label}
@@ -28,6 +37,7 @@ export function SegmentedControl(props: SegmentedControlProps) {
               <KSegmentedControl.Item
                 value={item().toLowerCase()}
                 class="segmented-control__item"
+                disabled={props.disabledItems?.includes(item())}
               >
                 <KSegmentedControl.ItemInput class="segmented-control__item-input" />
                 <KSegmentedControl.ItemLabel class="segmented-control__item-label">
