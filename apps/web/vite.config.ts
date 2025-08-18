@@ -9,8 +9,13 @@ if (process.env.NODE_ENV === 'production') {
   plugins.push(viteSingleFile());
 }
 
+// for gh-pages it should be same as the repo name
+const base =
+  process.env.NODE_ENV === 'production' ? '/pixi-v8-particle-emitter/' : '/';
+
 export default defineConfig({
   plugins,
+  base,
   build: {
     target: 'esnext',
   },
