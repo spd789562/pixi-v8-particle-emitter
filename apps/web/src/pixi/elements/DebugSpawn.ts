@@ -31,11 +31,10 @@ export class DebugSpawn extends Container {
     super();
     const spawnPoint = new SpawnPoint(14, { ...spawnPointColor });
     this.spawnPoint = spawnPoint;
-    this.addChild(spawnPoint);
 
     const shapeContainer = new Container();
     this.shapeContainer = shapeContainer;
-    this.addChild(shapeContainer);
+    this.addChild(shapeContainer, spawnPoint);
 
     this.spawnRecord = {
       point: spawnPoint,

@@ -11,7 +11,8 @@ export class BurstGraphic extends BaseGraphic<SpawnBurstConfig> {
   drawShape() {
     this.graphics.clear();
     const { spacing, start, distance } = this.config;
-    const count = Math.floor(360 / spacing);
+    const s = spacing || 2;
+    const count = Math.floor(360 / s);
     let angle = (start * Math.PI) / 180;
 
     const destLength = (distance || 0) + BurstGraphic.burstLineLength;
@@ -32,7 +33,7 @@ export class BurstGraphic extends BaseGraphic<SpawnBurstConfig> {
         alpha: this.colorOption.strokeAlpha,
       });
 
-      angle += (spacing * Math.PI) / 180;
+      angle += (s * Math.PI) / 180;
     }
   }
 }

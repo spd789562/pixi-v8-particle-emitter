@@ -100,6 +100,9 @@ export function PixiApp() {
           });
           app.stage.addChild(particleContainer);
 
+          // since we replace the particle completely, we can just destroy the old one
+          emitter?.destroy();
+
           emitter = new Emitter(particleContainer, currentTextures, config);
           emitter.autoUpdate = true;
         } else {
