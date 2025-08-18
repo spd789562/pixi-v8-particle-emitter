@@ -17,6 +17,12 @@ export const fountainConfig: EmitterConfigV3 = {
   },
   behaviors: [
     {
+      type: 'textureSingle',
+      config: {
+        texture: 'Sparks',
+      },
+    },
+    {
       type: 'alpha',
       config: {
         alpha: {

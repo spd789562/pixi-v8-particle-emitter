@@ -17,6 +17,12 @@ export const rainConfig: EmitterConfigV3 = {
   },
   behaviors: [
     {
+      type: 'textureSingle',
+      config: {
+        texture: 'HardRain',
+      },
+    },
+    {
       type: 'alphaStatic',
       config: {
         alpha: 0.5,

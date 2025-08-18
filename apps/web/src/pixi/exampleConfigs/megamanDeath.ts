@@ -18,6 +18,12 @@ export const megamanDeathConfig: EmitterConfigV3 = {
   },
   behaviors: [
     {
+      type: 'textureSingle',
+      config: {
+        texture: 'particle',
+      },
+    },
+    {
       type: 'alpha',
       config: {
         alpha: {

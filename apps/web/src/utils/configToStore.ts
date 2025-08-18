@@ -34,7 +34,7 @@ import {
   defaultEnabledConfig,
 } from '@/store/config';
 
-export function configToStore(_config: EmitterConfigV3) {
+export function configToStore(_config: EmitterConfigV3, textures?: string[]) {
   const config =
     'behaviors' in _config
       ? upgradeConfig(_config as unknown as any, [])
@@ -42,6 +42,7 @@ export function configToStore(_config: EmitterConfigV3) {
 
   batch(() => {
     const { behaviors, ...general } = config;
+    let usedTextures = textures ?? [];
 
     setGeneralConfig({
       spawnChance: 1,
@@ -105,21 +106,21 @@ export function configToStore(_config: EmitterConfigV3) {
           break;
         case 'textureSingle':
           setTexturePlayingType('static');
-          setUsedTextures([behavior.config.texture]);
+          usedTextures = [behavior.config.texture];
           break;
         case 'textureRandom':
           setTexturePlayingType('random');
-          setUsedTextures(behavior.config.textures);
+          usedTextures = behavior.config.textures;
           break;
         case 'textureOrdered':
           setTexturePlayingType('ordered');
-          setUsedTextures(behavior.config.textures);
+          usedTextures = behavior.config.textures;
           break;
         case 'animatedSingle': {
           setTexturePlayingType('animated');
           const textures = behavior.config.anim.textures;
           if (textures.length > 0) {
-            setUsedTextures(textures);
+            usedTextures = textures;
           }
           break;
         }
@@ -127,7 +128,7 @@ export function configToStore(_config: EmitterConfigV3) {
           setTexturePlayingType('animated');
           const textures = behavior.config.anims[0]?.textures ?? [];
           if (textures.length > 0) {
-            setUsedTextures(textures);
+            usedTextures = textures;
           }
           break;
         }
@@ -197,6 +198,9 @@ export function configToStore(_config: EmitterConfigV3) {
           setNoRotation(true);
           break;
       }
+    }
+    if (usedTextures.length > 0) {
+      setUsedTextures(usedTextures);
     }
     setEnabledConfig(enabledConfig);
   });

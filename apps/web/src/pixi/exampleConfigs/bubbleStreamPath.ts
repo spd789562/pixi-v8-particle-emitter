@@ -17,6 +17,12 @@ export const bubbleStreamPathConfig: EmitterConfigV3 = {
   },
   behaviors: [
     {
+      type: 'textureSingle',
+      config: {
+        texture: 'Bubbles99',
+      },
+    },
+    {
       type: 'alpha',
       config: {
         alpha: {

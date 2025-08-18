@@ -76,7 +76,7 @@ export function PixiApp() {
     emitter = new Emitter(particleContainer, textures, config);
     emitter.autoUpdate = true;
 
-    const lastTextures = usedTextures().join(',');
+    let lastTextures = usedTextures().join(',');
     const throttledInitEmitter = leadingAndTrailing(
       throttle,
       (config: EmitterConfigV3) => {
@@ -105,6 +105,7 @@ export function PixiApp() {
 
           emitter = new Emitter(particleContainer, currentTextures, config);
           emitter.autoUpdate = true;
+          lastTextures = texutreHash;
         } else {
           emitter?.resetPositionTracking();
           emitter.particleImages = usedTextures();

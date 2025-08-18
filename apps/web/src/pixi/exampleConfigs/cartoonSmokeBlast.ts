@@ -17,6 +17,12 @@ export const cartoonSmokeBlastConfig: EmitterConfigV3 = {
   },
   behaviors: [
     {
+      type: 'textureSingle',
+      config: {
+        texture: 'CartoonSmoke',
+      },
+    },
+    {
       type: 'alpha',
       config: {
         alpha: {

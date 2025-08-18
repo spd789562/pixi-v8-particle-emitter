@@ -34,6 +34,12 @@ export const snowConfig: EmitterConfigV3 = {
   },
   behaviors: [
     {
+      type: 'textureSingle',
+      config: {
+        texture: 'Snow100',
+      },
+    },
+    {
       type: 'alpha',
       config: {
         alpha: {

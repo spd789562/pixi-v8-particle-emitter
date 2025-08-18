@@ -7,7 +7,7 @@ import {
 } from '@repo/ui';
 import { UploadIcon, DownloadIcon, CopyIcon } from 'lucide-solid';
 
-import { fullConfig, setUsedTextures, usedTextures } from '@/store/config';
+import { fullConfig, usedTextures } from '@/store/config';
 
 import { configToStore } from '@/utils/configToStore';
 import { exampleConfigs } from '@/pixi/exampleConfigs';
@@ -99,8 +99,7 @@ export function SelectPresetButton() {
   function handleSelectPreset(preset: keyof typeof exampleConfigs) {
     const targetConfig = exampleConfigs[preset];
     batch(() => {
-      configToStore(targetConfig.config);
-      setUsedTextures(targetConfig.textures);
+      configToStore(targetConfig.config, targetConfig.textures);
     });
   }
 
