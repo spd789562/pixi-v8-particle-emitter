@@ -7,7 +7,12 @@ import {
 } from '@repo/ui';
 import { Assets } from 'pixi.js';
 
-import { stageConfig, setStageConfig } from '@/store/stage';
+import {
+  stageConfig,
+  setStageConfig,
+  setStageBackgroundColor,
+  setStageFollowMouse,
+} from '@/store/stage';
 
 export function StageSetting() {
   return (
@@ -16,9 +21,7 @@ export function StageSetting() {
         <ColorPickerField
           label="Background Color"
           value={stageConfig.backgroundColor}
-          onChange={(value) =>
-            setStageConfig('backgroundColor', value.toString('hex'))
-          }
+          onChange={(value) => setStageBackgroundColor(value.toString('hex'))}
         />
       </div>
       <h5 class="text-sm font-bold">Background Image</h5>
@@ -58,7 +61,7 @@ export function StageSetting() {
       <Switch
         label="Follow Mouse"
         checked={stageConfig.followMouse}
-        onChange={(value) => setStageConfig('followMouse', value)}
+        onChange={(value) => setStageFollowMouse(value)}
       />
     </div>
   );

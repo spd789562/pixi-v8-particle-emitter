@@ -415,3 +415,139 @@ export const fullConfig = createMemo(
     return fullConfig;
   }),
 );
+
+export function saveConfigToLocalStorage() {
+  // localStorage.setItem('usedTextures', JSON.stringify(unwrap(usedTextures)));
+  localStorage.setItem('texturePlayingType', texturePlayingType());
+  localStorage.setItem('generalConfig', JSON.stringify(unwrap(generalConfig)));
+  localStorage.setItem('enabledConfig', JSON.stringify(unwrap(enabledConfig)));
+  localStorage.setItem('speedList', JSON.stringify(unwrap(speedList)));
+  localStorage.setItem('speedConfig', JSON.stringify(unwrap(speedConfig)));
+  localStorage.setItem(
+    'accelerationConfig',
+    JSON.stringify(unwrap(accelerationConfig)),
+  );
+  localStorage.setItem(
+    'rotationConfig',
+    JSON.stringify(unwrap(rotationConfig)),
+  );
+  localStorage.setItem('scaleConfig', JSON.stringify(unwrap(scaleConfig)));
+  localStorage.setItem('scaleList', JSON.stringify(unwrap(scaleList)));
+  localStorage.setItem('alphaList', JSON.stringify(unwrap(alphaList)));
+  localStorage.setItem('alphaConfig', JSON.stringify(unwrap(alphaConfig)));
+  localStorage.setItem('colorList', JSON.stringify(unwrap(colorList)));
+  localStorage.setItem('colorConfig', JSON.stringify(unwrap(colorConfig)));
+  localStorage.setItem('spawnPosition', JSON.stringify(unwrap(spawnPosition)));
+  localStorage.setItem(
+    'spawnRectConfig',
+    JSON.stringify(unwrap(spawnRectConfig)),
+  );
+  localStorage.setItem(
+    'spawnTorusConfig',
+    JSON.stringify(unwrap(spawnTorusConfig)),
+  );
+  localStorage.setItem(
+    'spawnPathConfig',
+    JSON.stringify(unwrap(spawnPathConfig)),
+  );
+  localStorage.setItem(
+    'spawnBurstConfig',
+    JSON.stringify(unwrap(spawnBurstConfig)),
+  );
+  localStorage.setItem('anchorConfig', JSON.stringify(unwrap(anchorConfig)));
+  localStorage.setItem('noRotation', noRotation().toString());
+}
+export function loadConfigFromLocalStorage() {
+  // const usedTextures = localStorage.getItem('usedTextures');
+  // if (usedTextures) {
+  //   setUsedTextures(JSON.parse(usedTextures));
+  // }
+  const texturePlayingType = localStorage.getItem('texturePlayingType');
+  if (texturePlayingType) {
+    setTexturePlayingType(texturePlayingType as TexturePlayingType);
+  }
+  const generalConfig = loadFromLocalStorageByKey('generalConfig');
+  if (generalConfig) {
+    setGeneralConfig(generalConfig);
+  }
+  const enabledConfig = loadFromLocalStorageByKey('enabledConfig');
+  if (enabledConfig) {
+    setEnabledConfig(enabledConfig);
+  }
+  const speedList = loadFromLocalStorageByKey('speedList');
+  if (speedList) {
+    setSpeedList(speedList);
+  }
+  const speedConfig = loadFromLocalStorageByKey('speedConfig');
+  if (speedConfig) {
+    setSpeedConfig(speedConfig);
+  }
+  const accelerationConfig = loadFromLocalStorageByKey('accelerationConfig');
+  if (accelerationConfig) {
+    setAccelerationConfig(accelerationConfig);
+  }
+  const rotationConfig = loadFromLocalStorageByKey('rotationConfig');
+  if (rotationConfig) {
+    setRotationConfig(rotationConfig);
+  }
+  const scaleConfig = loadFromLocalStorageByKey('scaleConfig');
+  if (scaleConfig) {
+    setScaleConfig(scaleConfig);
+  }
+  const scaleList = loadFromLocalStorageByKey('scaleList');
+  if (scaleList) {
+    setScaleList(scaleList);
+  }
+  const alphaList = loadFromLocalStorageByKey('alphaList');
+  if (alphaList) {
+    setAlphaList(alphaList);
+  }
+  const alphaConfig = loadFromLocalStorageByKey('alphaConfig');
+  if (alphaConfig) {
+    setAlphaConfig(alphaConfig);
+  }
+  const colorList = loadFromLocalStorageByKey('colorList');
+  if (colorList) {
+    setColorList(colorList);
+  }
+  const colorConfig = loadFromLocalStorageByKey('colorConfig');
+  if (colorConfig) {
+    setColorConfig(colorConfig);
+  }
+  const spawnPosition = loadFromLocalStorageByKey('spawnPosition');
+  if (spawnPosition) {
+    setSpawnPosition(spawnPosition);
+  }
+  const spawnRectConfig = loadFromLocalStorageByKey('spawnRectConfig');
+  if (spawnRectConfig) {
+    setSpawnRectConfig(spawnRectConfig);
+  }
+  const spawnTorusConfig = loadFromLocalStorageByKey('spawnTorusConfig');
+  if (spawnTorusConfig) {
+    setSpawnTorusConfig(spawnTorusConfig);
+  }
+  const spawnPathConfig = loadFromLocalStorageByKey('spawnPathConfig');
+  if (spawnPathConfig) {
+    setSpawnPathConfig(spawnPathConfig);
+  }
+  const spawnBurstConfig = loadFromLocalStorageByKey('spawnBurstConfig');
+  if (spawnBurstConfig) {
+    setSpawnBurstConfig(spawnBurstConfig);
+  }
+  const anchorConfig = loadFromLocalStorageByKey('anchorConfig');
+  if (anchorConfig) {
+    setAnchorConfig(anchorConfig);
+  }
+  setNoRotation(localStorage.getItem('noRotation') === 'true');
+}
+
+export function loadFromLocalStorageByKey(key: string): any {
+  const value = localStorage.getItem(key);
+  if (!value) return undefined;
+  try {
+    return JSON.parse(value);
+  } catch (error) {
+    console.error('Error loading from localStorage', error);
+    return undefined;
+  }
+}

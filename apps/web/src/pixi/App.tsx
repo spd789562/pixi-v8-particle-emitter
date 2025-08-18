@@ -1,4 +1,4 @@
-import { onMount, onCleanup, createEffect } from 'solid-js';
+import { onMount, onCleanup, createEffect, batch } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 import { Application, Assets, ParticleContainer, Ticker } from 'pixi.js';
 import { Emitter, type EmitterConfigV3 } from '@repo/emitter';
@@ -11,14 +11,23 @@ import { BackgroundImage } from './elements/BackgroundImage';
 import { assets, spriteSheetAssets, loadSpriteSheet } from './assets';
 
 import { setFps, setParticleCounts } from '@/store/status';
-import { fullConfig, usedTextures } from '@/store/config';
+import {
+  fullConfig,
+  usedTextures,
+  saveConfigToLocalStorage,
+  loadConfigFromLocalStorage,
+} from '@/store/config';
 import {
   setParticleOwnerPosition,
   particleOwnerPosition,
   stageConfig,
   setScreenCenter,
 } from '@/store/stage';
-import { debugSpawn } from '@/store/debug';
+import {
+  debugSpawn,
+  saveDebugToLocalStorage,
+  loadDebugFromLocalStorage,
+} from '@/store/debug';
 
 import { leadingAndTrailing, throttle } from '@solid-primitives/scheduled';
 
@@ -33,7 +42,22 @@ export function PixiApp() {
     }
   }
 
+  const saveConfig = leadingAndTrailing(
+    throttle,
+    () => {
+      batch(() => {
+        saveConfigToLocalStorage();
+        saveDebugToLocalStorage();
+      });
+    },
+    400,
+  );
+
   onMount(async () => {
+    batch(() => {
+      loadConfigFromLocalStorage();
+      loadDebugFromLocalStorage();
+    });
     const app = new Application();
     await app.init({
       width: 800,
@@ -118,6 +142,8 @@ export function PixiApp() {
           particleOwnerPosition.x,
           particleOwnerPosition.y,
         );
+
+        saveConfig();
       },
       400,
     );
