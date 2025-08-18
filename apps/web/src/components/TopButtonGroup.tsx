@@ -1,8 +1,18 @@
-import { Button, toast } from '@repo/ui';
-
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuItemList,
+  toast,
+} from '@repo/ui';
 import { UploadIcon, DownloadIcon, CopyIcon } from 'lucide-solid';
 
-import { fullConfig } from '@/store/config';
+import { fullConfig, setUsedTextures, usedTextures } from '@/store/config';
+
+import { configToStore } from '@/utils/configToStore';
+import { exampleConfigs } from '@/pixi/exampleConfigs';
+import { batch } from 'solid-js';
+import { isSameSource, parseTextures } from '@/utils/texture';
 
 function getFullConfigJson() {
   return JSON.stringify(fullConfig(), null, 2);
@@ -25,13 +35,8 @@ export function TopButtonGroup() {
 
   return (
     <div class="flex flex-row gap-2">
-      <Button class="button--outline gap-1" disabled>
-        <UploadIcon size="16" />
-        Upload
-      </Button>
-      <Button class="button--outline" disabled>
-        Select Presets
-      </Button>
+      <UploadConfigButton />
+      <SelectPresetButton />
       <Button
         class="button--outline"
         title="Copy to clipboard"
@@ -47,5 +52,70 @@ export function TopButtonGroup() {
         <DownloadIcon size="16" />
       </Button>
     </div>
+  );
+}
+
+export function UploadConfigButton() {
+  function handleUpload(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const config = JSON.parse(e.target?.result as string);
+        configToStore(config);
+        // check the textures nextTick since the configStore is batched.
+        setTimeout(() => {
+          const currentTextures = usedTextures();
+          if (!isSameSource(parseTextures(currentTextures))) {
+            toast.error({
+              title: 'Texture Error',
+              message:
+                'Please ensure all textures are loaded, if you using multiple textures, ensure upload via spritesheet.',
+            });
+          }
+        }, 32);
+      };
+      reader.readAsText(file);
+    }
+  }
+
+  return (
+    <Button asChild="label" class="button--outline gap-1">
+      <input type="file" accept=".json" onChange={handleUpload} />
+      <UploadIcon size="16" />
+      Upload
+    </Button>
+  );
+}
+
+// not need to use Set since it's quite small
+const excludedExamples = ['bubbleStreamPath', 'snowSvgEase', 'animatedBubbles'];
+
+export function SelectPresetButton() {
+  const presetNames = Object.keys(exampleConfigs).filter(
+    (name) => !excludedExamples.includes(name),
+  ) as (keyof typeof exampleConfigs)[];
+
+  function handleSelectPreset(preset: keyof typeof exampleConfigs) {
+    const targetConfig = exampleConfigs[preset];
+    batch(() => {
+      configToStore(targetConfig.config);
+      setUsedTextures(targetConfig.textures);
+    });
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger class="button--outline">Presets</DropdownMenuTrigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content class="dropdown-menu__content">
+          <DropdownMenu.Arrow />
+          <DropdownMenuItemList
+            items={presetNames}
+            onSelectItem={handleSelectPreset}
+          />
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu>
   );
 }

@@ -1,3 +1,4 @@
+import { createMemo } from 'solid-js';
 import { Assets } from 'pixi.js';
 
 import { Button, SegmentedControl, toast } from '@repo/ui';
@@ -6,24 +7,38 @@ import UploadIcon from 'lucide-solid/icons/upload';
 
 import {
   texturePlayingType,
+  usedTextures,
   setTexturePlayingType,
   setUsedTextures,
 } from '@/store/config';
 import { loadSpriteSheet } from '@/pixi/assets';
 
 export function TextureSetting() {
+  const disabledItems = createMemo(() => {
+    if (usedTextures().length === 1) {
+      return ['Ordered', 'Random', 'Animated'];
+    } else {
+      return [];
+    }
+  });
+
   return (
     <div class="flex flex-col gap-2">
-      <div class="flex gap-2 items-center">
-        <h5 class="text-sm font-medium">Texture</h5>
+      <h5 class="text-sm font-medium">Texture</h5>
+      <div>
         <UploadTextureButton />
       </div>
       <SegmentedControl
+        class="w-full mt-2"
         value={texturePlayingType()}
         onChange={setTexturePlayingType}
         label="Playing Type"
-        items={['Static', 'Random', 'Animated']}
+        items={['Static', 'Ordered', 'Random', 'Animated']}
+        disabledItems={disabledItems()}
       />
+      <span class="-mt-0.5 text-xs text-stone-600">
+        You must use spritesheet to enabled multiple textures playing.
+      </span>
     </div>
   );
 }
@@ -48,12 +63,12 @@ export function UploadTextureButton() {
       const file = filesArray[0];
       try {
         const url = URL.createObjectURL(file);
-        const _texture = await Assets.load({
+        await Assets.load({
+          alias: file.name,
           loadParser: 'loadTextures',
           src: url,
         });
-        console.log(_texture, url);
-        setUsedTextures([url]);
+        setUsedTextures([file.name]);
         // URL.revokeObjectURL(url);
       } catch (error) {
         toast.error({
@@ -68,16 +83,13 @@ export function UploadTextureButton() {
     const imageUrl = URL.createObjectURL(filesArray[imageIndex]);
     const jsonUrl = URL.createObjectURL(filesArray[jsonIndex]);
 
-    console.log(imageUrl, jsonUrl);
-
     try {
       const spritesheet = await loadSpriteSheet({
-        alias: 'texture',
+        alias: 'temp',
         jsonUrl,
         imageUrl,
         skipAlias: true,
       });
-      console.log(spritesheet);
       setUsedTextures(Object.keys(spritesheet.textures));
     } catch (error) {
       toast.error({

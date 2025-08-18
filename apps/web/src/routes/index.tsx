@@ -9,7 +9,7 @@ export default function Home() {
       <div class="flex-1 overflow-hidden">
         <PixiApp />
       </div>
-      <div class="w-[400px] shrink-0 shadow p-4">
+      <div class="w-[400px] shrink-0 shadow p-4 overflow-y-auto">
         <TopButtonGroup />
         <Panel />
       </div>

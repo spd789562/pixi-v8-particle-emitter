@@ -20,7 +20,7 @@ export function Panel() {
   }
 
   return (
-    <div class="h-full w-full flex flex-col gap-2 overflow-y-auto">
+    <div class="h-full w-full flex flex-col gap-2">
       <Accordion multiple>
         <AccordionItem title="General" value="general">
           <GeneralSetting />

@@ -176,7 +176,10 @@ export function PolygonalChainShapeSetting() {
         data={singleGroupData()}
         onChange={setSpawnPathConfig as SetStoreFunction<PointData[]>}
       />
-      <span class="text-sm text-gray-500">Path need at lease two points</span>
+      <span class="text-sm text-gray-500">
+        Path need at lease two points, and only support the first group of
+        points.
+      </span>
     </div>
   );
 }

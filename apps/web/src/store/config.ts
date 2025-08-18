@@ -13,7 +13,7 @@ import { trackStore } from '@solid-primitives/deep';
 export const [usedTextures, setUsedTextures] = createSignal<string[]>([
   'Bubbles99',
 ]);
-export type TexturePlayingType = 'static' | 'random' | 'animated';
+export type TexturePlayingType = 'static' | 'ordered' | 'random' | 'animated';
 export const [texturePlayingType, setTexturePlayingType] =
   createSignal<TexturePlayingType>('static');
 
@@ -36,7 +36,7 @@ export const [generalConfig, setGeneralConfig] = createStore<GeneralConfig>({
 export type TransitionType = 'static' | 'list';
 export type SpawnType = 'point' | 'spawnBurst' | ShapeType;
 
-export const [enabledConfig, setEnabledConfig] = createStore({
+export const defaultEnabledConfig = {
   acceleration: false,
   color: true,
   colorType: 'static' as TransitionType,
@@ -55,7 +55,10 @@ export const [enabledConfig, setEnabledConfig] = createStore({
   anchor: false,
 
   spawnType: 'point' as SpawnType,
-});
+};
+
+export const [enabledConfig, setEnabledConfig] =
+  createStore(defaultEnabledConfig);
 
 export const [accelerationConfig, setAccelerationConfig] = createStore<
   BehaviorConfigRecord['AccelerationBehavior']['config']
@@ -193,6 +196,13 @@ export const [spawnBurstConfig, setSpawnBurstConfig] = createStore<
   distance: 100,
 });
 
+export const [anchorConfig, setAnchorConfig] = createStore<
+  BehaviorConfigRecord['StaticAnchorBehavior']['config']
+>({
+  x: 0.5,
+  y: 0.5,
+});
+
 const fullConfigTracker = () => {
   trackStore(generalConfig);
   trackStore(speedList);
@@ -211,6 +221,7 @@ const fullConfigTracker = () => {
   trackStore(spawnTorusConfig);
   trackStore(spawnPathConfig);
   trackStore(spawnBurstConfig);
+  trackStore(anchorConfig);
   texturePlayingType();
   speedMinMult();
   scaleMinMult();
@@ -235,6 +246,13 @@ export const fullConfig = createMemo(
             textures: usedTextures(),
           },
         });
+      } else if (texturePlayingType() === 'ordered') {
+        fullConfig.behaviors.push({
+          type: 'textureOrdered',
+          config: {
+            textures: usedTextures(),
+          },
+        });
       } else if (texturePlayingType() === 'animated') {
         fullConfig.behaviors.push({
           type: 'animatedSingle',
@@ -247,6 +265,13 @@ export const fullConfig = createMemo(
           },
         });
       }
+    } else {
+      fullConfig.behaviors.push({
+        type: 'textureSingle',
+        config: {
+          texture: usedTextures()[0],
+        },
+      });
     }
 
     if (enabledConfig.spawnType === 'point') {
@@ -355,7 +380,7 @@ export const fullConfig = createMemo(
       }
     }
     if (enabledConfig.rotation) {
-      const isStatic = rotationConfig.accel === 0;
+      const isStatic = rotationConfig.minSpeed === rotationConfig.maxSpeed;
       if (isStatic) {
         fullConfig.behaviors.push({
           type: 'rotationStatic',
@@ -378,6 +403,13 @@ export const fullConfig = createMemo(
           config: {},
         });
       }
+    }
+
+    if (enabledConfig.anchor) {
+      fullConfig.behaviors.push({
+        type: 'anchorStatic',
+        config: anchorConfig,
+      });
     }
 
     return fullConfig;
