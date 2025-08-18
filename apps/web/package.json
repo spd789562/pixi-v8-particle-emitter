@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite serve",
-    "build": "vite build"
+    "build": "vite build",
+    "build-single-file": "BUILD_SINGLE_FILE=true vite build"
   },
   "dependencies": {
     "@repo/emitter": "workspace:*",

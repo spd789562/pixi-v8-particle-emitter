@@ -3,6 +3,8 @@ import type { ButtonElement, PrimitveButtonProps } from '@Configs/primitives';
 import { type Component, type JSX, splitProps } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
+import './style.css';
+
 // Button props
 export interface ButtonWrapperProps
   extends PrimitveButtonProps,

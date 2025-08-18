@@ -5,7 +5,7 @@ import { viteSingleFile } from 'vite-plugin-singlefile';
 
 const plugins: (PluginOption | Plugin)[] = [solidPlugin(), tailwindcss()];
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.BUILD_SINGLE_FILE) {
   plugins.push(viteSingleFile());
 }
 
