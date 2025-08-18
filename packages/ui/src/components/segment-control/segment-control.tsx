@@ -7,6 +7,8 @@ import {
 
 import { cn } from '../../utils';
 
+import './style.css';
+
 export interface SegmentedControlProps extends SegmentedControlRootProps {
   class?: string;
   items: string[];

@@ -9,6 +9,7 @@ import { ColorSwatch } from '../color-swatch';
 import { ColorInput } from '../color-input';
 
 import './style.css';
+import '../popover/style.css';
 
 export interface ColorPickerBlockProps {
   value?: string;
