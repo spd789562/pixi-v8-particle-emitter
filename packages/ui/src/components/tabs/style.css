@@ -43,7 +43,7 @@
 
 .tabs__trigger {
   display: inline-block;
-  padding: 8px 16px;
+  padding: 8px 8px;
   outline: none;
   border: 1px solid var(--kb-tabs-border-color);
   border-bottom-color: transparent;

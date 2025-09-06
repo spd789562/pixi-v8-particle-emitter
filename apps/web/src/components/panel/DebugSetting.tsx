@@ -1,4 +1,5 @@
 import { Switch, ColorPickerField, MouseNumberInput } from '@repo/ui';
+import { TextWithTip } from '@/components/TextWithTip';
 
 import {
   debugSpawn,
@@ -13,12 +14,20 @@ export function DebugSetting() {
   return (
     <div class="flex flex-col gap-2">
       <Switch
-        label="Enabled Spawn Point"
+        label={
+          <TextWithTip tip="Display the spawn point in the scene.">
+            Enabled Spawn Point
+          </TextWithTip>
+        }
         checked={debugSpawn.enabledPoint}
         onChange={(checked) => setDebugSpawn('enabledPoint', checked)}
       />
       <Switch
-        label="Enabled Shape Debugger"
+        label={
+          <TextWithTip tip="Display the shape of the particles will spawn in the scene.">
+            Enabled Shape Debugger
+          </TextWithTip>
+        }
         checked={debugSpawn.enabledShape}
         onChange={(checked) => setDebugSpawn('enabledShape', checked)}
       />

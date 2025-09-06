@@ -9,7 +9,6 @@ import UploadIcon from 'lucide-solid/icons/upload';
 import DownloadIcon from 'lucide-solid/icons/download';
 import CopyIcon from 'lucide-solid/icons/copy';
 
-
 import { fullConfig, usedTextures } from '@/store/config';
 
 import { configToStore } from '@/utils/configToStore';
@@ -83,7 +82,11 @@ export function UploadConfigButton() {
   }
 
   return (
-    <Button asChild="label" class="button--outline gap-1">
+    <Button
+      asChild="label"
+      class="button--outline gap-1"
+      title="Upload ExistingConfig"
+    >
       <input type="file" accept=".json" onChange={handleUpload} />
       <UploadIcon size="16" />
       Upload
@@ -108,7 +111,9 @@ export function SelectPresetButton() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger class="button--outline">Presets</DropdownMenuTrigger>
+      <DropdownMenuTrigger class="button--outline" title="Select Preset">
+        Presets
+      </DropdownMenuTrigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content class="dropdown-menu__content">
           <DropdownMenu.Arrow />

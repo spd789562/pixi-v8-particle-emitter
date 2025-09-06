@@ -7,6 +7,8 @@ import {
 } from '@repo/ui';
 import { Assets } from 'pixi.js';
 
+import { TextWithTip } from '@/components/TextWithTip';
+
 import {
   stageConfig,
   setStageConfig,
@@ -59,7 +61,11 @@ export function StageSetting() {
         />
       </div>
       <Switch
-        label="Follow Mouse"
+        label={
+          <TextWithTip tip="Particles origin will follow the mouse position.">
+            Follow Mouse
+          </TextWithTip>
+        }
         checked={stageConfig.followMouse}
         onChange={(value) => setStageFollowMouse(value)}
       />

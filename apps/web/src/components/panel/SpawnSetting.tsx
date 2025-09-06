@@ -5,7 +5,8 @@ import type { PointData } from 'pixi.js';
 import { SimpleTabs, MouseNumberInput, Switch } from '@repo/ui';
 import { InputGroup } from '@/components/InputGroup';
 import { MinMaxInputGroup } from '@/components/MinMaxInputGroup';
-import { PosInputList } from '../PosInputList';
+import { TextWithTip } from '@/components/TextWithTip';
+import { PosInputList } from '@/components/PosInputList';
 
 import {
   spawnPosition,
@@ -55,7 +56,13 @@ export function SpawnSetting() {
 
   return (
     <div class="flex flex-col gap-2">
-      <InputGroup title="Spawn Position">
+      <InputGroup
+        title={
+          <TextWithTip tip="The position of the particles will spawn in the scene.">
+            Spawn Position
+          </TextWithTip>
+        }
+      >
         <div class="flex gap-2">
           <MouseNumberInput
             label="X"

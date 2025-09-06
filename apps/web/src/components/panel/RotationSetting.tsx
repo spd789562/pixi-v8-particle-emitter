@@ -1,6 +1,7 @@
 import { Switch, MouseNumberInput } from '@repo/ui';
 import { MinMaxInputGroup } from '@/components/MinMaxInputGroup';
 import { InputGroup } from '@/components/InputGroup';
+import { TextWithTip } from '@/components/TextWithTip';
 
 import {
   enabledConfig,
@@ -16,7 +17,13 @@ const rotationInputDisabled = () => !enabledConfig.rotation;
 export function RotationSetting() {
   return (
     <div class="flex flex-col gap-2">
-      <InputGroup title="Start">
+      <InputGroup
+        title={
+          <TextWithTip tip="Range of starting rotation of the particles, in degrees. 0 is facing right, 90 is upwards.">
+            Start
+          </TextWithTip>
+        }
+      >
         <MinMaxInputGroup
           step={1}
           numberPrecision={0}
@@ -33,12 +40,22 @@ export function RotationSetting() {
         <MouseNumberInput
           slideMultiplier={0.1}
           numberPrecision={1}
-          label="Acceleration"
+          label={
+            <TextWithTip tip="Constant rotational acceleration of the particles, in degrees/second.">
+              Acceleration
+            </TextWithTip>
+          }
           rawValue={rotationConfig.accel}
           onRawValueChange={(v) => setRotationConfig('accel', v)}
         />
       </div>
-      <InputGroup title="Speed Limit">
+      <InputGroup
+        title={
+          <TextWithTip tip="Range of rotation speed of the particles, in degrees/second. Positive is counter-clockwise.">
+            Speed Limit
+          </TextWithTip>
+        }
+      >
         <div class="flex gap-2">
           <MouseNumberInput
             label="Min"
@@ -55,7 +72,14 @@ export function RotationSetting() {
         </div>
       </InputGroup>
       <Switch
-        label="No Particle Rotation"
+        label={
+          <TextWithTip
+            tip="Disable all rotation of the particles."
+            icon="question"
+          >
+            No Particle Rotation
+          </TextWithTip>
+        }
         checked={noRotation()}
         onChange={(v) => setNoRotation(v)}
       />

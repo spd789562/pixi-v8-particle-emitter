@@ -1,5 +1,6 @@
 import { Accordion, AccordionItem, AccordionItemWithSwitch } from '@repo/ui';
 
+import { TextWithTip } from '@/components/TextWithTip';
 import { GeneralSetting } from './GeneralSetting';
 import { TextureSetting } from './TextureSetting';
 import { SpeedSetting } from './SpeedSetting';
@@ -40,7 +41,11 @@ export function Panel() {
           <AccelerationSetting />
         </AccordionItemWithSwitch>
         <AccordionItemWithSwitch
-          title="Speed"
+          title={
+            <TextWithTip tip="Speed of the particles, with a minimum value of 0">
+              Speed
+            </TextWithTip>
+          }
           value="speed"
           checked={enabledConfig.speed}
           onChange={handleEnabledChange}
@@ -48,7 +53,7 @@ export function Panel() {
           <SpeedSetting />
         </AccordionItemWithSwitch>
         <AccordionItemWithSwitch
-          title="Color"
+          title={<TextWithTip tip="Color of the particle.">Color</TextWithTip>}
           value="color"
           checked={enabledConfig.color}
           onChange={handleEnabledChange}
@@ -56,7 +61,11 @@ export function Panel() {
           <ColorSetting />
         </AccordionItemWithSwitch>
         <AccordionItemWithSwitch
-          title="Alpha"
+          title={
+            <TextWithTip tip="Transparency of the particles from 0 (transparent) to 1 (opaque)">
+              Alpha
+            </TextWithTip>
+          }
           value="alpha"
           checked={enabledConfig.alpha}
           onChange={handleEnabledChange}
@@ -72,7 +81,11 @@ export function Panel() {
           <RotationSetting />
         </AccordionItemWithSwitch>
         <AccordionItemWithSwitch
-          title="Scale"
+          title={
+            <TextWithTip tip="Scale of the particles, with a minimum value of 0.">
+              Scale
+            </TextWithTip>
+          }
           value="scale"
           checked={enabledConfig.scale}
           onChange={handleEnabledChange}
