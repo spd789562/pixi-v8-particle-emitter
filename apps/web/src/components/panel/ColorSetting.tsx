@@ -1,4 +1,4 @@
-import { SimpleTabs, Switch, ColorPickerBlock } from '@repo/ui';
+import { SimpleTabs, Switch, ColorPickerField } from '@repo/ui';
 import { ValueInputList } from '@/components/ValueInputList';
 
 import {
@@ -53,8 +53,9 @@ function ListColorSetting() {
 
 function StaticColorSetting() {
   return (
-    <div class="w-32 h-8">
-      <ColorPickerBlock
+    <div class="w-32">
+      <ColorPickerField
+        label="Color tint"
         value={colorConfig.color}
         onChange={(c) => setColorConfig('color', c.toString('hex'))}
         disabled={colorInputDisabled()}

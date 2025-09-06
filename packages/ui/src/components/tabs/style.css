@@ -1,5 +1,7 @@
 .tabs {
   width: 100%;
+  padding: 4px;
+  border-radius: 8px;
   --kb-tabs-border-color: hsl(240 5% 84%);
 }
 
@@ -14,13 +16,13 @@
 
 .tabs__list[data-orientation="horizontal"] {
   align-items: center;
-  border-bottom: 1px solid var(--kb-tabs-border-color);
+  /* border-bottom: 1px solid var(--kb-tabs-border-color); */
 }
 
 .tabs__list[data-orientation="vertical"] {
   flex-direction: column;
   align-items: stretch;
-  border-right: 1px solid var(--kb-tabs-border-color);
+  /* border-right: 1px solid var(--kb-tabs-border-color); */
 }
 
 .tabs__indicator {
@@ -44,9 +46,10 @@
   padding: 8px 16px;
   outline: none;
   border: 1px solid var(--kb-tabs-border-color);
-  border-bottom: none;
+  border-bottom-color: transparent;
   border-radius: 4px 4px 0 0;
   cursor: pointer;
+  background-color: #ffffff;
 }
 .tabs__trigger:not([data-selected]) {
   border-color: transparent;
@@ -72,6 +75,8 @@
 .tabs__content {
   padding: 8px;
   padding-top: 16px;
+  margin-top: -1px;
+  border: 1px solid var(--kb-tabs-border-color);
 }
 
 [data-kb-theme="dark"] .tabs {
