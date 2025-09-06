@@ -5,7 +5,10 @@ import {
   DropdownMenuItemList,
   toast,
 } from '@repo/ui';
-import { UploadIcon, DownloadIcon, CopyIcon } from 'lucide-solid';
+import UploadIcon from 'lucide-solid/icons/upload';
+import DownloadIcon from 'lucide-solid/icons/download';
+import CopyIcon from 'lucide-solid/icons/copy';
+
 
 import { fullConfig, usedTextures } from '@/store/config';
 

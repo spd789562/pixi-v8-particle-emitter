@@ -1,6 +1,6 @@
 import { type JSX, splitProps } from 'solid-js';
 import { Accordion, type AccordionItemOptions } from '@kobalte/core/accordion';
-import { ChevronDownIcon } from 'lucide-solid';
+import ChevronDownIcon from 'lucide-solid/icons/chevron-down';
 
 import './style.css';
 

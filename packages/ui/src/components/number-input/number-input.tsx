@@ -4,7 +4,8 @@ import {
   NumberField,
   type NumberFieldRootProps,
 } from '@kobalte/core/number-field';
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-solid';
+import ChevronDownIcon from 'lucide-solid/icons/chevron-down';
+import ChevronUpIcon from 'lucide-solid/icons/chevron-up';
 
 import './style.css';
 
