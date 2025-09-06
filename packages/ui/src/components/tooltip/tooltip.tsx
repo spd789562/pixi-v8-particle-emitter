@@ -14,7 +14,7 @@ export interface TooltipProps extends TooltipRootProps {
 export function Tooltip(props: TooltipProps) {
   return (
     <KTooltip {...props}>
-      <KTooltip.Trigger>{props.children}</KTooltip.Trigger>{' '}
+      <KTooltip.Trigger>{props.children}</KTooltip.Trigger>
       <KTooltip.Portal>
         <KTooltip.Content class="tooltip__content">
           <KTooltip.Arrow />

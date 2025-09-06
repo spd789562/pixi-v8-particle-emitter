@@ -1,7 +1,7 @@
 .tooltip__content {
   z-index: 50;
   max-width: min(calc(100vw - 16px), 380px);
-  border: 1px solid hsl(240 5% 84%);
+  /* border: 1px solid hsl(240 5% 84%); */
   border-radius: 6px;
   padding: 8px;
   background-color: hsl(240 4% 16%);
