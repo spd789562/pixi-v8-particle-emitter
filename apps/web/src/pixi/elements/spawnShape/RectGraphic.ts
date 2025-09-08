@@ -9,8 +9,8 @@ export class RectGraphic extends BaseGraphic<RectConfig> {
     this.graphics.rect(
       this.config.x,
       this.config.y,
-      this.config.w,
-      this.config.h,
+      Math.max(this.config.w, 1),
+      Math.max(this.config.h, 1),
     );
     this.graphics.fill({
       color: this.colorOption.fill,

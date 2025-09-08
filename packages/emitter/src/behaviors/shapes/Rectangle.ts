@@ -56,8 +56,8 @@ export class Rectangle implements SpawnShape {
   }) {
     this.x = config.x;
     this.y = config.y;
-    this.w = config.w;
-    this.h = config.h;
+    this.w = Math.max(config.w, 1);
+    this.h = Math.max(config.h, 1);
   }
 
   getRandPos(particle: Particle): void {

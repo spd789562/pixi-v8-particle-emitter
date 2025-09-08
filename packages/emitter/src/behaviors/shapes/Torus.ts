@@ -69,7 +69,7 @@ export class Torus implements SpawnShape {
   }) {
     this.x = config.x || 0;
     this.y = config.y || 0;
-    this.radius = config.radius;
+    this.radius = Math.max(config.radius, 1);
     this.innerRadius = config.innerRadius || 0;
     this.rotation = !!config.affectRotation;
   }
