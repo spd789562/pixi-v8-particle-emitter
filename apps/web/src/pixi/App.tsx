@@ -10,7 +10,7 @@ import { BackgroundImage } from './elements/BackgroundImage';
 
 import { assets, spriteSheetAssets, loadSpriteSheet } from './assets';
 
-import { setFps, setParticleCounts } from '@/store/status';
+import { setFps, setParticleCounts, setRendererType } from '@/store/status';
 import {
   fullConfig,
   usedTextures,
@@ -68,6 +68,7 @@ export function PixiApp() {
     await Promise.all(spriteSheetAssets.map(loadSpriteSheet));
     const texturesInStorage = loadUsedTexturesFromLocalStorage();
     batch(() => {
+      setRendererType(app.renderer.name);
       loadConfigFromLocalStorage();
       loadDebugFromLocalStorage();
     });
