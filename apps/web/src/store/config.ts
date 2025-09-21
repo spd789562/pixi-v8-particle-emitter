@@ -9,6 +9,7 @@ import type {
   ValueList,
 } from '@repo/emitter';
 import { trackStore } from '@solid-primitives/deep';
+import { Assets } from 'pixi.js';
 
 export const [usedTextures, setUsedTextures] = createSignal<string[]>([
   'Bubbles99',
@@ -417,7 +418,7 @@ export const fullConfig = createMemo(
 );
 
 export function saveConfigToLocalStorage() {
-  // localStorage.setItem('usedTextures', JSON.stringify(unwrap(usedTextures)));
+  localStorage.setItem('usedTextures', JSON.stringify(usedTextures()));
   localStorage.setItem('texturePlayingType', texturePlayingType());
   localStorage.setItem('generalConfig', JSON.stringify(unwrap(generalConfig)));
   localStorage.setItem('enabledConfig', JSON.stringify(unwrap(enabledConfig)));
@@ -457,11 +458,30 @@ export function saveConfigToLocalStorage() {
   localStorage.setItem('anchorConfig', JSON.stringify(unwrap(anchorConfig)));
   localStorage.setItem('noRotation', noRotation().toString());
 }
+function getStorageUsedTextures() {
+  const usedTextures = localStorage.getItem('usedTextures');
+  if (!usedTextures) {
+    return [];
+  }
+  try {
+    const parsedUsedTextures = JSON.parse(usedTextures);
+    if (Array.isArray(parsedUsedTextures)) {
+      return parsedUsedTextures.filter((texture) => Assets.cache.has(texture));
+    }
+    return [];
+  } catch (error) {
+    console.warn('Error getting storage used textures', error);
+    return [];
+  }
+}
+export function loadUsedTexturesFromLocalStorage() {
+  const usedTextures = getStorageUsedTextures();
+  if (usedTextures.length > 0) {
+    setUsedTextures(usedTextures);
+  }
+  return usedTextures;
+}
 export function loadConfigFromLocalStorage() {
-  // const usedTextures = localStorage.getItem('usedTextures');
-  // if (usedTextures) {
-  //   setUsedTextures(JSON.parse(usedTextures));
-  // }
   const texturePlayingType = localStorage.getItem('texturePlayingType');
   if (texturePlayingType) {
     setTexturePlayingType(texturePlayingType as TexturePlayingType);

@@ -16,6 +16,7 @@ import {
   usedTextures,
   saveConfigToLocalStorage,
   loadConfigFromLocalStorage,
+  loadUsedTexturesFromLocalStorage,
 } from '@/store/config';
 import {
   setParticleOwnerPosition,
@@ -54,10 +55,6 @@ export function PixiApp() {
   );
 
   onMount(async () => {
-    batch(() => {
-      loadConfigFromLocalStorage();
-      loadDebugFromLocalStorage();
-    });
     const app = new Application();
     await app.init({
       width: 800,
@@ -69,8 +66,14 @@ export function PixiApp() {
     });
     await Assets.load(assets);
     await Promise.all(spriteSheetAssets.map(loadSpriteSheet));
+    const texturesInStorage = loadUsedTexturesFromLocalStorage();
+    batch(() => {
+      loadConfigFromLocalStorage();
+      loadDebugFromLocalStorage();
+    });
 
-    const textures = usedTextures();
+    const textures =
+      texturesInStorage.length > 0 ? texturesInStorage : usedTextures();
     const config = unwrap(fullConfig());
 
     // Debug, display current textures
@@ -100,7 +103,7 @@ export function PixiApp() {
     emitter = new Emitter(particleContainer, textures, config);
     emitter.autoUpdate = true;
 
-    let lastTextures = usedTextures().join(',');
+    let lastTextures = textures.join(',');
     const throttledInitEmitter = leadingAndTrailing(
       throttle,
       (config: EmitterConfigV3) => {
