@@ -1,6 +1,6 @@
-import { createEffect, on } from 'solid-js';
+import { createEffect, createRoot, on } from 'solid-js';
 import { unwrap } from 'solid-js/store';
-import { Container, type ContainerChild } from 'pixi.js';
+import { Container, type ContainerChild, type DestroyOptions } from 'pixi.js';
 import { trackDeep } from '@solid-primitives/deep';
 
 import { BurstGraphic } from './spawnShape/BurstGraphic';
@@ -23,6 +23,7 @@ import { debugColor, spawnPointColor } from '@/store/debug';
 import { particleOwnerPosition } from '@/store/stage';
 
 export class DebugSpawn extends Container {
+  private disposeSignal?: () => void;
   private spawnRecord: Record<SpawnType, ISpawnShapeContainer<any>>;
   public spawnPoint: SpawnPoint;
   public shapeContainer: Container;
@@ -45,8 +46,11 @@ export class DebugSpawn extends Container {
       }),
       spawnBurst: new BurstGraphic({ ...spawnBurstConfig }),
     };
-    this.listenConfig();
-    this.listenPosition();
+    createRoot((dispose) => {
+      this.disposeSignal = dispose;
+      this.listenConfig();
+      this.listenPosition();
+    });
   }
   listenConfig() {
     createEffect(
@@ -137,5 +141,9 @@ export class DebugSpawn extends Container {
         emitPosition.y + ownerPosition.y,
       );
     });
+  }
+  destroy(options?: DestroyOptions): void {
+    super.destroy(options);
+    this.disposeSignal?.();
   }
 }
