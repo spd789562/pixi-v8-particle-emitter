@@ -84,8 +84,9 @@ export function UploadTextureButton() {
     const jsonUrl = URL.createObjectURL(filesArray[jsonIndex]);
 
     try {
+      const alias = filesArray[jsonIndex].name.replace('.json', '');
       const spritesheet = await loadSpriteSheet({
-        alias: 'temp',
+        alias,
         jsonUrl,
         imageUrl,
         skipAlias: true,

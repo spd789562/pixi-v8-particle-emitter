@@ -76,6 +76,16 @@ export const spriteSheetAssets = [
   },
 ];
 
+function getNoneDuplicateAlias(alias: string) {
+  let name = alias;
+  let index = 1;
+  while (Assets.cache.has(name)) {
+    name = `${alias}_${index}`;
+    index++;
+  }
+  return name;
+}
+
 export async function loadSpriteSheet({
   alias,
   jsonUrl,
@@ -100,6 +110,8 @@ export async function loadSpriteSheet({
   if (!(spritesheet instanceof Spritesheet)) {
     spritesheet = new Spritesheet(imageTexture, spritesheet);
     await spritesheet.parse();
+
+    Assets.cache.set(getNoneDuplicateAlias(alias), spritesheet);
   }
 
   if (!skipAlias) {
