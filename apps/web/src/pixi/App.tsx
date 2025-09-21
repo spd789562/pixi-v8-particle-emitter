@@ -4,6 +4,7 @@ import { Application, Assets, ParticleContainer, Ticker } from 'pixi.js';
 import { Emitter, type EmitterConfigV3 } from '@repo/emitter';
 
 import { StatusPanel } from './StatusPanel';
+import { BottomTips } from './BottomTips';
 
 import { DebugSpawn } from './elements/DebugSpawn';
 import { BackgroundImage } from './elements/BackgroundImage';
@@ -237,6 +238,7 @@ export function PixiApp() {
   return (
     <div class="w-full h-full relative" ref={containerRef}>
       <StatusPanel />
+      <BottomTips />
     </div>
   );
 }
