@@ -1,4 +1,4 @@
-import { Assets, Spritesheet, type Texture } from 'pixi.js';
+import { Assets, type Renderer, Spritesheet, type Texture } from 'pixi.js';
 
 import Bubbles99 from '@assets/images/Bubbles99.png?url';
 import CartoonSmoke from '@assets/images/CartoonSmoke.png';
@@ -17,6 +17,10 @@ import spaceshipJson from '@assets/images/spaceship.json?url';
 import spaceshipImage from '@assets/images/spaceship.png';
 import fireSparkJson from '@assets/images/fire_spark.json?url';
 import fireSparkImage from '@assets/images/fire_spark.png';
+import {
+  setCurrentSelectableTextures,
+  setTextureOptions,
+} from '@/store/textures';
 
 export const assets = [
   {
@@ -76,6 +80,70 @@ export const spriteSheetAssets = [
   },
 ];
 
+class AssetsMap {
+  private textureToSpritesheetMap = new Map<string, Spritesheet>();
+  private avatarMap = new Map<string, string>();
+
+  isTextureIsSpritesheet(alias: string) {
+    return this.textureToSpritesheetMap.has(alias);
+  }
+
+  getAliasedTexture(textureName: string, spritesheet: Spritesheet) {
+    return `${spritesheet.cachePrefix}_${textureName}`;
+  }
+
+  addSpritesheet(spritesheet: Spritesheet, prefix?: string) {
+    for (const key in spritesheet.textures) {
+      this.textureToSpritesheetMap.set(
+        `${prefix ?? spritesheet.cachePrefix}_${key}`,
+        spritesheet,
+      );
+    }
+  }
+
+  getTexturesFromImage(alias: string) {
+    const nonePrefixed = alias.replace(/^[^_]+_/, '');
+    const spritesheet =
+      this.textureToSpritesheetMap.get(alias) ??
+      this.textureToSpritesheetMap.get(nonePrefixed);
+    if (!spritesheet) {
+      return [];
+    }
+    return this.getSpritesheetTextures(spritesheet);
+  }
+
+  getSpritesheetTextures(spritesheet: Spritesheet) {
+    return Object.keys(spritesheet.textures).map((textureName) =>
+      this.getAliasedTexture(textureName, spritesheet),
+    );
+  }
+
+  async getAvatarsFromImage(alias: string, renderer: Renderer) {
+    const textures = this.getTexturesFromImage(alias);
+    return Promise.all(
+      textures.map(async (textureName) => ({
+        name: textureName,
+        url: await this.getAvatarFromImage(textureName, renderer),
+      })),
+    );
+  }
+
+  async getAvatarFromImage(alias: string, renderer: Renderer) {
+    if (this.avatarMap.has(alias)) {
+      return this.avatarMap.get(alias);
+    }
+    const texture = Assets.get(alias);
+    if (!texture) {
+      throw new Error(`Texture ${alias} not found`);
+    }
+    const url = await renderer.extract.base64(texture);
+    this.avatarMap.set(alias, url);
+    return url;
+  }
+}
+
+export const assetsMap = new AssetsMap();
+
 function getNoneDuplicateAlias(alias: string) {
   let name = alias;
   let index = 1;
@@ -102,24 +170,51 @@ export async function loadSpriteSheet({
     loadParser: 'loadTextures',
   });
   let spritesheet = await Assets.load<any>({
-    alias,
+    // alias,
     loadParser: 'loadJson',
     src: jsonUrl,
-    data: { texture: imageTexture },
+    data: { texture: imageTexture, cachePrefix: alias },
   });
-  if (!(spritesheet instanceof Spritesheet)) {
-    spritesheet = new Spritesheet(imageTexture, spritesheet);
-    await spritesheet.parse();
+  const _alias = getNoneDuplicateAlias(alias);
 
-    Assets.cache.set(getNoneDuplicateAlias(alias), spritesheet);
+  if (!(spritesheet instanceof Spritesheet)) {
+    spritesheet = new Spritesheet({
+      texture: imageTexture,
+      data: spritesheet,
+      cachePrefix: alias,
+    });
+    await spritesheet.parse();
   }
+  Assets.cache.set(_alias, spritesheet);
+  assetsMap.addSpritesheet(spritesheet, _alias);
 
   if (!skipAlias) {
-    const prefix = `${alias}_`;
+    const prefix = `${_alias}_`;
     for (const key in spritesheet.textures) {
       Assets.cache.set(`${prefix}${key}`, spritesheet.textures[key]);
     }
   }
 
   return spritesheet;
+}
+
+export async function loadDefaultTextures() {
+  await Assets.load(assets);
+  const spritesheets = await Promise.all(
+    spriteSheetAssets.map(loadSpriteSheet),
+  );
+
+  const textureNames = assets
+    .map((asset) => asset.alias)
+    .concat(
+      spritesheets.flatMap((spritesheet) =>
+        assetsMap.getSpritesheetTextures(spritesheet),
+      ),
+    );
+
+  setTextureOptions(textureNames);
+}
+export function updateSelectableTextures(texture: string) {
+  const textureNames = assetsMap.getTexturesFromImage(texture);
+  setCurrentSelectableTextures(textureNames);
 }
