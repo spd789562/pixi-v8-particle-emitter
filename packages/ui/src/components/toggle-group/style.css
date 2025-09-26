@@ -21,6 +21,7 @@
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
   border: 1px solid #ddd;
+  cursor: pointer;
 }
 
 .toggle-group__item-image {
