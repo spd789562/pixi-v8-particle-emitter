@@ -1,6 +1,6 @@
 import { onMount, onCleanup, createEffect, batch } from 'solid-js';
 import { unwrap } from 'solid-js/store';
-import { Application, Assets, ParticleContainer, Ticker } from 'pixi.js';
+import { Assets, ParticleContainer, type Texture, Ticker } from 'pixi.js';
 import { Emitter, type EmitterConfigV3 } from '@repo/emitter';
 
 import { StatusPanel } from './StatusPanel';
@@ -9,8 +9,9 @@ import { BottomTips } from './BottomTips';
 import { DebugSpawn } from './elements/DebugSpawn';
 import { BackgroundImage } from './elements/BackgroundImage';
 
-import { assets, spriteSheetAssets, loadSpriteSheet } from './assets';
+import { loadDefaultTextures, updateSelectableTextures } from './assets';
 
+import { getPixiApp } from '@/store/app';
 import { setFps, setParticleCounts, setRendererType } from '@/store/status';
 import {
   fullConfig,
@@ -56,7 +57,7 @@ export function PixiApp() {
   );
 
   onMount(async () => {
-    const app = new Application();
+    const app = getPixiApp();
     await app.init({
       width: 800,
       height: 600,
@@ -65,27 +66,21 @@ export function PixiApp() {
       backgroundColor: 0xdedede,
       hello: true,
     });
-    await Assets.load(assets);
-    await Promise.all(spriteSheetAssets.map(loadSpriteSheet));
+    await loadDefaultTextures();
     const texturesInStorage = loadUsedTexturesFromLocalStorage();
     batch(() => {
       setRendererType(app.renderer.name);
       loadConfigFromLocalStorage();
       loadDebugFromLocalStorage();
+      if (texturesInStorage.length > 0) {
+        updateSelectableTextures(texturesInStorage[0]);
+      }
     });
 
     const textures =
       texturesInStorage.length > 0 ? texturesInStorage : usedTextures();
     const config = unwrap(fullConfig());
 
-    // Debug, display current textures
-    // const currentSprites = textures.map((texture, index) => {
-    //   const sprite = new Sprite(Assets.get(texture));
-    //   sprite.y = 30;
-    //   sprite.x = 30 + index * 100;
-    //   return sprite;
-    // });
-    // app.stage.addChild(...currentSprites);
     const backgroundImage = new BackgroundImage();
     app.stage.addChild(backgroundImage);
     const debugSpawnContainer = new DebugSpawn();
@@ -105,16 +100,19 @@ export function PixiApp() {
     emitter = new Emitter(particleContainer, textures, config);
     emitter.autoUpdate = true;
 
-    let lastTextures = textures.join(',');
+    const getUid = (textures: string[]) => {
+      return Assets.get<Texture>(textures[0])?.source.uid;
+    };
+    let lastTextureHash = getUid(textures);
     const throttledInitEmitter = leadingAndTrailing(
       throttle,
       (config: EmitterConfigV3) => {
         if (!emitter) return;
         const currentTextures = usedTextures();
-        const texutreHash = currentTextures.join(',');
+        const textureHash = getUid(currentTextures);
 
         // recreate particle container and emitter if textures changed
-        if (lastTextures !== texutreHash) {
+        if (lastTextureHash !== textureHash) {
           particleContainer.removeFromParent();
           particleContainer.destroy();
           particleContainer = new ParticleContainer({
@@ -134,10 +132,10 @@ export function PixiApp() {
 
           emitter = new Emitter(particleContainer, currentTextures, config);
           emitter.autoUpdate = true;
-          lastTextures = texutreHash;
+          lastTextureHash = textureHash;
         } else {
           emitter?.resetPositionTracking();
-          emitter.particleImages = usedTextures();
+          emitter.particleImages = currentTextures;
           emitter.init({
             ...config,
             autoUpdate: true,

@@ -14,6 +14,13 @@ import { Assets } from 'pixi.js';
 export const [usedTextures, setUsedTextures] = createSignal<string[]>([
   'Bubbles99',
 ]);
+export const [orderTextures, setOrderTextures] = createSignal<string[]>([]);
+export const [animatedTextures, setAnimatedTextures] = createSignal<string[]>(
+  [],
+);
+export const [animatedTexturesFramerate, setAnimatedTexturesFramerate] =
+  createSignal<number>(-1);
+
 export type TexturePlayingType = 'static' | 'ordered' | 'random' | 'animated';
 export const [texturePlayingType, setTexturePlayingType] =
   createSignal<TexturePlayingType>('static');
@@ -224,6 +231,7 @@ const fullConfigTracker = () => {
   trackStore(spawnBurstConfig);
   trackStore(anchorConfig);
   texturePlayingType();
+  usedTextures();
   speedMinMult();
   scaleMinMult();
 };
