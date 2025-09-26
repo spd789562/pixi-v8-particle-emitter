@@ -31,7 +31,10 @@ import {
   setAnchorConfig,
   setUsedTextures,
   setEnabledConfig,
+  setOrderTextures,
+  setAnimatedTextures,
   defaultEnabledConfig,
+  setAnimatedConfigs,
 } from '@/store/config';
 
 export function configToStore(_config: EmitterConfigV3, textures?: string[]) {
@@ -114,22 +117,37 @@ export function configToStore(_config: EmitterConfigV3, textures?: string[]) {
           break;
         case 'textureOrdered':
           setTexturePlayingType('ordered');
-          usedTextures = behavior.config.textures;
+          if ((behavior.config.textures || []).length > 0) {
+            setOrderTextures(behavior.config.textures);
+          }
           break;
         case 'animatedSingle': {
           setTexturePlayingType('animated');
           const textures = behavior.config.anim.textures;
           if (textures.length > 0) {
-            usedTextures = textures;
+            setAnimatedTextures(textures);
           }
+          setAnimatedConfigs({
+            framerate: behavior.config.anim.framerate ?? -1,
+            loop: behavior.config.anim.loop ?? true,
+          });
           break;
         }
         case 'animatedRandom': {
           setTexturePlayingType('animated');
-          const textures = behavior.config.anims[0]?.textures ?? [];
-          if (textures.length > 0) {
-            usedTextures = textures;
+          const animeConfig = behavior.config.anims[0];
+          if (!animeConfig) {
+            break;
           }
+
+          const textures = animeConfig.textures ?? [];
+          if (textures.length > 0) {
+            setAnimatedTextures(textures);
+          }
+          setAnimatedConfigs({
+            framerate: animeConfig.framerate ?? -1,
+            loop: animeConfig.loop ?? true,
+          });
           break;
         }
         case 'spawnPoint':

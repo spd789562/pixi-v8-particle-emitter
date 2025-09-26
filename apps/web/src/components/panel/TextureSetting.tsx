@@ -5,6 +5,10 @@ import {
   TextureToggleGroup,
   MultipleTextureToggleGroup,
 } from './TextureSettings/TextureToggleGroup';
+import {
+  TextureOrderGroup,
+  TextureAnimatedGroup,
+} from './TextureSettings/TextureOrderGroup';
 import { PlayingTypeSegmentGroup } from './TextureSettings/PlayingTypeSegmentGroup';
 import { UploadTextureButton } from './TextureSettings/UploadTextureButton';
 
@@ -28,6 +32,12 @@ export function TextureSetting() {
         </Match>
         <Match when={texturePlayingType() === 'random'}>
           <MultipleTextureToggleGroup />
+        </Match>
+        <Match when={texturePlayingType() === 'ordered'}>
+          <TextureOrderGroup />
+        </Match>
+        <Match when={texturePlayingType() === 'animated'}>
+          <TextureAnimatedGroup />
         </Match>
       </Switch>
     </div>

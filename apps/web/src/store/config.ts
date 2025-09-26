@@ -18,8 +18,10 @@ export const [orderTextures, setOrderTextures] = createSignal<string[]>([]);
 export const [animatedTextures, setAnimatedTextures] = createSignal<string[]>(
   [],
 );
-export const [animatedTexturesFramerate, setAnimatedTexturesFramerate] =
-  createSignal<number>(-1);
+export const [animatedConfigs, setAnimatedConfigs] = createStore({
+  loop: true,
+  framerate: -1,
+});
 
 export type TexturePlayingType = 'static' | 'ordered' | 'random' | 'animated';
 export const [texturePlayingType, setTexturePlayingType] =
@@ -230,8 +232,11 @@ const fullConfigTracker = () => {
   trackStore(spawnPathConfig);
   trackStore(spawnBurstConfig);
   trackStore(anchorConfig);
+  trackStore(animatedConfigs);
   texturePlayingType();
   usedTextures();
+  orderTextures();
+  animatedTextures();
   speedMinMult();
   scaleMinMult();
 };
@@ -247,33 +252,44 @@ export const fullConfig = createMemo(
       behaviors: [] as BehaviorConfigs[],
     } satisfies EmitterConfigV3;
 
-    if (usedTextures().length > 1) {
-      if (texturePlayingType() === 'random') {
-        fullConfig.behaviors.push({
-          type: 'textureRandom',
-          config: {
-            textures: usedTextures(),
+    if (texturePlayingType() === 'random') {
+      fullConfig.behaviors.push({
+        type: 'textureRandom',
+        config: {
+          textures: usedTextures(),
+        },
+      });
+    } else if (texturePlayingType() === 'static') {
+      fullConfig.behaviors.push({
+        type: 'textureSingle',
+        config: {
+          texture: usedTextures()[0],
+        },
+      });
+    } else if (
+      texturePlayingType() === 'ordered' &&
+      orderTextures().length > 0
+    ) {
+      fullConfig.behaviors.push({
+        type: 'textureOrdered',
+        config: {
+          textures: orderTextures(),
+        },
+      });
+    } else if (
+      texturePlayingType() === 'animated' &&
+      animatedTextures().length > 0
+    ) {
+      fullConfig.behaviors.push({
+        type: 'animatedSingle',
+        config: {
+          anim: {
+            framerate: animatedConfigs.framerate,
+            loop: animatedConfigs.loop,
+            textures: animatedTextures(),
           },
-        });
-      } else if (texturePlayingType() === 'ordered') {
-        fullConfig.behaviors.push({
-          type: 'textureOrdered',
-          config: {
-            textures: usedTextures(),
-          },
-        });
-      } else if (texturePlayingType() === 'animated') {
-        fullConfig.behaviors.push({
-          type: 'animatedSingle',
-          config: {
-            anim: {
-              framerate: -1,
-              loop: true,
-              textures: usedTextures(),
-            },
-          },
-        });
-      }
+        },
+      });
     } else {
       fullConfig.behaviors.push({
         type: 'textureSingle',
@@ -427,6 +443,12 @@ export const fullConfig = createMemo(
 
 export function saveConfigToLocalStorage() {
   localStorage.setItem('usedTextures', JSON.stringify(usedTextures()));
+  localStorage.setItem('orderTextures', JSON.stringify(orderTextures()));
+  localStorage.setItem('animatedTextures', JSON.stringify(animatedTextures()));
+  localStorage.setItem(
+    'animatedConfigs',
+    JSON.stringify(unwrap(animatedConfigs)),
+  );
   localStorage.setItem('texturePlayingType', texturePlayingType());
   localStorage.setItem('generalConfig', JSON.stringify(unwrap(generalConfig)));
   localStorage.setItem('enabledConfig', JSON.stringify(unwrap(enabledConfig)));
@@ -466,8 +488,8 @@ export function saveConfigToLocalStorage() {
   localStorage.setItem('anchorConfig', JSON.stringify(unwrap(anchorConfig)));
   localStorage.setItem('noRotation', noRotation().toString());
 }
-function getStorageUsedTextures() {
-  const usedTextures = localStorage.getItem('usedTextures');
+function getStorageTextures(key: string) {
+  const usedTextures = localStorage.getItem(key);
   if (!usedTextures) {
     return [];
   }
@@ -483,9 +505,17 @@ function getStorageUsedTextures() {
   }
 }
 export function loadUsedTexturesFromLocalStorage() {
-  const usedTextures = getStorageUsedTextures();
+  const usedTextures = getStorageTextures('usedTextures');
   if (usedTextures.length > 0) {
     setUsedTextures(usedTextures);
+  }
+  const orderTextures = getStorageTextures('orderTextures');
+  if (orderTextures.length > 0) {
+    setOrderTextures(orderTextures);
+  }
+  const animatedTextures = getStorageTextures('animatedTextures');
+  if (animatedTextures.length > 0) {
+    setAnimatedTextures(animatedTextures);
   }
   return usedTextures;
 }
@@ -565,6 +595,10 @@ export function loadConfigFromLocalStorage() {
   const anchorConfig = loadFromLocalStorageByKey('anchorConfig');
   if (anchorConfig) {
     setAnchorConfig(anchorConfig);
+  }
+  const animatedConfigs = loadFromLocalStorageByKey('animatedConfigs');
+  if (animatedConfigs) {
+    setAnimatedConfigs(animatedConfigs);
   }
   setNoRotation(localStorage.getItem('noRotation') === 'true');
 }

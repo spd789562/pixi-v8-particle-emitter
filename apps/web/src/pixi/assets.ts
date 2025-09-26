@@ -88,6 +88,13 @@ class AssetsMap {
     return this.textureToSpritesheetMap.has(alias);
   }
 
+  isSameGroup(texture1: string, texture2: string) {
+    return (
+      this.textureToSpritesheetMap.get(texture1) ===
+      this.textureToSpritesheetMap.get(texture2)
+    );
+  }
+
   getAliasedTexture(textureName: string, spritesheet: Spritesheet) {
     return `${spritesheet.cachePrefix}_${textureName}`;
   }
