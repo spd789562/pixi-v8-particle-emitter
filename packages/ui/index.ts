@@ -14,6 +14,8 @@ export * from './src/components/popover/index';
 export * from './src/components/toast/index';
 export * from './src/components/segment-control/index';
 export * from './src/components/dropdown-menu/index';
+export * from './src/components/toggle-group/index';
+export * from './src/components/select/index';
 
 // @Utils
 export * from './src/utils/index';
