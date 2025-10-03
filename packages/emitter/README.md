@@ -38,7 +38,7 @@ const particleContainer = new ParticleContainer({
   },
 });
 
-const emitter = new PIXI.particles.Emitter(
+const emitter = new Emitter(
     // The PIXI.ParticleContainer to put the emitter in
     // if using blend modes, it's important to put this
     // on top of a bitmap, and not use the root stage Container
@@ -157,29 +157,8 @@ const emitter = new PIXI.particles.Emitter(
         ],
     }
 );
-
-// Calculate the current time
-let elapsed = Date.now();
-
-// Update function every frame
-const update = function(){
-
-  // Update the next frame
-  requestAnimationFrame(update);
-
-  const now = Date.now();
-
-  // The emitter requires the elapsed
-  // number of seconds since the last update
-  emitter.update((now - elapsed) * 0.001);
-  elapsed = now;
-};
-
-// Start emitting
-emitter.emit = true;
-
-// Start the update
-update();
+// add to config or set it later
+emitter.autoUpdate = true;
 ```
 
 ## Documentation
