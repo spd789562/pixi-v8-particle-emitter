@@ -2,5 +2,5 @@
   "name": "@spd789562/particle-emitter",
   "version": "1.0.0",
   "license": "MIT",
-  "exports": "./index.ts"
+  "exports": "./src/index.ts"
 }
