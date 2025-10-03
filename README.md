@@ -1,97 +1,223 @@
-# Solid-Turborepo Starter
+# PixiJS Particle Emitter
+This project is a complete copy from [@pixi/particle-emitter](https://github.com/pixijs-userland/particle-emitter), but using pixi.js v8 `ParticleContainer` and `Particle` as base instead of Container. EmitterConfig are still the same structure.
 
-A modern Turborepo starter for building SolidJS applications with a complete development setup. This starter comes equipped with the pnpm package manager, Vinxi Bundler foroptimized builds, Tailwind CSS v4 for styling and ESLint for code quality.
+I'm also re-created the [particle editor](https://spd789562.github.io/pixi-v8-particle-emitter/) for some formate that old editor not support.
 
----
+## Breaking changes from `@pixi/particle-emitter v5`
+* `Pixi.js Version` - It only support Pixi v8, specifically `pixi.js@8.5.0` and above.
+* Make sure you are using ParticleContainer.
+* Due to Pixi v8 ParticleContainer limitations, all passed texture should be same TextureSource if there is more then one textures need to use, please ensure load them via spritesheet or atlas.
 
-## Table of Contents
+## Sample Usage
 
-- [Overview](#overview)
-- [Getting Started](#getting-started)
-- [What's Inside?](#whats-inside)
-- [Build & Develop](#build--develop)
-- [Remote Caching](#remote-caching)
-- [Useful Links](#useful-links)
-- [License](#license)
+Please see the examples for various pre-made particle configurations.
 
-## Overview
+```js
 
-This starter project leverages Turborepo to manage a monorepo structure that combines a SolidJS application with shared component libraries and configuration packages. It provides a robust setup for modern web development:
+import { Emitter } from '@spd789562/particle-emitter';
+import { ParticleContainer, Texture } from 'pixi.js';
 
-## Getting Started
+// Create a ParticleContainer with appropriate dynamic properties
+const particleContainer = new ParticleContainer({
+  dynamicProperties: {
+    uvs: true,      // Enable if using multiple textures from same source
+    vertex: true,   // Enable for non-trimmed spritesheets(like all texture are not same sized)
+    position: true,
+    rotation: true,
+    scale: true,
+    color: true,
+  },
+});
 
-To bootstrap your new turborepo using this starter, simply run:
+const emitter = new PIXI.particles.Emitter(
+    // The PIXI.ParticleContainer to put the emitter in
+    // if using blend modes, it's important to put this
+    // on top of a bitmap, and not use the root stage Container
+    particleContainer,
+    // Emitter configuration, edit this to change the look
+    // of the emitter
+    {
+        lifetime: {
+            min: 0.5,
+            max: 0.5
+        },
+        frequency: 0.008,
+        spawnChance: 1,
+        particlesPerWave: 1,
+        emitterLifetime: 0.31,
+        maxParticles: 1000,
+        pos: {
+            x: 0,
+            y: 0
+        },
+        addAtBack: false,
+        behaviors: [
+            {
+                type: 'alpha',
+                config: {
+                    alpha: {
+                        list: [
+                            {
+                                value: 0.8,
+                                time: 0
+                            },
+                            {
+                                value: 0.1,
+                                time: 1
+                            }
+                        ],
+                    },
+                }
+            },
+            {
+                type: 'scale',
+                config: {
+                    scale: {
+                        list: [
+                            {
+                                value: 1,
+                                time: 0
+                            },
+                            {
+                                value: 0.3,
+                                time: 1
+                            }
+                        ],
+                    },
+                }
+            },
+            {
+                type: 'color',
+                config: {
+                    color: {
+                        list: [
+                            {
+                                value: "fb1010",
+                                time: 0
+                            },
+                            {
+                                value: "f5b830",
+                                time: 1
+                            }
+                        ],
+                    },
+                }
+            },
+            {
+                type: 'moveSpeed',
+                config: {
+                    speed: {
+                        list: [
+                            {
+                                value: 200,
+                                time: 0
+                            },
+                            {
+                                value: 100,
+                                time: 1
+                            }
+                        ],
+                        isStepped: false
+                    },
+                }
+            },
+            {
+                type: 'rotationStatic',
+                config: {
+                    min: 0,
+                    max: 360
+                }
+            },
+            {
+                type: 'spawnShape',
+                config: {
+                    type: 'torus',
+                    data: {
+                        x: 0,
+                        y: 0,
+                        radius: 10
+                    }
+                }
+            },
+            {
+                type: 'textureSingle',
+                config: {
+                    texture: Texture.from('image.jpg')
+                }
+            }
+        ],
+    }
+);
 
-```sh
-npx create-turbo@latest
+// Calculate the current time
+let elapsed = Date.now();
+
+// Update function every frame
+const update = function(){
+
+  // Update the next frame
+  requestAnimationFrame(update);
+
+  const now = Date.now();
+
+  // The emitter requires the elapsed
+  // number of seconds since the last update
+  emitter.update((now - elapsed) * 0.001);
+  elapsed = now;
+};
+
+// Start emitting
+emitter.emit = true;
+
+// Start the update
+update();
 ```
 
-## What's inside?
+## Documentation
 
-This Turborepo includes the following packages/apps:
+https://userland.pixijs.io/particle-emitter/docs/
 
-### Apps and Packages
+## Installation
 
-- `docs`: a [Solid Start](https://start.solidjs.com/) app
-- `web`: a [Solid Start](https://start.solidjs.com/) app
-- `@repo/ui`: a stub Solid component library shared by both `solid` applications
-- `@repo/eslint-config`: `eslint` configurations
-- `@repo/tailwind-config`: [Tailwind](https://tailwindcss.com/) v4 configurations
-- `vinxi`: [Vinxi](https://vinxi.vercel.app/) Bundler\*\* for efficient bundling.
+PixiJS Particle Emitter can be installed with NPM or other package managers.
 
-## Build & Develop
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd with-solid
-pnpm run build
+```bash
+npm install @spd789562/particle-emitter
 ```
 
-### Develop
+## Examples
 
-To develop all apps and packages, run the following command:
-
-```
-cd with-solid
-pnpm run dev
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd with-solid
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+* [Explosion 1](https://userland.pixijs.io/particle-emitter/examples/explosion.html)
+* [Explosion 2](https://userland.pixijs.io/particle-emitter/examples/explosion2.html)
+* [Explosion 3](https://userland.pixijs.io/particle-emitter/examples/explosion3.html)
+* [Explosion Ring](https://userland.pixijs.io/particle-emitter/examples/explosionRing.html)
+* [Megaman Death](https://userland.pixijs.io/particle-emitter/examples/megamanDeath.html)
+* [Rain](https://userland.pixijs.io/particle-emitter/examples/rain.html)
+* [Flame](https://userland.pixijs.io/particle-emitter/examples/flame.html)
+* [Flame on Polygonal Chain](https://userland.pixijs.io/particle-emitter/examples/flamePolygonal.html)
+* [Flame on Advanced Polygonal Chain](https://userland.pixijs.io/particle-emitter/examples/flamePolygonalAdv.html)
+* [Flame - Stepped Colors](https://userland.pixijs.io/particle-emitter/examples/flameStepped.html)
+* [Flame with Smoke](https://userland.pixijs.io/particle-emitter/examples/flameAndSmoke.html)
+* [Flame - Sputtering](https://userland.pixijs.io/particle-emitter/examples/flameUneven.html)
+* [Gas](https://userland.pixijs.io/particle-emitter/examples/gas.html)
+* [Bubbles](https://userland.pixijs.io/particle-emitter/examples/bubbles.html)
+* [Bubble Spray](https://userland.pixijs.io/particle-emitter/examples/bubbleSpray.html)
+* [Bubble Stream](https://userland.pixijs.io/particle-emitter/examples/bubbleStream.html)
+* [Bubble Stream - path following](https://userland.pixijs.io/particle-emitter/examples/bubbleStreamPath.html)
+* [Vertical Bubbles](https://userland.pixijs.io/particle-emitter/examples/bubblesVertical.html)
+* [Cartoon Smoke](https://userland.pixijs.io/particle-emitter/examples/cartoonSmoke.html)
+* [Cartoon Smoke Alt.](https://userland.pixijs.io/particle-emitter/examples/cartoonSmoke2.html)
+* [Cartoon Smoke Blast](https://userland.pixijs.io/particle-emitter/examples/cartoonSmokeBlast.html)
+* [Snow](https://userland.pixijs.io/particle-emitter/examples/snow.html)
+* [Sparks](https://userland.pixijs.io/particle-emitter/examples/sparks.html)
+* [Fountain](https://userland.pixijs.io/particle-emitter/examples/fountain.html)
+* [Animated Coins](https://userland.pixijs.io/particle-emitter/examples/coins.html)
+* [Animated Bubbles](https://userland.pixijs.io/particle-emitter/examples/animatedBubbles.html)
+* [Spaceship Destruction - Ordered Art](https://userland.pixijs.io/particle-emitter/examples/spaceshipDestruction.html)
+* [Particle Container Performance](https://userland.pixijs.io/particle-emitter/examples/particleContainerPerformance.html)
 
 ## License
 
-This project is licensed under the MIT License.
+Copyright (c) 2025 [spd789562](http://github.com/spd789562)
+
+Released under the MIT License.
