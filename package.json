@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:lib": "turbo run build --filter=@spd789562/particle-emitter",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "biome check --write",
