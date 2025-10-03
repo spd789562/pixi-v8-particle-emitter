@@ -1,4 +1,10 @@
 .button {
+	--em-button-bg-color: hsl(200 98% 39%);
+	--em-button-bg-color-hover: hsl(201 96% 32%);
+	--em-button-bg-color-active: hsl(201 90% 27%);
+	--em-button-border-color: hsl(200 98% 39%);
+	--em-button-color: white;
+
 	appearance: none;
 	display: inline-flex;
 	justify-content: center;
@@ -8,30 +14,35 @@
 	outline: none;
 	border-radius: 6px;
 	padding: 0 16px;
-	background-color: hsl(200 98% 39%);
-	color: white;
+	background-color: var(--em-button-bg-color);
+	color: var(--em-button-color);
 	font-size: 16px;
 	line-height: 0;
 	transition: 250ms background-color;
 	cursor: pointer;
 }
 .button:hover {
-	background-color: hsl(201 96% 32%);
+	background-color: var(--em-button-bg-color-hover);
 }
 .button:focus-visible {
-	outline: 2px solid hsl(200 98% 39%);
+	outline: 2px solid var(--em-button-border-color);
 	outline-offset: 2px;
 }
 .button:active {
-	background-color: hsl(201 90% 27%);
+	background-color: var(--em-button-bg-color-active);
 }
 
 .button--outline {
-	background-color: transparent;
-	color: #363636;
+	--em-button-bg-color: transparent;
+	--em-button-color: #363636;
+	--em-button-bg-color-hover: #363636;
 	border: 1px solid #363636;
 }
-.button--outline:hover {
-	background-color: #363636;
-	color: white;
+.button--error {
+	--em-button-bg-color: hsl(0, 72%, 51%);
+	--em-button-bg-color-hover: hsl(0, 65%, 56%);
+}
+.button--warning {
+	--em-button-bg-color: hsl(34, 100%, 50%);
+	--em-button-bg-color-hover: hsl(34, 90%, 45%);
 }

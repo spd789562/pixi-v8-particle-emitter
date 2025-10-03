@@ -8,7 +8,11 @@ import { setRandomTextures } from '@/store/config';
 import { appendTextureOptions } from '@/store/textures';
 import { setMainTexture } from '@/store/actions';
 
-import { loadSpriteSheet, assetsMap } from '@/pixi/assets';
+import {
+  loadSpriteSheet,
+  assetsMap,
+  getNoneDuplicateAlias,
+} from '@/pixi/assets';
 
 export function UploadTextureButton() {
   let inputRef!: HTMLInputElement;
@@ -29,13 +33,15 @@ export function UploadTextureButton() {
     if (filesArray.length === 1) {
       const file = filesArray[0];
       try {
+        const alias = getNoneDuplicateAlias(file.name);
         const url = URL.createObjectURL(file);
         await Assets.load({
-          alias: file.name,
+          alias,
           loadParser: 'loadTextures',
           src: url,
         });
-        setMainTexture(file.name);
+        setMainTexture(alias);
+        appendTextureOptions([alias]);
         // URL.revokeObjectURL(url);
       } catch (error) {
         toast.error({

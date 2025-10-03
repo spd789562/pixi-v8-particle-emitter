@@ -21,6 +21,13 @@
   aspect-ratio: 1/1;
 }
 
+
+.add-group__item:hover {
+  background-color: hsl(200 98% 39% / 0.2);
+  color: hsla(0 100% 100% / 0.9);
+  border-color: transparent;
+}
+
 .add-group__item-image {
   max-width: 100%;
   max-height: 100%;

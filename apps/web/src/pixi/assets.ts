@@ -151,7 +151,7 @@ class AssetsMap {
 
 export const assetsMap = new AssetsMap();
 
-function getNoneDuplicateAlias(alias: string) {
+export function getNoneDuplicateAlias(alias: string) {
   let name = alias;
   let index = 1;
   while (Assets.cache.has(name)) {

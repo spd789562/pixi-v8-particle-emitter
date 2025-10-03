@@ -521,6 +521,11 @@ function getStorageTextures(key: string) {
     const parsedUsedTextures = JSON.parse(usedTextures);
     if (Array.isArray(parsedUsedTextures)) {
       return parsedUsedTextures.filter((texture) => Assets.cache.has(texture));
+    } else if (
+      typeof parsedUsedTextures === 'string' &&
+      Assets.cache.has(parsedUsedTextures)
+    ) {
+      return [parsedUsedTextures];
     }
     return [];
   } catch (error) {
