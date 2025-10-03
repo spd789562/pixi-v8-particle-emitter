@@ -4,8 +4,11 @@ import { Button, toast } from '@repo/ui';
 
 import UploadIcon from 'lucide-solid/icons/upload';
 
-import { setUsedTextures } from '@/store/config';
-import { loadSpriteSheet } from '@/pixi/assets';
+import { setRandomTextures } from '@/store/config';
+import { appendTextureOptions } from '@/store/textures';
+import { setMainTexture } from '@/store/actions';
+
+import { loadSpriteSheet, assetsMap } from '@/pixi/assets';
 
 export function UploadTextureButton() {
   let inputRef!: HTMLInputElement;
@@ -32,7 +35,7 @@ export function UploadTextureButton() {
           loadParser: 'loadTextures',
           src: url,
         });
-        setUsedTextures([file.name]);
+        setMainTexture(file.name);
         // URL.revokeObjectURL(url);
       } catch (error) {
         toast.error({
@@ -53,9 +56,11 @@ export function UploadTextureButton() {
         alias,
         jsonUrl,
         imageUrl,
-        skipAlias: true,
       });
-      setUsedTextures(Object.keys(spritesheet.textures));
+      const textures = assetsMap.getSpritesheetTextures(spritesheet);
+      appendTextureOptions(textures);
+      setMainTexture(textures[0]);
+      setRandomTextures(textures);
     } catch (error) {
       toast.error({
         title: 'Failed to load spritesheet',

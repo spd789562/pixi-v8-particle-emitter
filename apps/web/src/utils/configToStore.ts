@@ -29,15 +29,27 @@ import {
   setRotationConfig,
   setNoRotation,
   setAnchorConfig,
-  setUsedTextures,
+  setStaticTexture,
+  setRandomTextures,
   setEnabledConfig,
   setOrderTextures,
   setAnimatedTextures,
   defaultEnabledConfig,
   setAnimatedConfigs,
 } from '@/store/config';
+import { setMainTexture } from '@/store/actions';
 
-export function configToStore(_config: EmitterConfigV3, textures?: string[]) {
+const parsingAnimatedTexture = (config: unknown) => {
+  if (typeof config === 'string') {
+    return config;
+  }
+  if (typeof config === 'object' && config !== null) {
+    return (config as { texture: string })?.texture;
+  }
+  return '';
+};
+
+export function configToStore(_config: EmitterConfigV3, _textures?: string[]) {
   const config =
     'behaviors' in _config
       ? upgradeConfig(_config as unknown as any, [])
@@ -45,7 +57,6 @@ export function configToStore(_config: EmitterConfigV3, textures?: string[]) {
 
   batch(() => {
     const { behaviors, ...general } = config;
-    let usedTextures = textures ?? [];
 
     setGeneralConfig({
       spawnChance: 1,
@@ -109,15 +120,24 @@ export function configToStore(_config: EmitterConfigV3, textures?: string[]) {
           break;
         case 'textureSingle':
           setTexturePlayingType('static');
-          usedTextures = [behavior.config.texture];
+          if (behavior.config.texture) {
+            setStaticTexture(behavior.config.texture);
+          }
           break;
         case 'textureRandom':
           setTexturePlayingType('random');
-          usedTextures = behavior.config.textures;
+          if (behavior.config.textures) {
+            setMainTexture(behavior.config.textures[0]);
+            const parsedTextures = behavior.config.textures
+              .map(parsingAnimatedTexture)
+              .filter(Boolean);
+            setRandomTextures(parsedTextures);
+          }
           break;
         case 'textureOrdered':
           setTexturePlayingType('ordered');
           if ((behavior.config.textures || []).length > 0) {
+            setMainTexture(behavior.config.textures[0]);
             setOrderTextures(behavior.config.textures);
           }
           break;
@@ -125,7 +145,11 @@ export function configToStore(_config: EmitterConfigV3, textures?: string[]) {
           setTexturePlayingType('animated');
           const textures = behavior.config.anim.textures;
           if (textures.length > 0) {
-            setAnimatedTextures(textures);
+            const parsedTextures = textures
+              .map(parsingAnimatedTexture)
+              .filter(Boolean);
+            setMainTexture(parsedTextures[0]);
+            setAnimatedTextures(parsedTextures);
           }
           setAnimatedConfigs({
             framerate: behavior.config.anim.framerate ?? -1,
@@ -142,7 +166,11 @@ export function configToStore(_config: EmitterConfigV3, textures?: string[]) {
 
           const textures = animeConfig.textures ?? [];
           if (textures.length > 0) {
-            setAnimatedTextures(textures);
+            const parsedTextures = textures
+              .map(parsingAnimatedTexture)
+              .filter(Boolean);
+            setMainTexture(parsedTextures[0]);
+            setAnimatedTextures(parsedTextures);
           }
           setAnimatedConfigs({
             framerate: animeConfig.framerate ?? -1,
@@ -216,9 +244,6 @@ export function configToStore(_config: EmitterConfigV3, textures?: string[]) {
           setNoRotation(true);
           break;
       }
-    }
-    if (usedTextures.length > 0) {
-      setUsedTextures(usedTextures);
     }
     setEnabledConfig(enabledConfig);
   });

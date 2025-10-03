@@ -15,10 +15,10 @@ import { getPixiApp } from '@/store/app';
 import { setFps, setParticleCounts, setRendererType } from '@/store/status';
 import {
   fullConfig,
-  usedTextures,
   saveConfigToLocalStorage,
   loadConfigFromLocalStorage,
   loadUsedTexturesFromLocalStorage,
+  usedTextures,
 } from '@/store/config';
 import {
   setParticleOwnerPosition,

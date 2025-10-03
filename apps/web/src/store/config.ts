@@ -11,9 +11,9 @@ import type {
 import { trackStore } from '@solid-primitives/deep';
 import { Assets } from 'pixi.js';
 
-export const [usedTextures, setUsedTextures] = createSignal<string[]>([
-  'Bubbles99',
-]);
+export const [staticTexture, setStaticTexture] =
+  createSignal<string>('Bubbles99');
+export const [randomTextures, setRandomTextures] = createSignal<string[]>([]);
 export const [orderTextures, setOrderTextures] = createSignal<string[]>([]);
 export const [animatedTextures, setAnimatedTextures] = createSignal<string[]>(
   [],
@@ -26,6 +26,30 @@ export const [animatedConfigs, setAnimatedConfigs] = createStore({
 export type TexturePlayingType = 'static' | 'ordered' | 'random' | 'animated';
 export const [texturePlayingType, setTexturePlayingType] =
   createSignal<TexturePlayingType>('static');
+
+export const usedTextures = createMemo(() => {
+  let textures: string[] = [];
+
+  const _staticTexture = staticTexture();
+  const _randomTextures = randomTextures();
+  const _orderTextures = orderTextures();
+  const _animatedTextures = animatedTextures();
+
+  const playingType = texturePlayingType();
+  if (playingType === 'random') {
+    textures = _randomTextures;
+  } else if (playingType === 'ordered') {
+    textures = _orderTextures;
+  } else if (playingType === 'animated') {
+    textures = _animatedTextures;
+  }
+
+  if (textures.length === 0) {
+    textures = [_staticTexture];
+  }
+
+  return textures;
+});
 
 export type GeneralConfig = Omit<
   EmitterConfigV3,
@@ -251,7 +275,6 @@ export const fullConfig = createMemo(
       },
       behaviors: [] as BehaviorConfigs[],
     } satisfies EmitterConfigV3;
-
     if (texturePlayingType() === 'random') {
       fullConfig.behaviors.push({
         type: 'textureRandom',
@@ -442,7 +465,8 @@ export const fullConfig = createMemo(
 );
 
 export function saveConfigToLocalStorage() {
-  localStorage.setItem('usedTextures', JSON.stringify(usedTextures()));
+  localStorage.setItem('staticTexture', JSON.stringify(staticTexture()));
+  localStorage.setItem('randomTextures', JSON.stringify(randomTextures()));
   localStorage.setItem('orderTextures', JSON.stringify(orderTextures()));
   localStorage.setItem('animatedTextures', JSON.stringify(animatedTextures()));
   localStorage.setItem(
@@ -505,9 +529,20 @@ function getStorageTextures(key: string) {
   }
 }
 export function loadUsedTexturesFromLocalStorage() {
-  const usedTextures = getStorageTextures('usedTextures');
-  if (usedTextures.length > 0) {
-    setUsedTextures(usedTextures);
+  // @deprecated localStorage key
+  const _usedTextures = getStorageTextures('usedTextures');
+
+  const staticTexture = getStorageTextures('staticTexture');
+  if (staticTexture.length > 0) {
+    setStaticTexture(staticTexture[0]);
+  } else if (_usedTextures.length > 0) {
+    setStaticTexture(_usedTextures[0]);
+  }
+  const randomTextures = getStorageTextures('randomTextures');
+  if (randomTextures.length > 0) {
+    setRandomTextures(randomTextures);
+  } else if (_usedTextures.length > 0) {
+    setRandomTextures(_usedTextures);
   }
   const orderTextures = getStorageTextures('orderTextures');
   if (orderTextures.length > 0) {
@@ -517,7 +552,7 @@ export function loadUsedTexturesFromLocalStorage() {
   if (animatedTextures.length > 0) {
     setAnimatedTextures(animatedTextures);
   }
-  return usedTextures;
+  return usedTextures();
 }
 export function loadConfigFromLocalStorage() {
   const texturePlayingType = localStorage.getItem('texturePlayingType');

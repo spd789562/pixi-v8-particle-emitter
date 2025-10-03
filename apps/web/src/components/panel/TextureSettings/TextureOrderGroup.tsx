@@ -14,7 +14,7 @@ import { assetsMap } from '@/pixi/assets';
 
 function createSelectableTextures() {
   return createResource(
-    currentSelectableTextures(),
+    currentSelectableTextures,
     (textures) => {
       const renderer = getPixiApp().renderer;
 

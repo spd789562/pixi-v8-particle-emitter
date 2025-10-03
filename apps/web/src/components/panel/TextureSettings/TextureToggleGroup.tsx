@@ -4,7 +4,12 @@ import { ImageToggleGroup } from '@repo/ui';
 
 import { getPixiApp } from '@/store/app';
 import { currentSelectableTextures } from '@/store/textures';
-import { usedTextures, setUsedTextures } from '@/store/config';
+import {
+  staticTexture,
+  setRandomTextures,
+  setStaticTexture,
+  randomTextures,
+} from '@/store/config';
 import { assetsMap } from '@/pixi/assets';
 
 function createSelectableTextures() {
@@ -36,8 +41,8 @@ export function TextureToggleGroup() {
         class="flex-wrap"
         itemClass="w-[17.5%]"
         items={assets()}
-        value={usedTextures()[0]}
-        onChange={(value) => value && setUsedTextures([value])}
+        value={staticTexture()}
+        onChange={(value) => value && setStaticTexture(value)}
         multiple={false}
       />
     </Suspense>
@@ -51,7 +56,7 @@ export function MultipleTextureToggleGroup() {
     if (value.length === 0) {
       return;
     }
-    setUsedTextures(value);
+    setRandomTextures(value);
   }
 
   return (
@@ -60,7 +65,7 @@ export function MultipleTextureToggleGroup() {
         class="flex-wrap"
         itemClass="w-[17.5%]"
         items={assets()}
-        value={usedTextures()}
+        value={randomTextures()}
         onChange={handleChange}
         multiple
       />

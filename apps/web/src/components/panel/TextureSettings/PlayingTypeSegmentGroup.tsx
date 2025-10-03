@@ -6,7 +6,6 @@ import { currentSelectableTextures } from '@/store/textures';
 import {
   texturePlayingType,
   setTexturePlayingType,
-  setUsedTextures,
   type TexturePlayingType,
 } from '@/store/config';
 
@@ -22,9 +21,6 @@ export function PlayingTypeSegmentGroup() {
   function handleChange(value: string) {
     const v = value as TexturePlayingType;
     setTexturePlayingType(v);
-    if (v === 'static') {
-      setUsedTextures((textures) => [textures[0]]);
-    }
   }
 
   return (
