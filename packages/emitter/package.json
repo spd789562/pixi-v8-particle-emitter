@@ -1,6 +1,6 @@
 {
   "name": "@spd789562/particle-emitter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A high-performance particle emitter for PixiJS v8 using ParticleContainer, base on @pixi/particle-emitter",
   "type": "module",
   "main": "./dist/index.js",
@@ -32,5 +32,8 @@
   },
   "devDependencies": {
     "tsup": "^8.5.0"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
