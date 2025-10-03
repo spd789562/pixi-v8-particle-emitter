@@ -97,7 +97,7 @@ export function PixiApp() {
       },
     });
 
-    emitter = new Emitter(particleContainer, textures, config);
+    emitter = new Emitter(particleContainer, config, textures);
     emitter.autoUpdate = true;
 
     const getUid = (textures: string[]) => {
@@ -130,7 +130,7 @@ export function PixiApp() {
           // since we replace the particle completely, we can just destroy the old one
           emitter?.destroy();
 
-          emitter = new Emitter(particleContainer, currentTextures, config);
+          emitter = new Emitter(particleContainer, config, currentTextures);
           emitter.autoUpdate = true;
           lastTextureHash = textureHash;
         } else {
