@@ -3,6 +3,7 @@ import {
   generateEase,
   rotatePoint,
   parseTextures,
+  getTexturesFromConfig,
   type SimpleEase,
 } from './ParticleUtils';
 import { generateEaseFromPath } from './GsapCustomEase';
@@ -189,20 +190,22 @@ export class Emitter {
 
   /**
    * @param particleParent The container to add the particles to.
-   * @param particleImages A texture or array of textures to use
-   *                       for the particles. Strings will be turned
-   *                       into textures via Texture.from().
    * @param config A configuration object containing settings for the emitter.
    * @param config.emit If config.emit is explicitly passed as false, the
    *                    Emitter will start disabled.
    * @param config.autoUpdate If config.autoUpdate is explicitly passed as
    *                          true, the Emitter will automatically call
    *                          update via the PIXI shared ticker.
+   * @param particleImages A texture or array of textures to use
+   *                       for the particles. Strings will be turned
+   *                       into textures via Texture.from(). this is only used
+   *                       for create initial texture for particles, and will
+   *                       auto generate by config.behaviors if not provided.
    */
   constructor(
     particleParent: ParticleContainer,
-    particleImages: Texture | Texture[] | string | string[],
     config: EmitterConfigV3,
+    particleImages?: Texture | Texture[] | string | string[],
   ) {
     this.initBehaviors = [];
     this.updateBehaviors = [];
@@ -242,7 +245,7 @@ export class Emitter {
     // set the initial parent
     this.parent = particleParent;
 
-    this.particleImages = particleImages;
+    this.particleImages = particleImages ?? getTexturesFromConfig(config);
     this.init(config);
     // save often used functions on the instance instead of the prototype for better speed
     this.recycle = this.recycle;

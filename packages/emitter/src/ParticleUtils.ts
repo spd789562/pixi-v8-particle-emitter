@@ -6,6 +6,8 @@ import {
   Assets,
 } from 'pixi.js';
 import { PropertyNode, type ValueStep } from './PropertyNode';
+import type { EmitterConfigV3 } from './EmitterConfig';
+import type { BehaviorConfigs } from './behaviors/BehaviorTypes';
 
 /**
  * The method used by behaviors to fetch textures. Defaults to Texture.from.
@@ -278,4 +280,49 @@ export function parseTextures(
   }
 
   return images;
+}
+
+export function parsingAnimatedTextures(
+  texture: string | Texture | { texture: string | Texture; count: number },
+): string | Texture {
+  if (typeof texture === 'object' && 'texture' in texture) {
+    return texture.texture;
+  }
+  return texture;
+}
+
+function getUniqueTextures(textures: Texture[]): Texture[] {
+  return Array.from(new Set(textures));
+}
+
+export function getTexturesFromConfig(config: EmitterConfigV3): Texture[] {
+  return config.behaviors.reduce((_, b) => {
+    const behavior = b as BehaviorConfigs;
+    if (behavior.type === 'textureSingle') {
+      return parseTextures(behavior.config.texture);
+    }
+    if (behavior.type === 'textureOrdered') {
+      const parsedTextures = parseTextures(behavior.config.textures);
+      return getUniqueTextures(parsedTextures);
+    }
+    if (behavior.type === 'textureRandom') {
+      return parseTextures(behavior.config.textures);
+    }
+    if (behavior.type === 'animatedSingle') {
+      const parsedTextures = parseTextures(
+        behavior.config.anim.textures.map(parsingAnimatedTextures),
+      );
+      return getUniqueTextures(parsedTextures);
+    }
+    if (behavior.type === 'animatedRandom') {
+      const parsedTextures = parseTextures(
+        behavior.config.anims.flatMap((anim) =>
+          anim.textures.map(parsingAnimatedTextures),
+        ),
+      );
+
+      return getUniqueTextures(parsedTextures);
+    }
+    return [];
+  }, [] as Texture[]);
 }

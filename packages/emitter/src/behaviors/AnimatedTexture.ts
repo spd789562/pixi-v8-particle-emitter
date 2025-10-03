@@ -37,7 +37,7 @@ export interface ParsedAnimatedParticleArt {
   loop: boolean;
 }
 
-function getTextures(
+export function getAnimatedTextures(
   textures: (string | Texture | { texture: string | Texture; count: number })[],
 ): Texture[] {
   const textureList = textures.map((texture) => {
@@ -107,7 +107,7 @@ export class RandomAnimatedTextureBehavior implements IEmitterBehavior {
     this.anims = [];
     for (let i = 0; i < config.anims.length; ++i) {
       const anim = config.anims[i];
-      const textures = getTextures(anim.textures);
+      const textures = getAnimatedTextures(anim.textures);
       // eslint-disable-next-line no-nested-ternary
       const framerate =
         anim.framerate < 0 ? -1 : anim.framerate > 0 ? anim.framerate : 60;
@@ -201,7 +201,7 @@ export class SingleAnimatedTextureBehavior implements IEmitterBehavior {
     anim: AnimatedParticleArt;
   }) {
     const anim = config.anim;
-    const textures = getTextures(anim.textures);
+    const textures = getAnimatedTextures(anim.textures);
     // eslint-disable-next-line no-nested-ternary
     const framerate =
       anim.framerate < 0 ? -1 : anim.framerate > 0 ? anim.framerate : 60;
