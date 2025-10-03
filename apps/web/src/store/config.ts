@@ -7,7 +7,7 @@ import type {
   ShapeType,
   ShapeConfigRecord,
   ValueList,
-} from '@repo/emitter';
+} from '@spd789562/particle-emitter';
 import { trackStore } from '@solid-primitives/deep';
 import { Assets } from 'pixi.js';
 

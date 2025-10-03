@@ -1,7 +1,7 @@
 import { onMount, onCleanup, createEffect, batch } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 import { Assets, ParticleContainer, type Texture, Ticker } from 'pixi.js';
-import { Emitter, type EmitterConfigV3 } from '@repo/emitter';
+import { Emitter, type EmitterConfigV3 } from '@spd789562/particle-emitter';
 
 import { StatusPanel } from './StatusPanel';
 import { BottomTips } from './BottomTips';

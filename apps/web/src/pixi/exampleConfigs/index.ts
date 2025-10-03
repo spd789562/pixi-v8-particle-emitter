@@ -1,4 +1,4 @@
-import type { EmitterConfigV3 } from '@repo/emitter';
+import type { EmitterConfigV3 } from '@spd789562/particle-emitter';
 
 import { bubbleSprayConfig, bubbleSprayTextures } from './bubbleSpray';
 import { bubbleVerticalConfig, bubbleVerticalTextures } from './bubbleVertical';

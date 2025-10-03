@@ -5,7 +5,7 @@ import type {
   ISpawnShapeContainer,
   SpawnBurstConfig,
 } from './type';
-import type { ShapeConfigs } from '@repo/emitter';
+import type { ShapeConfigs } from '@spd789562/particle-emitter';
 
 type Configs = ShapeConfigs['config'] | SpawnBurstConfig;
 

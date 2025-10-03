@@ -1,4 +1,4 @@
-import type { ShapeConfigRecord } from '@repo/emitter';
+import type { ShapeConfigRecord } from '@spd789562/particle-emitter';
 import { BaseGraphic } from './BaseGraphic';
 
 type TorusConfig = ShapeConfigRecord['Torus']['config'];

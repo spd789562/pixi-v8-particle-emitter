@@ -1,4 +1,4 @@
-import type { EmitterConfigV3 } from '@repo/emitter';
+import type { EmitterConfigV3 } from '@spd789562/particle-emitter';
 
 export const flameUnevenTextures = [
   'fireSpark_particle.png',

@@ -5,7 +5,7 @@ import {
   type BehaviorType,
   type ShapeType,
   type ValueList,
-} from '@repo/emitter';
+} from '@spd789562/particle-emitter';
 
 import {
   setAccelerationConfig,

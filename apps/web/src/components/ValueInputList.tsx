@@ -11,7 +11,7 @@ import {
   type MouseNumberInputProps,
 } from '@repo/ui';
 
-import type { ValueList } from '@repo/emitter';
+import type { ValueList } from '@spd789562/particle-emitter';
 
 export interface ValueInputListProps<T> {
   data: ValueList<T>;

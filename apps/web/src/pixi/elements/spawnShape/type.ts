@@ -1,5 +1,5 @@
 import type { ColorSource, Color } from 'pixi.js';
-import type { BehaviorConfigRecord } from '@repo/emitter';
+import type { BehaviorConfigRecord } from '@spd789562/particle-emitter';
 
 export type SpawnBurstConfig =
   BehaviorConfigRecord['BurstSpawnBehavior']['config'];

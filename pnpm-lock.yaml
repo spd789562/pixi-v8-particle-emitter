@@ -21,7 +21,7 @@ importers:
 
   apps/web:
     dependencies:
-      '@repo/emitter':
+      '@spd789562/particle-emitter':
         specifier: workspace:*
         version: link:../../packages/emitter
       '@repo/ui':

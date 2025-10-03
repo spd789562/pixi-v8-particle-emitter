@@ -1,5 +1,5 @@
 {
-  "name": "@repo/emitter",
+  "name": "@spd789562/particle-emitter",
   "version": "1.0.0",
   "description": "A high-performance particle emitter for PixiJS v8 using ParticleContainer, base on @pixi/particle-emitter",
   "type": "module",
@@ -17,7 +17,15 @@
     "v8",
     "particle-container"
   ],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spd789562/pixi-v8-particle-emitter"
+  },
+  "homepage": "https://github.com/spd789562/pixi-v8-particle-emitter",
+  "bugs": {
+    "url": "https://github.com/spd789562/pixi-v8-particle-emitter/issues"
+  },
+  "author": "spd789562 <leo.yicun.lin@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "pixi.js": "^8.11.0"

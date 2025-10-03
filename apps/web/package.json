@@ -8,7 +8,7 @@
     "build-single-file": "BUILD_SINGLE_FILE=true vite build"
   },
   "dependencies": {
-    "@repo/emitter": "workspace:*",
+    "@spd789562/particle-emitter": "workspace:*",
     "@repo/ui": "workspace:*",
     "@solid-primitives/deep": "^0.3.3",
     "@solid-primitives/scheduled": "^1.5.2",
