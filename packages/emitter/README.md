@@ -1,4 +1,13 @@
 # PixiJS Particle Editor
+<p align="center">
+  <a href="https://npmjs.com/package/@spd789562/particle-emitter">
+    <img src="https://img.shields.io/npm/v/@spd789562/particle-emitter.svg" alt="npm package">
+  </a>
+  <a href="https://jsr.io/@spd789562/particle-emitter">
+    <img src="https://jsr.io/badges/@spd789562/particle-emitter" alt="jsr package" />
+  </a>
+</p>
+
 This project is a complete copy from [@pixi/particle-emitter](https://github.com/pixijs-userland/particle-emitter), but using pixi.js v8 `ParticleContainer` and `Particle` as base instead of Container. EmitterConfig are still the same structure.
 
 I'm also re-created the [particle editor](https://spd789562.github.io/pixi-v8-particle-emitter/) for some formate that old editor not support.
@@ -174,8 +183,7 @@ update();
 ```
 
 ## Documentation
-
-https://userland.pixijs.io/particle-emitter/docs/
+Basically all api still same as [`@pixi/particle-emitter`](https://userland.pixijs.io/particle-emitter/docs/)
 
 ## Installation
 
