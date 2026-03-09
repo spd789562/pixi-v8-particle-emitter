@@ -1,4 +1,10 @@
-import { Assets, type Renderer, Spritesheet, type Texture } from 'pixi.js';
+import {
+  Assets,
+  type Renderer,
+  Spritesheet,
+  type Texture,
+  Sprite,
+} from 'pixi.js';
 
 import Bubbles99 from '@assets/images/Bubbles99.png?url';
 import CartoonSmoke from '@assets/images/CartoonSmoke.png';
@@ -139,12 +145,17 @@ class AssetsMap {
     if (this.avatarMap.has(alias)) {
       return this.avatarMap.get(alias);
     }
-    const texture = Assets.get(alias);
+    const texture = Assets.get(alias) as Texture;
     if (!texture) {
       throw new Error(`Texture ${alias} not found`);
     }
-    const url = await renderer.extract.base64(texture);
+    const tempSprite = new Sprite({
+      texture: texture,
+    });
+    const canvas = renderer.extract.canvas(tempSprite);
+    const url = await canvasToBlobURL(canvas as HTMLCanvasElement);
     this.avatarMap.set(alias, url);
+    tempSprite.destroy();
     return url;
   }
 }
@@ -224,4 +235,20 @@ export async function loadDefaultTextures() {
 export function updateSelectableTextures(texture: string) {
   const textureNames = assetsMap.getTexturesFromImage(texture);
   setCurrentSelectableTextures(textureNames);
+}
+
+function canvasToBlobURL(canvas: HTMLCanvasElement) {
+  return new Promise<string>((resolve) => {
+    if (canvas.toBlob) {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          resolve(URL.createObjectURL(blob));
+        } else {
+          resolve('');
+        }
+      });
+    } else {
+      resolve('');
+    }
+  });
 }
