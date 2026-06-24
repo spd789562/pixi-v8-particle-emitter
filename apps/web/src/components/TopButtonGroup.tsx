@@ -9,6 +9,7 @@ import UploadIcon from 'lucide-solid/icons/upload';
 import DownloadIcon from 'lucide-solid/icons/download';
 import CopyIcon from 'lucide-solid/icons/copy';
 
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { fullConfig, usedTextures } from '@/store/config';
 
 import { configToStore } from '@/utils/configToStore';
@@ -36,23 +37,26 @@ export function TopButtonGroup() {
   }
 
   return (
-    <div class="flex flex-row gap-2">
-      <UploadConfigButton />
-      <SelectPresetButton />
-      <Button
-        class="button--outline"
-        title="Copy to clipboard"
-        onClick={handleCopy}
-      >
-        <CopyIcon size="16" />
-      </Button>
-      <Button
-        class="button--outline"
-        title="Download Config"
-        onClick={handleDownload}
-      >
-        <DownloadIcon size="16" />
-      </Button>
+    <div class="flex flex-row gap-2 items-center justify-between mb-2">
+      <div class="flex flex-row gap-2">
+        <UploadConfigButton />
+        <SelectPresetButton />
+        <Button
+          class="button--outline"
+          title="Copy to clipboard"
+          onClick={handleCopy}
+        >
+          <CopyIcon size="16" />
+        </Button>
+        <Button
+          class="button--outline"
+          title="Download Config"
+          onClick={handleDownload}
+        >
+          <DownloadIcon size="16" />
+        </Button>
+      </div>
+      <ThemeToggle />
     </div>
   );
 }

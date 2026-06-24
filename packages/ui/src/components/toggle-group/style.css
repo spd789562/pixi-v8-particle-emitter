@@ -21,7 +21,7 @@
   transition-property: background-color, color;
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
-  border: 1px solid #ddd;
+  border: 1px solid var(--toggle-group-border, #ddd);
   cursor: pointer;
 }
 
@@ -35,6 +35,10 @@
   background-color: hsl(200 98% 39% / 0.8);
   color: hsla(0 100% 100% / 0.9);
   border-color: transparent;
+}
+
+[data-kb-theme="dark"] .toggle-group {
+  --toggle-group-border: hsl(240 6% 26%);
 }
 
 [data-kb-theme="dark"] .toggle-group__item:hover {

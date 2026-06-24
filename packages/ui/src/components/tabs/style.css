@@ -85,6 +85,7 @@
 
 [data-kb-theme="dark"] .tabs__trigger {
   color: rgb(255 255 255 / 0.9);
+  background-color: transparent;
 }
 
 [data-kb-theme="dark"] .tabs__trigger:hover {

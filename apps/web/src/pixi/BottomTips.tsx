@@ -8,7 +8,7 @@ export function BottomTips() {
   });
   return (
     <div
-      class="absolute bottom-0 left-0 w-full p-1 text-xs text-stone-500 select-none pointer-events-none"
+      class="absolute bottom-0 left-0 w-full p-1 text-xs app-text-muted select-none pointer-events-none"
       style={{ color: textColor() }}
     >
       Click anywhere to change the emit position, or enable follow mouse in

@@ -9,6 +9,19 @@
       rel="stylesheet"
     />
     <title>Pixi v8 Particle Emitter Editor</title>
+    <script>
+      (function () {
+        var key = 'ui-theme';
+        var stored = localStorage.getItem(key);
+        var theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+        document.documentElement.setAttribute('data-kb-theme', theme);
+      })();
+    </script>
     <style>
       body {
         font-family: 'Roboto', sans-serif, Arial, Helvetica;

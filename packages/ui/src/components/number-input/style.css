@@ -1,10 +1,32 @@
 .number-field {
+	--label-color: hsl(240 6% 10%);
+	--input-bg: white;
+	--input-border: hsl(240 6% 90%);
+	--input-border-hover: hsl(240 5% 65%);
+	--input-color: hsl(240 4% 16%);
+	--description-color: #3f3f46;
+	--increment-bg: rgba(0, 0, 0, 0.1);
+	--increment-bg-hover: rgba(0, 0, 0, 0.2);
+}
+
+[data-kb-theme="dark"] .number-field {
+	--label-color: hsl(240 5% 84%);
+	--input-bg: hsl(240 4% 16%);
+	--input-border: hsl(240 6% 26%);
+	--input-border-hover: hsl(240 5% 40%);
+	--input-color: hsl(240 5% 84%);
+	--description-color: hsl(240 5% 65%);
+	--increment-bg: rgba(255, 255, 255, 0.1);
+	--increment-bg-hover: rgba(255, 255, 255, 0.2);
+}
+
+.number-field {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
 }
 .number-field__label {
-	color: hsl(240 6% 10%);
+	color: var(--label-color);
 	font-size: 14px;
 	font-weight: 500;
 	user-select: none;
@@ -17,9 +39,9 @@
 	padding: 6px 12px;
 	font-size: 16px;
 	outline: none;
-	background-color: white;
-	border: 1px solid hsl(240 6% 90%);
-	color: hsl(240 4% 16%);
+	background-color: var(--input-bg);
+	border: 1px solid var(--input-border);
+	color: var(--input-color);
 	transition:
 		border-color 250ms,
 		color 250ms;
@@ -48,7 +70,7 @@
 	position: absolute;
 	height: 1rem;
 	width: 1rem;
-	background: rgba(0, 0, 0, 0.1);
+	background: var(--increment-bg);
 	cursor: default;
 	display: flex;
 	justify-content: center;
@@ -60,10 +82,10 @@
 }
 .number-field__increment:hover,
 .number-field__decrement:hover {
-	background: rgba(0, 0, 0, 0.2);
+	background: var(--increment-bg-hover);
 }
 .number-field__input:hover {
-	border-color: hsl(240 5% 65%);
+	border-color: var(--input-border-hover);
 }
 .number-field__input:focus-visible {
 	outline: none;
@@ -73,7 +95,7 @@
 	outline-offset: 2px;
 }
 .number-field__description {
-	color: #3f3f46;
+	color: var(--description-color);
 	font-size: 12px;
 	-webkit-user-select: none;
 	-moz-user-select: none;

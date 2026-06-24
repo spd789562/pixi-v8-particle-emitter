@@ -183,7 +183,7 @@ export function PolygonalChainShapeSetting() {
         data={singleGroupData()}
         onChange={setSpawnPathConfig as SetStoreFunction<PointData[]>}
       />
-      <span class="text-sm text-gray-500">
+      <span class="text-sm app-text-muted">
         Path need at lease two points, and only support the first group of
         points.
       </span>
@@ -194,7 +194,7 @@ export function PolygonalChainShapeSetting() {
 export function BurstSpawnSetting() {
   return (
     <div class="flex flex-col gap-2">
-      <span class="text-sm text-gray-500">
+      <span class="text-sm app-text-muted">
         Don't forget to adjust the Particles Pre Wave to see it burst at each
         direction
       </span>

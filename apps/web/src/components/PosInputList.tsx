@@ -75,7 +75,7 @@ export function PosInputItem(props: PosInputItemProps) {
     <div
       class={cn(
         'flex gap-2 items-center p-1 rounded-sm',
-        props.pin && 'bg-gray-50',
+        props.pin && 'app-surface',
       )}
     >
       <div class="flex flex-1 items-center">
@@ -97,7 +97,7 @@ export function PosInputItem(props: PosInputItemProps) {
       <Show when={!props.pin}>
         <button
           type="button"
-          class="p-2 bg-transparent cursor-pointer hover:bg-gray-100"
+          class="app-icon-btn"
           onClick={props.onRemove}
         >
           <TrashIcon size={16} />
@@ -106,7 +106,7 @@ export function PosInputItem(props: PosInputItemProps) {
       <Show when={props.hasAddNext}>
         <button
           type="button"
-          class="p-2 bg-transparent cursor-pointer hover:bg-gray-100"
+          class="app-icon-btn"
           onClick={props.onAddNext}
         >
           <PlusIcon size={16} />

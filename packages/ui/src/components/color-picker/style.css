@@ -57,6 +57,10 @@
   user-select: none;
 }
 
+[data-kb-theme="dark"] .color-picker-field__label {
+  color: hsl(240 5% 84%);
+}
+
 .color-picker-field__trigger {
   width: 100%;
   min-width: 64px;

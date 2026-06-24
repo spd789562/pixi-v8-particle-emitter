@@ -1,6 +1,28 @@
 @import "tailwindcss";
 @source '../../../packages/ui';
 
+@custom-variant dark (&:where([data-kb-theme="dark"], [data-kb-theme="dark"] *));
+
+:root,
+[data-kb-theme="light"] {
+  --app-bg: #ffffff;
+  --app-surface: hsl(240 5% 96%);
+  --app-text: hsl(240 6% 10%);
+  --app-text-muted: hsl(240 5% 46%);
+  --app-border: hsl(240 6% 90%);
+  --app-hover: hsl(240 5% 92%);
+}
+
+[data-kb-theme="dark"] {
+  --app-bg: hsl(240 6% 10%);
+  --app-surface: hsl(240 4% 16%);
+  --app-text: hsl(240 5% 84%);
+  --app-text-muted: hsl(240 5% 65%);
+  --app-border: hsl(240 6% 26%);
+  --app-hover: hsl(240 5% 22%);
+  color-scheme: dark;
+}
+
 * {
   user-select: none;
 }
@@ -13,6 +35,38 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--app-bg);
+  color: var(--app-text);
+}
+
+.app-sidebar {
+  background-color: var(--app-bg);
+  color: var(--app-text);
+  border-left: 1px solid var(--app-border);
+}
+
+.app-surface {
+  background-color: var(--app-surface);
+}
+
+.app-text-muted {
+  color: var(--app-text-muted);
+}
+
+.app-icon-btn {
+  padding: 0.5rem;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  color: var(--app-text);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-icon-btn:hover {
+  background-color: var(--app-hover);
 }
 
 input[type="file"] {

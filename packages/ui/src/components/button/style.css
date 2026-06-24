@@ -38,6 +38,17 @@
 	--em-button-bg-color-hover: #363636;
 	border: 1px solid #363636;
 }
+[data-kb-theme="dark"] .button--outline {
+	--em-button-color: hsl(240 5% 84%);
+	--em-button-bg-color-hover: hsl(240 5% 84%);
+	border-color: hsl(240 5% 84%);
+}
+.button--outline:hover {
+	color: white;
+}
+[data-kb-theme="dark"] .button--outline:hover {
+	color: hsl(240 6% 10%);
+}
 .button--error {
 	--em-button-bg-color: hsl(0, 72%, 51%);
 	--em-button-bg-color-hover: hsl(0, 65%, 56%);

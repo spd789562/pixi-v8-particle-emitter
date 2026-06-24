@@ -23,7 +23,7 @@ export function TextureSetting() {
       </div>
       <TextureSelect />
       <PlayingTypeSegmentGroup />
-      <span class="-mt-0.5 text-xs text-stone-600">
+      <span class="-mt-0.5 text-xs app-text-muted">
         You must use spritesheet to enabled multiple textures playing.
       </span>
       <Switch>
